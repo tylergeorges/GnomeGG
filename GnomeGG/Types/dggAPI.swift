@@ -25,6 +25,8 @@ class DGGAPI {
                 for (_, flairJson) in json {
                     self.downloadFlair(json: flairJson)
                 }
+                
+                self.flairs.append(Flair.init(name: "polecat", color: "e463cf", hidden: false, priority: 0, image: UIImage(named: "cherry")!, height: 18, width: 18))
             case .failure(let error):
                 print(error)
             }

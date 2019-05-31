@@ -24,7 +24,12 @@ class DGGParser {
                     return nil
                 }
                 
-                let features = featuresArray.map { $0.stringValue }
+                var features = featuresArray.map { $0.stringValue }
+                
+                // memes
+                if nick == "Polecat" || nick == "PolarBearFur" {
+                    features.append("polecat")
+                }
 
                 guard let unixTimestamp = json["timestamp"].double else {
                     return nil
