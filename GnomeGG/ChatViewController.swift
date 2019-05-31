@@ -10,9 +10,11 @@
 // TODO:
 // CHAT
 // >greentext in current year
+// /me
 // combos
-// emotes
 // links
+// disable autoscroll on scroll up
+// nsfw nsfl spoiler highlights
 // highlights
 // chat suggestions
 // MENTIONS
@@ -32,6 +34,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     let dggWebsocketURL = "https://www.destiny.gg/ws"
     
     var websocketBackoff = 100
+    
+    var lastComboableEmote: Emote?
     
     @IBOutlet weak var chatTableView: UITableView!
     
@@ -61,9 +65,53 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             return
         }
         
-        messages.append(parsedMessage)
+        
+        let wasCombo = handleCombo(message: parsedMessage)
+        
+        if !wasCombo {
+            messages.append(parsedMessage)
+        }
         chatTableView.reloadData()
         scrollToBottom()
+    }
+    
+    private func getEmote(word: String) -> Emote? {
+        for emote in dggAPI.emotes where emote.prefix == word {
+            return emote
+        }
+        
+        return nil
+    }
+    
+    private func handleCombo(message: DGGMessage) -> Bool {
+        guard case .UserMessage(_, _, _, let data) = message else {
+            self.lastComboableEmote = nil
+            return false
+        }
+        
+        guard let lastComboableEmote = lastComboableEmote else {
+            self.lastComboableEmote = getEmote(word: data)
+            return false
+        }
+        
+        guard let emote = getEmote(word: data) else {
+            self.lastComboableEmote = nil
+            return false
+        }
+        
+        guard lastComboableEmote.prefix == emote.prefix else {
+            self.lastComboableEmote = emote
+            return false
+        }
+        
+        // 2 cases, ongoing combo or no combo
+        switch messages.last! {
+        case .Combo(let timestamp, let count, let emote): messages[messages.count - 1] = .Combo(timestamp: timestamp, count: count + 1, emote: emote)
+        case .UserMessage(_, _, let timestamp, _): messages[messages.count - 1] = .Combo(timestamp: timestamp, count: 2, emote: emote)
+        }
+        
+        self.lastComboableEmote = emote
+        return true
     }
     
     // MARK: - Websocket Delegate

@@ -27,6 +27,8 @@ class ChatTableViewCell: UITableViewCell {
         switch message {
         case let .UserMessage(nick, features, timestamp, data):
             renderUserMessage(nick: nick, features: features, date: timestamp, data: data, flairs: flairs, emotes: emotes)
+        case let .Combo(timestamp, count, emote):
+            renderCombo(emote: emote, count: count, timestamp: timestamp)
         }
         
     }
@@ -34,11 +36,7 @@ class ChatTableViewCell: UITableViewCell {
     private func renderUserMessage(nick: String, features: [String], date: Date, data: String, flairs: [Flair], emotes: [Emote]) {
         let fullMessage = NSMutableAttributedString(string: "")
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm"
-        let dateText = NSMutableAttributedString(string: dateFormatter.string(from: date))
-        dateText.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "414141"), range: NSRange(location: 0, length: dateText.length))
-        fullMessage.append(dateText)
+        fullMessage.append(formatTimestamp(timestamp: date))
         
         
         var hasFlairs = [Flair]()
@@ -82,17 +80,48 @@ class ChatTableViewCell: UITableViewCell {
         messageLabel.attributedText = fullMessage
     }
     
+    private func renderCombo(emote: Emote, count: Int, timestamp: Date) {
+        let fullMessage = NSMutableAttributedString(string: "")
+        fullMessage.append(formatTimestamp(timestamp: timestamp))
+        fullMessage.append(emotifyMessage(message: emote.prefix, emotes: [emote]))
+        
+        // mutable for future styling
+        // #dedede
+        let countText = NSMutableAttributedString(string: String(count))
+        countText.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "dedede"), range: NSRange(location: 0, length: countText.length))
+        fullMessage.append(countText)
+        
+        let xText = NSMutableAttributedString(string: " X ")
+        xText.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "dedede"), range: NSRange(location: 0, length: xText.length))
+        fullMessage.append(xText)
+        
+        let comboText = NSMutableAttributedString(string: "C-C-C-COMBO")
+        comboText.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "999999"), range: NSRange(location: 0, length: comboText.length))
+        fullMessage.append(comboText)
+        
+        messageLabel.attributedText = fullMessage
+    }
+    
+    private func formatTimestamp(timestamp: Date) -> NSMutableAttributedString {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        let dateText = NSMutableAttributedString(string: dateFormatter.string(from: timestamp))
+        dateText.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "414141"), range: NSRange(location: 0, length: dateText.length))
+        
+        return dateText
+    }
+    
     private func emotifyMessage(message: String, emotes: [Emote]) -> NSMutableAttributedString {
         let words = message.split(separator: " ")
         let emotifiedMessage = NSMutableAttributedString(string: "")
         
         for (i, word) in words.enumerated() {
             var isEmote = false
-            for emote in emotes where emote.prefix == word && !emote.twitch {
+            for emote in emotes where emote.prefix == word {
                 isEmote = true
                 let emoteAttachement = NSTextAttachment()
                 emoteAttachement.image = emote.image
-                emoteAttachement.bounds = CGRect(x: 0, y: 0, width: emote.width, height: emote.height)
+                emoteAttachement.bounds = CGRect(x: 0, y: -5, width: emote.width, height: emote.height)
                 let emoteString = NSMutableAttributedString(attachment: emoteAttachement)
                 emotifiedMessage.append(emoteString)
             }

@@ -55,4 +55,5 @@ class DGGParser {
 
 enum DGGMessage {
     case UserMessage(nick: String, features: [String], timestamp: Date, data: String)
+    case Combo(timestamp: Date, count: Int, emote: Emote)
 }
