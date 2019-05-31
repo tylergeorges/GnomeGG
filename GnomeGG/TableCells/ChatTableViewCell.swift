@@ -23,15 +23,15 @@ class ChatTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func rederMessage(message: DGGMessage, flairs: [Flair]) {
+    func rederMessage(message: DGGMessage, flairs: [Flair], emotes: [Emote]) {
         switch message {
         case let .UserMessage(nick, features, timestamp, data):
-            renderUserMessage(nick: nick, features: features, date: timestamp, data: data, flairs: flairs)
+            renderUserMessage(nick: nick, features: features, date: timestamp, data: data, flairs: flairs, emotes: emotes)
         }
         
     }
     
-    private func renderUserMessage(nick: String, features: [String], date: Date, data: String, flairs: [Flair]) {
+    private func renderUserMessage(nick: String, features: [String], date: Date, data: String, flairs: [Flair], emotes: [Emote]) {
         let fullMessage = NSMutableAttributedString(string: "")
         
         let dateFormatter = DateFormatter()
@@ -73,13 +73,40 @@ class ChatTableViewCell: UITableViewCell {
         usernameText.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: color), range: NSRange(location: 0, length: usernameText.length))
         fullMessage.append(usernameText)
         let messageText = ": " + data
-        let message = NSMutableAttributedString(string: messageText)
+//        let message = NSMutableAttributedString(string: messageText)
+        let message = emotifyMessage(message: messageText, emotes: emotes)
         message.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "b9b9b9"), range: NSRange(location: 0, length: message.length))
         fullMessage.append(message)
 
      
         messageLabel.attributedText = fullMessage
+    }
+    
+    private func emotifyMessage(message: String, emotes: [Emote]) -> NSMutableAttributedString {
+        let words = message.split(separator: " ")
+        let emotifiedMessage = NSMutableAttributedString(string: "")
         
+        for (i, word) in words.enumerated() {
+            var isEmote = false
+            for emote in emotes where emote.prefix == word && !emote.twitch {
+                isEmote = true
+                let emoteAttachement = NSTextAttachment()
+                emoteAttachement.image = emote.image
+                emoteAttachement.bounds = CGRect(x: 0, y: 0, width: emote.width, height: emote.height)
+                let emoteString = NSMutableAttributedString(attachment: emoteAttachement)
+                emotifiedMessage.append(emoteString)
+            }
+            
+            if !isEmote {
+                emotifiedMessage.append(NSAttributedString(string: String(word)))
+            }
+            
+            if i + 1 != words.count {
+                emotifiedMessage.append(NSAttributedString(string: " "))
+            }
+        }
+        
+        return emotifiedMessage
     }
     
     private func UIColorFromRGB(rgbValue: UInt) -> UIColor {

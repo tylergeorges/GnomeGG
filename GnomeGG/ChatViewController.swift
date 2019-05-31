@@ -6,6 +6,19 @@
 //  Copyright © 2019 Kirill Voloshin. All rights reserved.
 //
 
+
+// TODO:
+// CHAT
+// >greentext in current year
+// combos
+// emotes
+// links
+// highlights
+// chat suggestions
+// MENTIONS
+// TOOLS
+// SETTINGS
+
 import UIKit
 import Starscream
 
@@ -26,6 +39,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         
         dggAPI.getFlairList()
+        dggAPI.getEmoteList()
         
         chatTableView.delegate = self
         chatTableView.dataSource = self
@@ -102,7 +116,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         // it's over for chatcels
         let cell = tableView.dequeueReusableCell(withIdentifier: "chatCell", for: indexPath) as! ChatTableViewCell
         cell.selectionStyle = .none
-        cell.rederMessage(message: messages[indexPath.row], flairs: dggAPI.flairs)
+        cell.rederMessage(message: messages[indexPath.row], flairs: dggAPI.flairs, emotes: dggAPI.emotes)
         
         return cell
     }
