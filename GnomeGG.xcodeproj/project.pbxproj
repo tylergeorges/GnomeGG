@@ -15,6 +15,8 @@
 		8DEA19F622A0C67600ECB238 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8DEA19F522A0C67600ECB238 /* Assets.xcassets */; };
 		8DEA19F922A0C67600ECB238 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8DEA19F722A0C67600ECB238 /* LaunchScreen.storyboard */; };
 		8DEA1A0222A0D4F700ECB238 /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DEA1A0122A0D4F700ECB238 /* ChatTableViewCell.swift */; };
+		8DEA1A0522A0DDCA00ECB238 /* dggParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DEA1A0422A0DDCA00ECB238 /* dggParser.swift */; };
+		8DEA1A0722A0F9FA00ECB238 /* dggAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DEA1A0622A0F9FA00ECB238 /* dggAPI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 		8DEA19F822A0C67600ECB238 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8DEA19FA22A0C67600ECB238 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8DEA1A0122A0D4F700ECB238 /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
+		8DEA1A0422A0DDCA00ECB238 /* dggParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dggParser.swift; sourceTree = "<group>"; };
+		8DEA1A0622A0F9FA00ECB238 /* dggAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dggAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +77,7 @@
 		8DEA19EB22A0C67500ECB238 /* GnomeGG */ = {
 			isa = PBXGroup;
 			children = (
+				8DEA1A0322A0DD3600ECB238 /* Types */,
 				8DEA1A0022A0D4E000ECB238 /* TableCells */,
 				8DEA19EC22A0C67500ECB238 /* AppDelegate.swift */,
 				8DEA19EE22A0C67500ECB238 /* ChatViewController.swift */,
@@ -91,6 +96,15 @@
 				8DEA1A0122A0D4F700ECB238 /* ChatTableViewCell.swift */,
 			);
 			path = TableCells;
+			sourceTree = "<group>";
+		};
+		8DEA1A0322A0DD3600ECB238 /* Types */ = {
+			isa = PBXGroup;
+			children = (
+				8DEA1A0422A0DDCA00ECB238 /* dggParser.swift */,
+				8DEA1A0622A0F9FA00ECB238 /* dggAPI.swift */,
+			);
+			path = Types;
 			sourceTree = "<group>";
 		};
 		ED411024BC86691B43DA81B4 /* Pods */ = {
@@ -196,11 +210,13 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-GnomeGG/Pods-GnomeGG-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -234,8 +250,10 @@
 			files = (
 				8DEA19F122A0C67500ECB238 /* SecondViewController.swift in Sources */,
 				8DEA1A0222A0D4F700ECB238 /* ChatTableViewCell.swift in Sources */,
+				8DEA1A0522A0DDCA00ECB238 /* dggParser.swift in Sources */,
 				8DEA19ED22A0C67500ECB238 /* AppDelegate.swift in Sources */,
 				8DEA19EF22A0C67500ECB238 /* ChatViewController.swift in Sources */,
+				8DEA1A0722A0F9FA00ECB238 /* dggAPI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

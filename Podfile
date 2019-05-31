@@ -8,5 +8,6 @@ target 'GnomeGG' do
   # Pods for GnomeGG
   pod 'Alamofire'
   pod 'Starscream', '~> 3.0.2'
+  pod 'SwiftyJSON', '~> 4.0'
 
 end
