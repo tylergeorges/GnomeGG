@@ -50,19 +50,34 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <label opaque="NO" alpha="0.59999999999999998" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MORE MESSAGE BELOW" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7yj-Qg-yNc">
+                                <rect key="frame" x="0.0" y="768" width="414" height="40"/>
+                                <color key="backgroundColor" red="0.13333333333333333" green="0.13333333333333333" blue="0.13333333333333333" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="qwR-Of-5GL"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                <color key="textColor" red="0.87058823529411766" green="0.87058823529411766" blue="0.87058823529411766" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <size key="shadowOffset" width="0.0" height="0.0"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="7yj-Qg-yNc" firstAttribute="leading" secondItem="PQr-Ze-W5v" secondAttribute="leading" id="12P-G6-Qo0"/>
                             <constraint firstItem="ab9-aO-Jcz" firstAttribute="top" secondItem="PQr-Ze-W5v" secondAttribute="top" id="I8h-TX-Bdc"/>
+                            <constraint firstItem="PQr-Ze-W5v" firstAttribute="bottom" secondItem="7yj-Qg-yNc" secondAttribute="bottom" constant="5" id="NDm-QK-xPv"/>
                             <constraint firstItem="ab9-aO-Jcz" firstAttribute="leading" secondItem="PQr-Ze-W5v" secondAttribute="leading" id="O71-fv-omx"/>
                             <constraint firstItem="ab9-aO-Jcz" firstAttribute="bottom" secondItem="PQr-Ze-W5v" secondAttribute="bottom" id="PwI-7N-99q"/>
                             <constraint firstItem="ab9-aO-Jcz" firstAttribute="trailing" secondItem="PQr-Ze-W5v" secondAttribute="trailing" id="vQg-qI-dlu"/>
+                            <constraint firstItem="7yj-Qg-yNc" firstAttribute="trailing" secondItem="PQr-Ze-W5v" secondAttribute="trailing" id="y4L-Xw-5jh"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="PQr-Ze-W5v"/>
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="contacts" id="acW-dT-cKf"/>
                     <connections>
                         <outlet property="chatTableView" destination="ab9-aO-Jcz" id="90J-6K-G0d"/>
+                        <outlet property="scrollDownLabel" destination="7yj-Qg-yNc" id="LhS-Ug-J5s"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>

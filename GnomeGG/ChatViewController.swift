@@ -15,6 +15,7 @@
 // links
 // disable autoscroll on scroll up
 // nsfw nsfl spoiler highlights
+// cap number of stored messages so the app doesn't explode eventually
 // highlights
 // chat suggestions
 // MENTIONS
@@ -35,12 +36,24 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var websocketBackoff = 100
     
+    // scroll tracking
+    var lastContentOffset: CGFloat = 0
+    var disableAutoScrolling = false {
+        didSet {
+            scrollDownLabel.isHidden = !disableAutoScrolling
+        }
+    }
+    
     var lastComboableEmote: Emote?
     
     @IBOutlet weak var chatTableView: UITableView!
+    @IBOutlet weak var scrollDownLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        scrollDownLabel.isHidden = true
+        addScrollDownButton()
         
         dggAPI.getFlairList()
         dggAPI.getEmoteList()
@@ -72,7 +85,10 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             messages.append(parsedMessage)
         }
         chatTableView.reloadData()
-        scrollToBottom()
+        
+        if !disableAutoScrolling {
+            scrollToBottom()
+        }
     }
     
     private func getEmote(word: String) -> Emote? {
@@ -169,12 +185,38 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         return cell
     }
     
+    // MARK: - Scroll View
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.lastContentOffset = scrollView.contentOffset.y
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if (self.lastContentOffset > scrollView.contentOffset.y) {
+            disableAutoScrolling = true
+        }
+        
+        let height = scrollView.frame.size.height
+        let contentYoffset = scrollView.contentOffset.y
+        let distanceFromBottom = scrollView.contentSize.height - contentYoffset
+        if (distanceFromBottom - 5) < height {
+            disableAutoScrolling = false
+        }
+    }
+    
     // MARK: - Utility
-    private func scrollToBottom(animated: Bool = false){
+    @objc
+    private func scrollToBottom(animated: Bool = false) {
+        disableAutoScrolling = false
         DispatchQueue.main.async {
             let indexPath = IndexPath(row: self.messages.count-1, section: 0)
             self.chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: animated)
         }
+    }
+    
+    private func addScrollDownButton() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(ChatViewController.scrollToBottom))
+        scrollDownLabel.addGestureRecognizer(tap)
     }
 
 }
