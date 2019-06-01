@@ -11,9 +11,7 @@
 // CHAT
 // >greentext in current year
 // /me
-// combos
 // links
-// disable autoscroll on scroll up
 // nsfw nsfl spoiler highlights
 // cap number of stored messages so the app doesn't explode eventually
 // highlights
@@ -152,14 +150,13 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
-        print("got some text: \(text)")
         let components = text.components(separatedBy: " ")
         let type = components[0]
         let rest = components[1...].joined(separator: " ")
         
         switch type {
         case "MSG": newMessage(message: rest)
-        default: return
+        default: print("got some text: \(text)")
         }
     }
     

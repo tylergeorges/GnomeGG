@@ -10,11 +10,10 @@ import UIKit
 
 class ChatTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var messageTextView: UITextView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -57,7 +56,7 @@ class ChatTableViewCell: UITableViewCell {
             if !flair.hidden {
                 let flairAttachement = NSTextAttachment()
                 flairAttachement.image = flair.image
-                flairAttachement.bounds = CGRect(x: 0, y: 0, width: flair.width, height: flair.height)
+                flairAttachement.bounds = CGRect(x: 0, y: -5, width: flair.width, height: flair.height)
                 let flairString = NSMutableAttributedString(attachment: flairAttachement)
                 fullMessage.append(NSAttributedString(string: " "))
                 fullMessage.append(flairString)
@@ -71,22 +70,19 @@ class ChatTableViewCell: UITableViewCell {
         usernameText.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: color), range: NSRange(location: 0, length: usernameText.length))
         fullMessage.append(usernameText)
         let messageText = ": " + data
-//        let message = NSMutableAttributedString(string: messageText)
-        let message = emotifyMessage(message: messageText, emotes: emotes)
-        message.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "b9b9b9"), range: NSRange(location: 0, length: message.length))
+        let message = styleMessage(message: messageText, emotes: emotes)
         fullMessage.append(message)
 
-     
-        messageLabel.attributedText = fullMessage
+        messageTextView.attributedText = fullMessage
     }
     
     private func renderCombo(emote: Emote, count: Int, timestamp: Date) {
         let fullMessage = NSMutableAttributedString(string: "")
         fullMessage.append(formatTimestamp(timestamp: timestamp))
-        fullMessage.append(emotifyMessage(message: emote.prefix, emotes: [emote]))
+        fullMessage.append(NSAttributedString(string: " "))
+        fullMessage.append(styleMessage(message: emote.prefix, emotes: [emote]))
         
-        // mutable for future styling
-        // #dedede
+
         let countText = NSMutableAttributedString(string: String(count))
         countText.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "dedede"), range: NSRange(location: 0, length: countText.length))
         fullMessage.append(countText)
@@ -99,7 +95,7 @@ class ChatTableViewCell: UITableViewCell {
         comboText.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "999999"), range: NSRange(location: 0, length: comboText.length))
         fullMessage.append(comboText)
         
-        messageLabel.attributedText = fullMessage
+        messageTextView.attributedText = fullMessage
     }
     
     private func formatTimestamp(timestamp: Date) -> NSMutableAttributedString {
@@ -111,9 +107,14 @@ class ChatTableViewCell: UITableViewCell {
         return dateText
     }
     
-    private func emotifyMessage(message: String, emotes: [Emote]) -> NSMutableAttributedString {
+    private func styleMessage(message: String, emotes: [Emote]) -> NSMutableAttributedString {
         let words = message.split(separator: " ")
-        let emotifiedMessage = NSMutableAttributedString(string: "")
+        let styledMessage = NSMutableAttributedString(string: "")
+        
+        let lowerWords = message.lowercased().split(separator: " ")
+        let hasNSFW = lowerWords.contains("nsfw")
+        let hasSpoiler = lowerWords.contains("spoiler")
+        let hasNSFL = lowerWords.contains("nsfl")
         
         for (i, word) in words.enumerated() {
             var isEmote = false
@@ -123,19 +124,41 @@ class ChatTableViewCell: UITableViewCell {
                 emoteAttachement.image = emote.image
                 emoteAttachement.bounds = CGRect(x: 0, y: -5, width: emote.width, height: emote.height)
                 let emoteString = NSMutableAttributedString(attachment: emoteAttachement)
-                emotifiedMessage.append(emoteString)
+                styledMessage.append(emoteString)
             }
             
             if !isEmote {
-                emotifiedMessage.append(NSAttributedString(string: String(word)))
+                let wordString = String(word)
+                if wordString.isValidURL {
+                    let urlString = NSMutableAttributedString(string: wordString)
+                    urlString.addAttribute(.link, value: wordString, range: NSRange(location: 0, length: urlString.length))
+
+                    urlString.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "02C2FF"), range: NSRange(location: 0, length: urlString.length))
+                    if (hasNSFW || hasSpoiler) && !hasNSFL {
+                        urlString.addAttribute(.underlineColor, value: hexColorStringToUIColor(hex: "FF0000"), range: NSRange(location: 0, length: urlString.length))
+                        urlString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.union(NSUnderlineStyle.patternDot).rawValue, range: NSRange(location: 0, length: urlString.length))
+                    }
+                    
+                    if hasNSFL {
+                        urlString.addAttribute(.underlineColor, value: hexColorStringToUIColor(hex: "FFF000"), range: NSRange(location: 0, length: urlString.length))
+                        urlString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.union(NSUnderlineStyle.patternDot).rawValue, range: NSRange(location: 0, length: urlString.length))
+                    }
+                    
+                    styledMessage.append(urlString)
+                } else {
+                    let plainMessage = NSMutableAttributedString(string: wordString)
+                    plainMessage.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "b9b9b9"), range: NSRange(location: 0, length: plainMessage.length))
+                    styledMessage.append(plainMessage)
+                }
+                
             }
             
             if i + 1 != words.count {
-                emotifiedMessage.append(NSAttributedString(string: " "))
+                styledMessage.append(NSAttributedString(string: " "))
             }
         }
         
-        return emotifiedMessage
+        return styledMessage
     }
     
     private func UIColorFromRGB(rgbValue: UInt) -> UIColor {
@@ -151,4 +174,16 @@ class ChatTableViewCell: UITableViewCell {
         return UIColorFromRGB(rgbValue: UInt(hex, radix: 16)!)
     }
 
+}
+
+extension String {
+    var isValidURL: Bool {
+        let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+        if let match = detector.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count)) {
+            // it is a link, if the match covers the whole string
+            return match.range.length == self.utf16.count
+        } else {
+            return false
+        }
+    }
 }
