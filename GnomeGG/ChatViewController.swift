@@ -9,8 +9,6 @@
 
 // TODO:
 // CHAT
-// >greentext in current year
-// /me
 // cap number of stored messages so the app doesn't explode eventually
 // highlights
 // chat suggestions
@@ -177,6 +175,10 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         case "NAMES":
             if let message = DGGParser.parseNamesMessage(message: rest) {
+                newMessage(message: message)
+            }
+        case "MUTE":
+            if let message = DGGParser.parseMuteMessage(message: rest) {
                 newMessage(message: message)
             }
         default: print("got some text: \(text)")

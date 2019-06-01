@@ -117,6 +117,39 @@ class DGGParser {
             return nil
         }
     }
+    
+    // MUTE {"nick":"Bot","features":["protected","bot"],"timestamp":1559360986565,"data":"Majestic_Gopher"}
+    static func parseMuteMessage(message: String) -> DGGMessage? {
+        if let dataFromString = message.data(using: .utf8, allowLossyConversion: false) {
+            do {
+                let json = try JSON(data: dataFromString)
+                
+                guard let nick = json["nick"].string else {
+                    return nil
+                }
+                    
+                let features = json["features"].arrayValue.map {$0.stringValue}
+                
+                guard let unixTimestamp = json["timestamp"].double else {
+                    return nil
+                }
+                
+                let timestamp = Date(timeIntervalSince1970: unixTimestamp / 1000)
+                
+                guard let target = json["data"].string else {
+                    return nil
+                }
+                
+                return .Mute(nick: nick, features: features, timestamp: timestamp, target: target)
+                
+            } catch {
+                print("Error parsing message")
+                return nil
+            }
+        } else {
+            return nil
+        }
+    }
 }
 
 enum DGGMessage {
@@ -126,4 +159,5 @@ enum DGGMessage {
     case Names(connectionCount: Int, Users: [User])
     case Disconnected(reason: String)
     case Connecting
+    case Mute(nick: String, features: [String], timestamp: Date, target: String)
 }

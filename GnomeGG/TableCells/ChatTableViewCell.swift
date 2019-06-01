@@ -36,6 +36,8 @@ class ChatTableViewCell: UITableViewCell {
             renderDisconnect(reason: reason)
         case .Connecting:
             renderConnecting()
+        case let .Mute(nick, _, timestamp, target):
+            renderMute(timestamp: timestamp, banner: nick, target: target)
         }
 
     }
@@ -77,8 +79,7 @@ class ChatTableViewCell: UITableViewCell {
         let color = topColor.replacingOccurrences(of: "#", with: "")
         usernameText.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: color), range: NSRange(location: 0, length: usernameText.length))
         fullMessage.append(usernameText)
-        let messageText = ": " + data
-        let message = styleMessage(message: messageText, emotes: emotes)
+        let message = styleMessage(message: data, emotes: emotes)
         fullMessage.append(message)
 
         messageTextView.attributedText = fullMessage
@@ -148,6 +149,17 @@ class ChatTableViewCell: UITableViewCell {
         messageTextView.attributedText = fullMessage
     }
     
+    private func renderMute(timestamp: Date, banner: String, target: String) {
+        let fullMessage = NSMutableAttributedString(string: "")
+        fullMessage.append(formatTimestamp(timestamp: timestamp))
+        let template = " @s muted by @s"
+        let message = NSMutableAttributedString(string: String(format: template, target, banner))
+        message.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "FFFFFFF"), range: NSRange(location: 0, length: message.length))
+        fullMessage.append(message)
+        
+        messageTextView.attributedText = fullMessage
+    }
+    
     private func formatTimestamp(timestamp: Date) -> NSMutableAttributedString {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH:mm"
@@ -158,13 +170,22 @@ class ChatTableViewCell: UITableViewCell {
     }
     
     private func styleMessage(message: String, emotes: [Emote]) -> NSMutableAttributedString {
-        let words = message.split(separator: " ")
+        var words = message.split(separator: " ")
         let styledMessage = NSMutableAttributedString(string: "")
         
         let lowerWords = message.lowercased().split(separator: " ")
         let hasNSFW = lowerWords.contains("nsfw")
         let hasSpoiler = lowerWords.contains("spoiler")
         let hasNSFL = lowerWords.contains("nsfl")
+        let isAction = message.lowercased().starts(with: "/me ")
+        let isEpic = message.lowercased().starts(with: ">")
+        
+        if isAction {
+            words.removeFirst()
+            words.insert(" ", at: 0)
+        } else {
+            words.insert(":", at: 0)
+        }
         
         for (i, word) in words.enumerated() {
             var isEmote = false
@@ -197,7 +218,9 @@ class ChatTableViewCell: UITableViewCell {
                     styledMessage.append(urlString)
                 } else {
                     let plainMessage = NSMutableAttributedString(string: wordString)
-                    plainMessage.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "b9b9b9"), range: NSRange(location: 0, length: plainMessage.length))
+                    let color = isEpic ? "6CA528" : "b9b9b9"
+                    // ok this is epic
+                    plainMessage.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: color), range: NSRange(location: 0, length: plainMessage.length))
                     styledMessage.append(plainMessage)
                 }
                 
@@ -206,6 +229,13 @@ class ChatTableViewCell: UITableViewCell {
             if i + 1 != words.count {
                 styledMessage.append(NSAttributedString(string: " "))
             }
+            
+            if isAction {
+                print("is action")
+                let italicsFont = UIFont(name: "Helvetica-Oblique", size: 14.0)!
+                styledMessage.addAttribute(.font, value: italicsFont, range: NSRange(location: 0, length: styledMessage.length))
+            }
+            
         }
         
         return styledMessage
