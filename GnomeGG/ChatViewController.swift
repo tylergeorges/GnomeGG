@@ -55,6 +55,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         dggAPI.getFlairList()
         dggAPI.getEmoteList()
+
         
         chatTableView.delegate = self
         chatTableView.dataSource = self
@@ -71,16 +72,12 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         chatTableView.rowHeight = UITableView.automaticDimension
     }
     
-    private func newMessage(message: String) {
-        guard let parsedMessage = DGGParser.parseUserMessage(message: message) else {
-            return
-        }
+    private func newMessage(message: DGGMessage) {
         
-        
-        let wasCombo = handleCombo(message: parsedMessage)
+        let wasCombo = handleCombo(message: message)
         
         if !wasCombo {
-            messages.append(parsedMessage)
+            messages.append(message)
         }
         chatTableView.reloadData()
         
@@ -118,10 +115,10 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             return false
         }
         
-        // 2 cases, ongoing combo or no combo
         switch messages.last! {
         case .Combo(let timestamp, let count, let emote): messages[messages.count - 1] = .Combo(timestamp: timestamp, count: count + 1, emote: emote)
         case .UserMessage(_, _, let timestamp, _): messages[messages.count - 1] = .Combo(timestamp: timestamp, count: 2, emote: emote)
+        default: return false
         }
         
         self.lastComboableEmote = emote
@@ -155,7 +152,14 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         let rest = components[1...].joined(separator: " ")
         
         switch type {
-        case "MSG": newMessage(message: rest)
+        case "MSG":
+            if let message = DGGParser.parseUserMessage(message: rest) {
+                newMessage(message: message)
+            }
+        case "BROADCAST":
+            if let message = DGGParser.parseBroadcastMessage(message: rest) {
+                newMessage(message: message)
+            }
         default: print("got some text: \(text)")
         }
     }

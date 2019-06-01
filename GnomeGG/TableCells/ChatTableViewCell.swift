@@ -28,6 +28,8 @@ class ChatTableViewCell: UITableViewCell {
             renderUserMessage(nick: nick, features: features, date: timestamp, data: data, flairs: flairs, emotes: emotes)
         case let .Combo(timestamp, count, emote):
             renderCombo(emote: emote, count: count, timestamp: timestamp)
+        case let .Broadcast(timestamp, data):
+            renderBroadcast(timestamp: timestamp, data: data, emotes: emotes)
         }
         
     }
@@ -95,6 +97,16 @@ class ChatTableViewCell: UITableViewCell {
         comboText.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "999999"), range: NSRange(location: 0, length: comboText.length))
         fullMessage.append(comboText)
         
+        messageTextView.attributedText = fullMessage
+    }
+    
+    private func renderBroadcast(timestamp: Date, data: String, emotes: [Emote]) {
+        let fullMessage = NSMutableAttributedString(string: "")
+        fullMessage.append(formatTimestamp(timestamp: timestamp))
+        fullMessage.append(NSAttributedString(string: " "))
+        fullMessage.append(styleMessage(message: data, emotes: emotes))
+        fullMessage.addAttribute(.backgroundColor, value: hexColorStringToUIColor(hex: "151515"), range: NSRange(location: 0, length: fullMessage.length))
+        fullMessage.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "edea12"), range: NSRange(location: 0, length: fullMessage.length))
         messageTextView.attributedText = fullMessage
     }
     
