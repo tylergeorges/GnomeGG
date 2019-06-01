@@ -10,5 +10,6 @@ target 'GnomeGG' do
   pod 'Starscream', '~> 3.0.2'
   pod 'SwiftyJSON', '~> 4.0'
   pod 'NVActivityIndicatorView'
+  pod 'NotificationBannerSwift'
 
 end

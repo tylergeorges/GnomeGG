@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		358999804AB4042B415BBFEC /* Pods_GnomeGG.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26DA3A29A62BA1F1DDFF7ED1 /* Pods_GnomeGG.framework */; };
+		8D7BAC4722A235ED00A5E1E6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4622A235ED00A5E1E6 /* LoginViewController.swift */; };
+		8D7BAC4922A23E0800A5E1E6 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4822A23E0800A5E1E6 /* Settings.swift */; };
+		8D7BAC4B22A25C0100A5E1E6 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4A22A25C0100A5E1E6 /* SettingsViewController.swift */; };
 		8DEA19ED22A0C67500ECB238 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DEA19EC22A0C67500ECB238 /* AppDelegate.swift */; };
 		8DEA19EF22A0C67500ECB238 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DEA19EE22A0C67500ECB238 /* ChatViewController.swift */; };
 		8DEA19F122A0C67500ECB238 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DEA19F022A0C67500ECB238 /* SecondViewController.swift */; };
@@ -23,6 +26,9 @@
 		26DA3A29A62BA1F1DDFF7ED1 /* Pods_GnomeGG.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GnomeGG.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		699A9900724567D4AEED2D21 /* Pods-GnomeGG.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GnomeGG.release.xcconfig"; path = "Pods/Target Support Files/Pods-GnomeGG/Pods-GnomeGG.release.xcconfig"; sourceTree = "<group>"; };
 		6EFB1CC601DA4F7BFCF73444 /* Pods-GnomeGG.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GnomeGG.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GnomeGG/Pods-GnomeGG.debug.xcconfig"; sourceTree = "<group>"; };
+		8D7BAC4622A235ED00A5E1E6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		8D7BAC4822A23E0800A5E1E6 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		8D7BAC4A22A25C0100A5E1E6 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		8DEA19E922A0C67500ECB238 /* GnomeGG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GnomeGG.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DEA19EC22A0C67500ECB238 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8DEA19EE22A0C67500ECB238 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
@@ -81,11 +87,14 @@
 				8DEA1A0022A0D4E000ECB238 /* TableCells */,
 				8DEA19EC22A0C67500ECB238 /* AppDelegate.swift */,
 				8DEA19EE22A0C67500ECB238 /* ChatViewController.swift */,
+				8D7BAC4622A235ED00A5E1E6 /* LoginViewController.swift */,
+				8D7BAC4A22A25C0100A5E1E6 /* SettingsViewController.swift */,
 				8DEA19F022A0C67500ECB238 /* SecondViewController.swift */,
 				8DEA19F222A0C67500ECB238 /* Main.storyboard */,
 				8DEA19F522A0C67600ECB238 /* Assets.xcassets */,
 				8DEA19F722A0C67600ECB238 /* LaunchScreen.storyboard */,
 				8DEA19FA22A0C67600ECB238 /* Info.plist */,
+				8D7BAC4822A23E0800A5E1E6 /* Settings.swift */,
 			);
 			path = GnomeGG;
 			sourceTree = "<group>";
@@ -209,14 +218,20 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-GnomeGG/Pods-GnomeGG-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
+				"${BUILT_PRODUCTS_DIR}/NotificationBannerSwift/NotificationBannerSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MarqueeLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NotificationBannerSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
@@ -250,12 +265,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D7BAC4722A235ED00A5E1E6 /* LoginViewController.swift in Sources */,
 				8DEA19F122A0C67500ECB238 /* SecondViewController.swift in Sources */,
+				8D7BAC4922A23E0800A5E1E6 /* Settings.swift in Sources */,
 				8DEA1A0222A0D4F700ECB238 /* ChatTableViewCell.swift in Sources */,
 				8DEA1A0522A0DDCA00ECB238 /* dggParser.swift in Sources */,
 				8DEA19ED22A0C67500ECB238 /* AppDelegate.swift in Sources */,
 				8DEA19EF22A0C67500ECB238 /* ChatViewController.swift in Sources */,
 				8DEA1A0722A0F9FA00ECB238 /* dggAPI.swift in Sources */,
+				8D7BAC4B22A25C0100A5E1E6 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

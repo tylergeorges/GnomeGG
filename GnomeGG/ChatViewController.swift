@@ -22,8 +22,6 @@ import NVActivityIndicatorView
 
 class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, WebSocketDelegate {
     
-    let dggAPI = DGGAPI()
-    
     var messages = [DGGMessage]()
     var users = [User]()
     var websocket: WebSocket?
@@ -31,6 +29,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     let dggWebsocketURL = "https://www.destiny.gg/ws"
     
     var websocketBackoff = 100
+    var dontRecover = false
+    var authenticatedWebsocket = false
     
     // scroll tracking
     var lastContentOffset: CGFloat = 0
@@ -45,6 +45,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var chatTableView: UITableView!
     @IBOutlet weak var scrollDownLabel: UILabel!
     @IBOutlet weak var nvActivityIndicatorView: NVActivityIndicatorView!
+    @IBOutlet weak var loginBarButton: UIBarButtonItem!
+    @IBOutlet weak var navigationBar: UINavigationBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,31 +58,74 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         dggAPI.getFlairList()
         dggAPI.getEmoteList()
 
+        dggAPI.getUserInfo(completionHandler: {
+            if settings.dggUsername != "" {
+                print("Logged in as: " + settings.dggUsername)
+                self.title = "Logged in as: " + settings.dggUsername
+            }
+        })
+
+        dggAPI.getHistory(completionHandler: { oldMessages in
+            self.nvActivityIndicatorView.stopAnimating()
+            self.nvActivityIndicatorView.isHidden = true
+            
+            for msg in oldMessages {
+                guard let message = DGGParser.parseUserMessage(message: msg.components(separatedBy: " ")[1...].joined(separator: " ")) else {
+                    continue
+                }
+
+                self.newMessage(message: message)
+            }
+            
+            self.connectToWebsocket()
+        })
         
         chatTableView.delegate = self
         chatTableView.dataSource = self
         
-        websocket = WebSocket(url: URL(string: dggWebsocketURL)!)
-        if let websocket = websocket {
-            websocket.delegate = self
-            dggAPI.getHistory(completionHandler: { oldMessages in
-                self.nvActivityIndicatorView.stopAnimating()
-                self.nvActivityIndicatorView.isHidden = true
-
-                for msg in oldMessages {
-                    self.websocketDidReceiveMessage(socket: websocket, text: msg)
-                }
-                self.newMessage(message: .Connecting)
-                websocket.connect()
-            })
-            
-            
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         chatTableView.estimatedRowHeight = 200
         chatTableView.rowHeight = UITableView.automaticDimension
+        
+        if settings.loginKey == "" {
+            loginBarButton.title = "Login"
+        } else {
+            loginBarButton.title = "Logout"
+            
+            if !authenticatedWebsocket {
+                connectToWebsocket()
+            }
+        }
+    }
+    
+    private func connectToWebsocket() {
+        
+        var request = URLRequest(url: URL(string: dggWebsocketURL)!)
+        request.timeoutInterval = 5
+        authenticatedWebsocket = settings.loginKey != ""
+        if authenticatedWebsocket {
+            let cookieTemplate = "authtoken=%@"
+            request.setValue(String(format: cookieTemplate, settings.loginKey), forHTTPHeaderField: "Cookie")
+        }
+        
+        if let websocket = websocket {
+            self.dontRecover = true
+            if websocket.isConnected {
+                websocket.disconnect()
+                newMessage(message: .Disconnected(reason: "Updating Socket"))
+            }
+            
+            self.websocket = nil
+        }
+        
+        websocket = WebSocket(request: request)
+        if let websocket = websocket {
+            websocket.delegate = self
+            dontRecover = false
+            websocket.connect()
+        }
     }
     
     private func newMessage(message: DGGMessage) {
@@ -146,9 +191,13 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         print("websocket is disconnected: \(error?.localizedDescription)")
         print("reconnecting")
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(self.websocketBackoff), execute: {
+            guard self.dontRecover else {
+                return
+            }
+
             self.websocketBackoff = self.websocketBackoff * 2
             self.newMessage(message: .Connecting)
-            self.websocket?.connect()
+            self.connectToWebsocket()
         })
         if let error = error as? WSError {
             print(error)
@@ -220,7 +269,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         // it's over for chatcels
         let cell = tableView.dequeueReusableCell(withIdentifier: "chatCell", for: indexPath) as! ChatTableViewCell
         cell.selectionStyle = .none
-        cell.rederMessage(message: messages[indexPath.row], flairs: dggAPI.flairs, emotes: dggAPI.emotes)
+        cell.rederMessage(message: messages[indexPath.row])
         
         return cell
     }
@@ -263,5 +312,19 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         DispatchQueue.main.async(execute: block)
     }
 
+    @IBAction func loginTap(_ sender: Any) {
+        if settings.loginKey == "" {
+            performSegue(withIdentifier: "loginSegue", sender: self)
+        } else {
+            settings.loginKey = ""
+            settings.dggAccessToken = ""
+            settings.dggRefreshToken = ""
+            settings.dggUsername = ""
+            loginBarButton.title = "Login"
+            if authenticatedWebsocket {
+                connectToWebsocket()
+            }
+        }
+    }
 }
 

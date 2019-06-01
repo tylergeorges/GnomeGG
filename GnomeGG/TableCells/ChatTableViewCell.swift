@@ -22,14 +22,14 @@ class ChatTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func rederMessage(message: DGGMessage, flairs: [Flair], emotes: [Emote]) {
+    func rederMessage(message: DGGMessage) {
         switch message {
         case let .UserMessage(nick, features, timestamp, data):
-            renderUserMessage(nick: nick, features: features, date: timestamp, data: data, flairs: flairs, emotes: emotes)
+            renderUserMessage(nick: nick, features: features, date: timestamp, data: data)
         case let .Combo(timestamp, count, emote):
             renderCombo(emote: emote, count: count, timestamp: timestamp)
         case let .Broadcast(timestamp, data):
-            renderBroadcast(timestamp: timestamp, data: data, emotes: emotes)
+            renderBroadcast(timestamp: timestamp, data: data)
         case let .Names(connectionCount, Users):
             renderNames(connectionCount: connectionCount, userCount: Users.count)
         case let .Disconnected(reason):
@@ -42,7 +42,7 @@ class ChatTableViewCell: UITableViewCell {
 
     }
     
-    private func renderUserMessage(nick: String, features: [String], date: Date, data: String, flairs: [Flair], emotes: [Emote]) {
+    private func renderUserMessage(nick: String, features: [String], date: Date, data: String) {
         let fullMessage = NSMutableAttributedString(string: "")
         
         fullMessage.append(formatTimestamp(timestamp: date))
@@ -50,7 +50,7 @@ class ChatTableViewCell: UITableViewCell {
         
         var hasFlairs = [Flair]()
         
-        for flair in flairs where features.contains(flair.name) {
+        for flair in dggAPI.flairs where features.contains(flair.name) {
             hasFlairs.append(flair)
         }
         
@@ -79,17 +79,25 @@ class ChatTableViewCell: UITableViewCell {
         let color = topColor.replacingOccurrences(of: "#", with: "")
         usernameText.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: color), range: NSRange(location: 0, length: usernameText.length))
         fullMessage.append(usernameText)
-        let message = styleMessage(message: data, emotes: emotes)
+        let message = styleMessage(message: data)
         fullMessage.append(message)
 
         messageTextView.attributedText = fullMessage
+    }
+    
+    private func customFlair(image: UIImage, width: Int, height: Int) -> NSMutableAttributedString {
+        let flairAttachement = NSTextAttachment()
+        flairAttachement.image = image
+        flairAttachement.bounds = CGRect(x: 0, y: -5, width: width, height: height)
+        let flairString = NSMutableAttributedString(attachment: flairAttachement)
+        return flairString
     }
     
     private func renderCombo(emote: Emote, count: Int, timestamp: Date) {
         let fullMessage = NSMutableAttributedString(string: "")
         fullMessage.append(formatTimestamp(timestamp: timestamp))
         fullMessage.append(NSAttributedString(string: " "))
-        fullMessage.append(styleMessage(message: emote.prefix, emotes: [emote]))
+        fullMessage.append(styleMessage(message: emote.prefix))
         
 
         let countText = NSMutableAttributedString(string: String(count))
@@ -107,20 +115,24 @@ class ChatTableViewCell: UITableViewCell {
         messageTextView.attributedText = fullMessage
     }
     
-    private func renderBroadcast(timestamp: Date, data: String, emotes: [Emote]) {
+    private func renderBroadcast(timestamp: Date, data: String) {
         let fullMessage = NSMutableAttributedString(string: "")
         fullMessage.append(formatTimestamp(timestamp: timestamp))
         fullMessage.append(NSAttributedString(string: " "))
-        fullMessage.append(styleMessage(message: data, emotes: emotes))
+        fullMessage.append(styleMessage(message: data))
         fullMessage.addAttribute(.backgroundColor, value: hexColorStringToUIColor(hex: "151515"), range: NSRange(location: 0, length: fullMessage.length))
         fullMessage.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "edea12"), range: NSRange(location: 0, length: fullMessage.length))
         messageTextView.attributedText = fullMessage
     }
     
     private func renderNames(connectionCount: Int, userCount: Int) {
+        let spacer = NSAttributedString(string: " ")
         let fullMessage = NSMutableAttributedString(string: "")
         fullMessage.append(formatTimestamp(timestamp: Date()))
-        let template = " Connected to Websocket. %d connections, %d users."
+        fullMessage.append(spacer)
+        fullMessage.append(customFlair(image: UIImage(named: "infobadge")!, width: 16, height: 16))
+        fullMessage.append(spacer)
+        let template = "Connected to Websocket. %d connections, %d users."
         let message = NSMutableAttributedString(string: String(format: template, connectionCount, userCount))
         message.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "FFFFFFF"), range: NSRange(location: 0, length: message.length))
         fullMessage.append(message)
@@ -129,30 +141,41 @@ class ChatTableViewCell: UITableViewCell {
     }
     
     private func renderConnecting() {
+        let spacer = NSAttributedString(string: " ")
         let fullMessage = NSMutableAttributedString(string: "")
         fullMessage.append(formatTimestamp(timestamp: Date()))
-        let message = NSMutableAttributedString(string: " Connecting to Chat...")
+        fullMessage.append(spacer)
+        fullMessage.append(customFlair(image: UIImage(named: "infobadge")!, width: 16, height: 16))
+        fullMessage.append(spacer)
+        let message = NSMutableAttributedString(string: "Connecting to Chat...")
         message.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "FFFFFFF"), range: NSRange(location: 0, length: message.length))
         fullMessage.append(message)
         messageTextView.attributedText = fullMessage
     }
     
     private func renderDisconnect(reason: String) {
+        let spacer = NSAttributedString(string: " ")
         let fullMessage = NSMutableAttributedString(string: "")
         fullMessage.append(formatTimestamp(timestamp: Date()))
-        let template = " Lost Connecting to Server. Reason: %@"
+        fullMessage.append(spacer)
+        fullMessage.append(customFlair(image: UIImage(named: "errorbadge")!, width: 16, height: 16))
+        fullMessage.append(spacer)
+        let template = "Lost Connection to Server. Reason: %@"
         let message = NSMutableAttributedString(string: String(format: template, reason))
         message.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "FFFFFFF"), range: NSRange(location: 0, length: message.length))
         fullMessage.append(message)
-        fullMessage.addAttribute(.backgroundColor, value: hexColorStringToUIColor(hex: "FF0000"), range: NSRange(location: 0, length: fullMessage.length))
         
         messageTextView.attributedText = fullMessage
     }
     
     private func renderMute(timestamp: Date, banner: String, target: String) {
+        let spacer = NSAttributedString(string: " ")
         let fullMessage = NSMutableAttributedString(string: "")
         fullMessage.append(formatTimestamp(timestamp: timestamp))
-        let template = " @s muted by @s"
+        fullMessage.append(spacer)
+        fullMessage.append(customFlair(image: UIImage(named: "warningbadge")!, width: 16, height: 16))
+        fullMessage.append(spacer)
+        let template = "%@ muted by %@"
         let message = NSMutableAttributedString(string: String(format: template, target, banner))
         message.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "FFFFFFF"), range: NSRange(location: 0, length: message.length))
         fullMessage.append(message)
@@ -169,7 +192,7 @@ class ChatTableViewCell: UITableViewCell {
         return dateText
     }
     
-    private func styleMessage(message: String, emotes: [Emote]) -> NSMutableAttributedString {
+    private func styleMessage(message: String) -> NSMutableAttributedString {
         var words = message.split(separator: " ")
         let styledMessage = NSMutableAttributedString(string: "")
         
@@ -189,7 +212,7 @@ class ChatTableViewCell: UITableViewCell {
         
         for (i, word) in words.enumerated() {
             var isEmote = false
-            for emote in emotes where emote.prefix == word {
+            for emote in dggAPI.emotes where emote.prefix == word {
                 isEmote = true
                 let emoteAttachement = NSTextAttachment()
                 emoteAttachement.image = emote.image
@@ -231,7 +254,6 @@ class ChatTableViewCell: UITableViewCell {
             }
             
             if isAction {
-                print("is action")
                 let italicsFont = UIFont(name: "Helvetica-Oblique", size: 14.0)!
                 styledMessage.addAttribute(.font, value: italicsFont, range: NSRange(location: 0, length: styledMessage.length))
             }

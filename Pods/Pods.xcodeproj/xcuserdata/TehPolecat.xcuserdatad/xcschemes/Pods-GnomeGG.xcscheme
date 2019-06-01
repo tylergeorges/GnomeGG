@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1020"
+   LastUpgradeVersion = "0930"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5CEEB723EA49F7BED6FDD1FA5197F2AB"
+               BlueprintIdentifier = "04AD8AE46DE46241FD403B066EBA22E0"
                BuildableName = "Pods_GnomeGG.framework"
                BlueprintName = "Pods-GnomeGG"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5CEEB723EA49F7BED6FDD1FA5197F2AB"
+            BlueprintIdentifier = "04AD8AE46DE46241FD403B066EBA22E0"
             BuildableName = "Pods_GnomeGG.framework"
             BlueprintName = "Pods-GnomeGG"
             ReferencedContainer = "container:Pods.xcodeproj">
