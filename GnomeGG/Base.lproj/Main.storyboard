@@ -33,7 +33,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="110"/>
                                                     <attributedString key="attributedText">
                                                         <fragment>
-                                                            <mutableString key="content">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                                                            <string key="content">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                             <attributes>
                                                                 <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <font key="NSFont" metaFont="system" size="14"/>
@@ -69,6 +69,17 @@
                                 <nil key="highlightedColor"/>
                                 <size key="shadowOffset" width="0.0" height="0.0"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dnL-hW-IbR" customClass="NVActivityIndicatorView" customModule="NVActivityIndicatorView">
+                                <rect key="frame" x="107" y="348" width="200" height="200"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="D0g-Yc-ODm"/>
+                                    <constraint firstAttribute="height" constant="200" id="qDl-TX-pma"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="typeName" value="circleStrokeSpin"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -77,6 +88,8 @@
                             <constraint firstItem="PQr-Ze-W5v" firstAttribute="bottom" secondItem="7yj-Qg-yNc" secondAttribute="bottom" constant="5" id="NDm-QK-xPv"/>
                             <constraint firstItem="ab9-aO-Jcz" firstAttribute="leading" secondItem="PQr-Ze-W5v" secondAttribute="leading" id="O71-fv-omx"/>
                             <constraint firstItem="ab9-aO-Jcz" firstAttribute="bottom" secondItem="PQr-Ze-W5v" secondAttribute="bottom" id="PwI-7N-99q"/>
+                            <constraint firstItem="dnL-hW-IbR" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="T03-5v-qzB"/>
+                            <constraint firstItem="dnL-hW-IbR" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" id="iTK-GG-0pd"/>
                             <constraint firstItem="ab9-aO-Jcz" firstAttribute="trailing" secondItem="PQr-Ze-W5v" secondAttribute="trailing" id="vQg-qI-dlu"/>
                             <constraint firstItem="7yj-Qg-yNc" firstAttribute="trailing" secondItem="PQr-Ze-W5v" secondAttribute="trailing" id="y4L-Xw-5jh"/>
                         </constraints>
@@ -85,6 +98,7 @@
                     <tabBarItem key="tabBarItem" systemItem="contacts" id="acW-dT-cKf"/>
                     <connections>
                         <outlet property="chatTableView" destination="ab9-aO-Jcz" id="90J-6K-G0d"/>
+                        <outlet property="nvActivityIndicatorView" destination="dnL-hW-IbR" id="fWF-2J-7cc"/>
                         <outlet property="scrollDownLabel" destination="7yj-Qg-yNc" id="LhS-Ug-J5s"/>
                     </connections>
                 </viewController>

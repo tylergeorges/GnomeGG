@@ -17,6 +17,7 @@ class DGGAPI {
     
     let flairEndpoint = "https://cdn.destiny.gg/4.2.0/flairs/flairs.json"
     let emoteEndpoint = "https://cdn.destiny.gg/4.2.0/emotes/emotes.json"
+    let historyEndpoint = "https://www.destiny.gg/api/chat/history"
     
     func getFlairList() {
 
@@ -45,6 +46,20 @@ class DGGAPI {
                 }
             case .failure(let error):
                 print(error)
+            }
+        }
+    }
+    
+    func getHistory(completionHandler: @escaping  ([String]) -> Void) {
+        Alamofire.request(historyEndpoint, method: .get).validate().responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                let json = JSON(value)
+                let messages = json.arrayValue.map {$0.stringValue}
+                completionHandler(messages)
+            case .failure(let error):
+                print(error)
+                completionHandler([String]())
             }
         }
     }
@@ -148,4 +163,9 @@ struct Emote {
     let image: UIImage
     let height: Int
     let width: Int
+}
+
+struct User {
+    let nick: String
+    let features: [String]
 }

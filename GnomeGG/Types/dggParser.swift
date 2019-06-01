@@ -77,10 +77,53 @@ class DGGParser {
             return nil
         }
     }
+    
+    static func parseNamesMessage(message: String) -> DGGMessage? {
+        if let dataFromString = message.data(using: .utf8, allowLossyConversion: false) {
+            do {
+                let json = try JSON(data: dataFromString)
+                
+                guard let connectionCount = json["connectioncount"].int else {
+                    return nil
+                }
+                
+                guard let users = json["users"].array else {
+                    return nil
+                }
+                
+                var parsedUsers = [User]()
+                
+                for userJson in users {
+                    guard let nick = userJson["nick"].string else {
+                        continue
+                    }
+                    
+                    guard let features = userJson["features"].array else {
+                        continue
+                    }
+                    
+                    let parsedFeatures = features.map {$0.stringValue}
+                    
+                    parsedUsers.append(User(nick: nick, features: parsedFeatures))
+                }
+                
+                return .Names(connectionCount: connectionCount, Users: parsedUsers)
+                
+            } catch {
+                print("Error parsing message")
+                return nil
+            }
+        } else {
+            return nil
+        }
+    }
 }
 
 enum DGGMessage {
     case UserMessage(nick: String, features: [String], timestamp: Date, data: String)
     case Combo(timestamp: Date, count: Int, emote: Emote)
     case Broadcast(timestamp: Date, data: String)
+    case Names(connectionCount: Int, Users: [User])
+    case Disconnected(reason: String)
+    case Connecting
 }

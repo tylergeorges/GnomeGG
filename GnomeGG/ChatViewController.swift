@@ -11,8 +11,6 @@
 // CHAT
 // >greentext in current year
 // /me
-// links
-// nsfw nsfl spoiler highlights
 // cap number of stored messages so the app doesn't explode eventually
 // highlights
 // chat suggestions
@@ -22,12 +20,14 @@
 
 import UIKit
 import Starscream
+import NVActivityIndicatorView
 
 class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, WebSocketDelegate {
     
     let dggAPI = DGGAPI()
     
     var messages = [DGGMessage]()
+    var users = [User]()
     var websocket: WebSocket?
     
     let dggWebsocketURL = "https://www.destiny.gg/ws"
@@ -46,9 +46,11 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBOutlet weak var chatTableView: UITableView!
     @IBOutlet weak var scrollDownLabel: UILabel!
+    @IBOutlet weak var nvActivityIndicatorView: NVActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        nvActivityIndicatorView.startAnimating()
         
         scrollDownLabel.isHidden = true
         addScrollDownButton()
@@ -63,7 +65,18 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         websocket = WebSocket(url: URL(string: dggWebsocketURL)!)
         if let websocket = websocket {
             websocket.delegate = self
-            websocket.connect()
+            dggAPI.getHistory(completionHandler: { oldMessages in
+                self.nvActivityIndicatorView.stopAnimating()
+                self.nvActivityIndicatorView.isHidden = true
+
+                for msg in oldMessages {
+                    self.websocketDidReceiveMessage(socket: websocket, text: msg)
+                }
+                self.newMessage(message: .Connecting)
+                websocket.connect()
+            })
+            
+            
         }
     }
     
@@ -136,10 +149,12 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         print("reconnecting")
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(self.websocketBackoff), execute: {
             self.websocketBackoff = self.websocketBackoff * 2
+            self.newMessage(message: .Connecting)
             self.websocket?.connect()
         })
         if let error = error as? WSError {
             print(error)
+            newMessage(message: .Disconnected(reason: error.message))
             if error.code == 0 {
                 print("timed out")
             }
@@ -158,6 +173,10 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         case "BROADCAST":
             if let message = DGGParser.parseBroadcastMessage(message: rest) {
+                newMessage(message: message)
+            }
+        case "NAMES":
+            if let message = DGGParser.parseNamesMessage(message: rest) {
                 newMessage(message: message)
             }
         default: print("got some text: \(text)")
@@ -218,6 +237,10 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     private func addScrollDownButton() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(ChatViewController.scrollToBottom))
         scrollDownLabel.addGestureRecognizer(tap)
+    }
+    
+    private func runOnUIThread(_ block: @escaping () -> Void) {
+        DispatchQueue.main.async(execute: block)
     }
 
 }

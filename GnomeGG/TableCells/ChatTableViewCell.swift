@@ -30,8 +30,14 @@ class ChatTableViewCell: UITableViewCell {
             renderCombo(emote: emote, count: count, timestamp: timestamp)
         case let .Broadcast(timestamp, data):
             renderBroadcast(timestamp: timestamp, data: data, emotes: emotes)
+        case let .Names(connectionCount, Users):
+            renderNames(connectionCount: connectionCount, userCount: Users.count)
+        case let .Disconnected(reason):
+            renderDisconnect(reason: reason)
+        case .Connecting:
+            renderConnecting()
         }
-        
+
     }
     
     private func renderUserMessage(nick: String, features: [String], date: Date, data: String, flairs: [Flair], emotes: [Emote]) {
@@ -107,6 +113,38 @@ class ChatTableViewCell: UITableViewCell {
         fullMessage.append(styleMessage(message: data, emotes: emotes))
         fullMessage.addAttribute(.backgroundColor, value: hexColorStringToUIColor(hex: "151515"), range: NSRange(location: 0, length: fullMessage.length))
         fullMessage.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "edea12"), range: NSRange(location: 0, length: fullMessage.length))
+        messageTextView.attributedText = fullMessage
+    }
+    
+    private func renderNames(connectionCount: Int, userCount: Int) {
+        let fullMessage = NSMutableAttributedString(string: "")
+        fullMessage.append(formatTimestamp(timestamp: Date()))
+        let template = " Connected to Websocket. %d connections, %d users."
+        let message = NSMutableAttributedString(string: String(format: template, connectionCount, userCount))
+        message.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "FFFFFFF"), range: NSRange(location: 0, length: message.length))
+        fullMessage.append(message)
+        
+        messageTextView.attributedText = fullMessage
+    }
+    
+    private func renderConnecting() {
+        let fullMessage = NSMutableAttributedString(string: "")
+        fullMessage.append(formatTimestamp(timestamp: Date()))
+        let message = NSMutableAttributedString(string: " Connecting to Chat...")
+        message.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "FFFFFFF"), range: NSRange(location: 0, length: message.length))
+        fullMessage.append(message)
+        messageTextView.attributedText = fullMessage
+    }
+    
+    private func renderDisconnect(reason: String) {
+        let fullMessage = NSMutableAttributedString(string: "")
+        fullMessage.append(formatTimestamp(timestamp: Date()))
+        let template = " Lost Connecting to Server. Reason: %@"
+        let message = NSMutableAttributedString(string: String(format: template, reason))
+        message.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "FFFFFFF"), range: NSRange(location: 0, length: message.length))
+        fullMessage.append(message)
+        fullMessage.addAttribute(.backgroundColor, value: hexColorStringToUIColor(hex: "FF0000"), range: NSRange(location: 0, length: fullMessage.length))
+        
         messageTextView.attributedText = fullMessage
     }
     
