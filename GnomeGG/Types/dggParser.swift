@@ -150,6 +150,26 @@ class DGGParser {
             return nil
         }
     }
+    
+    static func parseDoorMessage(message: String) -> String? {
+        if let dataFromString = message.data(using: .utf8, allowLossyConversion: false) {
+            do {
+                let json = try JSON(data: dataFromString)
+                
+                guard let nick = json["nick"].string else {
+                    return nil
+                }
+
+                return nick
+                
+            } catch {
+                print("Error parsing message")
+                return nil
+            }
+        } else {
+            return nil
+        }
+    }
 }
 
 enum DGGMessage {

@@ -181,8 +181,26 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             if let message = DGGParser.parseMuteMessage(message: rest) {
                 newMessage(message: message)
             }
+        case "QUIT":
+            if let user = DGGParser.parseDoorMessage(message: rest) {
+                userLeft(user: user)
+            }
+        case "JOIN":
+            if let user = DGGParser.parseDoorMessage(message: rest) {
+                userJoined(user: user)
+            }
         default: print("got some text: \(text)")
         }
+    }
+    
+    private func userLeft(user: String) {
+        for (i, u) in users.enumerated() where u.nick == user {
+            users.remove(at: i)
+        }
+    }
+    
+    private func userJoined(user: String) {
+        users.append(User(nick: user, features: [String]()))
     }
     
     func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
