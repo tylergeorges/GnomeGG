@@ -12,9 +12,12 @@
 // cap number of stored messages so the app doesn't explode eventually
 // highlights
 // bans
-// chat suggestions
+// hide scroll down when suggestions are showing
 // MENTIONS
 // TOOLS
+// -stalk
+// -logs
+// -destiny links
 // SETTINGS
 
 import UIKit
@@ -256,6 +259,10 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         case "MUTE":
             if let message = DGGParser.parseMuteMessage(message: rest) {
+                newMessage(message: message)
+            }
+        case "BAN":
+            if let message = DGGParser.parseBanMessage(message: rest) {
                 newMessage(message: message)
             }
         case "QUIT":

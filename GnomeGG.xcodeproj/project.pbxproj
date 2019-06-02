@@ -11,9 +11,9 @@
 		8D7BAC4722A235ED00A5E1E6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4622A235ED00A5E1E6 /* LoginViewController.swift */; };
 		8D7BAC4922A23E0800A5E1E6 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4822A23E0800A5E1E6 /* Settings.swift */; };
 		8D7BAC4B22A25C0100A5E1E6 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4A22A25C0100A5E1E6 /* SettingsViewController.swift */; };
+		8D7BAC4F22A3A4A000A5E1E6 /* MentionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4E22A3A4A000A5E1E6 /* MentionsViewController.swift */; };
 		8DEA19ED22A0C67500ECB238 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DEA19EC22A0C67500ECB238 /* AppDelegate.swift */; };
 		8DEA19EF22A0C67500ECB238 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DEA19EE22A0C67500ECB238 /* ChatViewController.swift */; };
-		8DEA19F122A0C67500ECB238 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DEA19F022A0C67500ECB238 /* SecondViewController.swift */; };
 		8DEA19F422A0C67500ECB238 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8DEA19F222A0C67500ECB238 /* Main.storyboard */; };
 		8DEA19F622A0C67600ECB238 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8DEA19F522A0C67600ECB238 /* Assets.xcassets */; };
 		8DEA19F922A0C67600ECB238 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8DEA19F722A0C67600ECB238 /* LaunchScreen.storyboard */; };
@@ -29,10 +29,10 @@
 		8D7BAC4622A235ED00A5E1E6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		8D7BAC4822A23E0800A5E1E6 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		8D7BAC4A22A25C0100A5E1E6 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		8D7BAC4E22A3A4A000A5E1E6 /* MentionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MentionsViewController.swift; sourceTree = "<group>"; };
 		8DEA19E922A0C67500ECB238 /* GnomeGG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GnomeGG.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DEA19EC22A0C67500ECB238 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8DEA19EE22A0C67500ECB238 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
-		8DEA19F022A0C67500ECB238 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		8DEA19F322A0C67500ECB238 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8DEA19F522A0C67600ECB238 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8DEA19F822A0C67600ECB238 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -89,7 +89,7 @@
 				8DEA19EE22A0C67500ECB238 /* ChatViewController.swift */,
 				8D7BAC4622A235ED00A5E1E6 /* LoginViewController.swift */,
 				8D7BAC4A22A25C0100A5E1E6 /* SettingsViewController.swift */,
-				8DEA19F022A0C67500ECB238 /* SecondViewController.swift */,
+				8D7BAC4E22A3A4A000A5E1E6 /* MentionsViewController.swift */,
 				8DEA19F222A0C67500ECB238 /* Main.storyboard */,
 				8DEA19F522A0C67600ECB238 /* Assets.xcassets */,
 				8DEA19F722A0C67600ECB238 /* LaunchScreen.storyboard */,
@@ -266,8 +266,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D7BAC4722A235ED00A5E1E6 /* LoginViewController.swift in Sources */,
-				8DEA19F122A0C67500ECB238 /* SecondViewController.swift in Sources */,
 				8D7BAC4922A23E0800A5E1E6 /* Settings.swift in Sources */,
+				8D7BAC4F22A3A4A000A5E1E6 /* MentionsViewController.swift in Sources */,
 				8DEA1A0222A0D4F700ECB238 /* ChatTableViewCell.swift in Sources */,
 				8DEA1A0522A0DDCA00ECB238 /* dggParser.swift in Sources */,
 				8DEA19ED22A0C67500ECB238 /* AppDelegate.swift in Sources */,

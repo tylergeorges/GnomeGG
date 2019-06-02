@@ -367,7 +367,7 @@ struct Flair {
     let width: Int
 }
 
-struct Emote {
+public struct Emote {
     let prefix: String
     let twitch: Bool
     let image: UIImage
@@ -375,7 +375,7 @@ struct Emote {
     let width: Int
 }
 
-struct User {
+public struct User {
     let nick: String
     let features: [String]
 }

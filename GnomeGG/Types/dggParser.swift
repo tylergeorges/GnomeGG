@@ -107,7 +107,7 @@ class DGGParser {
                     parsedUsers.append(User(nick: nick, features: parsedFeatures))
                 }
                 
-                return .Names(connectionCount: connectionCount, Users: parsedUsers)
+                return .Names(connectionCount: connectionCount, users: parsedUsers)
                 
             } catch {
                 print("Error parsing message")
@@ -118,7 +118,6 @@ class DGGParser {
         }
     }
     
-    // MUTE {"nick":"Bot","features":["protected","bot"],"timestamp":1559360986565,"data":"Majestic_Gopher"}
     static func parseMuteMessage(message: String) -> DGGMessage? {
         if let dataFromString = message.data(using: .utf8, allowLossyConversion: false) {
             do {
@@ -151,6 +150,38 @@ class DGGParser {
         }
     }
     
+    static func parseBanMessage(message: String) -> DGGMessage? {
+        if let dataFromString = message.data(using: .utf8, allowLossyConversion: false) {
+            do {
+                let json = try JSON(data: dataFromString)
+                
+                guard let nick = json["nick"].string else {
+                    return nil
+                }
+                
+                let features = json["features"].arrayValue.map {$0.stringValue}
+                
+                guard let unixTimestamp = json["timestamp"].double else {
+                    return nil
+                }
+                
+                let timestamp = Date(timeIntervalSince1970: unixTimestamp / 1000)
+                
+                guard let target = json["data"].string else {
+                    return nil
+                }
+                
+                return .Ban(nick: nick, features: features, timestamp: timestamp, target: target)
+                
+            } catch {
+                print("Error parsing message")
+                return nil
+            }
+        } else {
+            return nil
+        }
+    }
+    
     static func parseDoorMessage(message: String) -> String? {
         if let dataFromString = message.data(using: .utf8, allowLossyConversion: false) {
             do {
@@ -172,12 +203,30 @@ class DGGParser {
     }
 }
 
-enum DGGMessage {
+public enum DGGMessage {
     case UserMessage(nick: String, features: [String], timestamp: Date, data: String)
     case Combo(timestamp: Date, count: Int, emote: Emote)
     case Broadcast(timestamp: Date, data: String)
-    case Names(connectionCount: Int, Users: [User])
+    case Names(connectionCount: Int, users: [User])
     case Disconnected(reason: String)
     case Connecting
     case Mute(nick: String, features: [String], timestamp: Date, target: String)
+    case Ban(nick: String, features: [String], timestamp: Date, target: String)
+}
+
+public func ==(lhs: DGGMessage, rhs: DGGMessage) -> Bool {
+    switch (lhs, rhs) {
+    case let (.UserMessage(nick1, features1, timestamp1, data1),   .UserMessage(nick2, features2, timestamp2, data2)):
+        return nick1 == nick2 && features1 == features2 && timestamp1 == timestamp2 && data1 == data2
+    case let (.Combo(timestamp1, count1, emote1), .Combo(timestamp2, count2, emote2)):
+        return timestamp1 == timestamp2 && count1 == count2 && emote1.prefix == emote2.prefix
+    case let (.Broadcast(timestamp1, data1), .Broadcast(timestamp2, data2)):
+        return timestamp1 == timestamp2 && data1 == data2
+    case let (.Disconnected(reason1), .Disconnected(reason: reason2)):
+        return reason1 == reason2
+    case (.Connecting, .Connecting):
+        return true
+    default:
+        return false
+    }
 }

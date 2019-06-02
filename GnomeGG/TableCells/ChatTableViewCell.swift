@@ -11,6 +11,7 @@ import UIKit
 class ChatTableViewCell: UITableViewCell {
 
     @IBOutlet weak var messageTextView: UITextView!
+    var currentMessage: DGGMessage?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,6 +24,13 @@ class ChatTableViewCell: UITableViewCell {
     }
     
     func rederMessage(message: DGGMessage) {
+        if let currentMessage = currentMessage {
+            guard !(currentMessage == message) else {
+                return
+            }
+        }
+        currentMessage = message
+        
         switch message {
         case let .UserMessage(nick, features, timestamp, data):
             renderUserMessage(nick: nick, features: features, date: timestamp, data: data)
@@ -38,6 +46,8 @@ class ChatTableViewCell: UITableViewCell {
             renderConnecting()
         case let .Mute(nick, _, timestamp, target):
             renderMute(timestamp: timestamp, banner: nick, target: target)
+        case let .Ban(nick, _, timestamp, target):
+            renderBan(timestamp: timestamp, banner: nick, target: target)
         }
 
     }
@@ -185,9 +195,29 @@ class ChatTableViewCell: UITableViewCell {
         messageTextView.attributedText = fullMessage
     }
     
+    private func renderBan(timestamp: Date, banner: String, target: String) {
+        let spacer = NSAttributedString(string: " ")
+        let fullMessage = NSMutableAttributedString(string: "")
+        fullMessage.append(formatTimestamp(timestamp: timestamp))
+        fullMessage.append(spacer)
+        fullMessage.append(customFlair(image: UIImage(named: "warningbadge")!, width: 16, height: 16))
+        fullMessage.append(spacer)
+        let template = "%@ banned by %@"
+        let message = NSMutableAttributedString(string: String(format: template, target, banner))
+        message.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "FFFFFFF"), range: NSRange(location: 0, length: message.length))
+        fullMessage.append(message)
+        
+        messageTextView.attributedText = fullMessage
+    }
+    
     private func formatTimestamp(timestamp: Date) -> NSMutableAttributedString {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm"
+        if Calendar.current.isDateInToday(timestamp) {
+            dateFormatter.dateFormat = "HH:mm"
+        } else {
+            dateFormatter.dateFormat = "MM/dd HH:mm"
+        }
+        
         let dateText = NSMutableAttributedString(string: dateFormatter.string(from: timestamp))
         dateText.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "414141"), range: NSRange(location: 0, length: dateText.length))
         
