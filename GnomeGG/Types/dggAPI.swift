@@ -81,14 +81,23 @@ class DGGAPI {
         Alamofire.request(url, method: .get).validate().responseJSON { response in
             if response.response?.statusCode == 403 {
                 self.refreshAccessToken()
+                return
             }
             
             switch response.result {
             case .success(let value):
                 let json = JSON(value)
                 
+                if let code = json["code"].int {
+                    if code == 403 {
+                        self.refreshAccessToken()
+                        return
+                    }
+                }
+                
                 guard let nick = json["nick"].string else {
                     self.showAuthenticationError(reason: "API did not return a nick")
+                    print(json)
                     settings.dggUsername = ""
                     completionHandler()
                     return
@@ -130,6 +139,7 @@ class DGGAPI {
                 
                 settings.dggAccessToken = accessToken
                 print("got dgg access token")
+                self.getUserInfo {}
                 
                 guard let refreshToken = json["refresh_token"].string else {
                     self.oauthFailed(reason: "Refresh Token Not Found")
@@ -137,6 +147,8 @@ class DGGAPI {
                 }
                 
                 settings.dggRefreshToken = refreshToken
+                
+                
                 
                 
             case .failure(let error):

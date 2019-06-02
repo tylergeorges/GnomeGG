@@ -18,8 +18,27 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ab9-aO-Jcz" userLabel="Theable View">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                            <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3HX-gF-Ia1">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <color key="tintColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="barTintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <items>
+                                    <navigationItem id="tfG-Kh-4Up">
+                                        <barButtonItem key="leftBarButtonItem" image="settings" id="Aze-fa-cqC">
+                                            <connections>
+                                                <segue destination="Dms-a9-1G2" kind="presentation" id="czj-oe-qmq"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Login" id="sFR-GF-0cc">
+                                            <connections>
+                                                <action selector="loginTap:" destination="9pv-A4-QxB" id="hyA-nE-fGq"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ab9-aO-Jcz" userLabel="Chat View">
+                                <rect key="frame" x="0.0" y="88" width="414" height="680"/>
                                 <color key="backgroundColor" red="0.031372549020000001" green="0.031372549020000001" blue="0.031372549020000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="chatCell" rowHeight="110" id="02O-23-Nyi" customClass="ChatTableViewCell" customModule="GnomeGG" customModuleProvider="target">
@@ -59,7 +78,7 @@
                                 </prototypes>
                             </tableView>
                             <label opaque="NO" alpha="0.59999999999999998" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MORE MESSAGE BELOW" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7yj-Qg-yNc">
-                                <rect key="frame" x="0.0" y="768" width="414" height="40"/>
+                                <rect key="frame" x="0.0" y="723" width="414" height="40"/>
                                 <color key="backgroundColor" red="0.13333333333333333" green="0.13333333333333333" blue="0.13333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="qwR-Of-5GL"/>
@@ -80,50 +99,86 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="typeName" value="circleStrokeSpin"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3HX-gF-Ia1">
-                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                                <color key="tintColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="barTintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <items>
-                                    <navigationItem id="tfG-Kh-4Up">
-                                        <barButtonItem key="leftBarButtonItem" image="settings" id="Aze-fa-cqC">
-                                            <connections>
-                                                <segue destination="Dms-a9-1G2" kind="presentation" id="czj-oe-qmq"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Login" id="sFR-GF-0cc">
-                                            <connections>
-                                                <action selector="loginTap:" destination="9pv-A4-QxB" id="hyA-nE-fGq"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eeM-94-9T8">
+                                <rect key="frame" x="364" y="768" width="50" height="45"/>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="AQk-U7-ZNt"/>
+                                </constraints>
+                                <state key="normal" title="Send">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="sendTap:" destination="9pv-A4-QxB" eventType="touchUpInside" id="ziF-ol-Nza"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="vKE-2y-bwe">
+                                <rect key="frame" x="0.0" y="768" width="364" height="45"/>
+                                <color key="backgroundColor" red="0.066666666666666666" green="0.066666666666666666" blue="0.066666666666666666" alpha="1" colorSpace="calibratedRGB"/>
+                                <accessibility key="accessibilityConfiguration" hint="Write Something..."/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="5s4-xz-6Hk"/>
+                                </constraints>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="San-2H-cDx">
+                                <rect key="frame" x="0.0" y="716" width="414" height="50"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ezr-Nf-DP2">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="6Ke-Ii-hfZ"/>
+                                    <constraint firstItem="ezr-Nf-DP2" firstAttribute="height" secondItem="San-2H-cDx" secondAttribute="height" id="BaR-A8-Bv8"/>
+                                    <constraint firstItem="ezr-Nf-DP2" firstAttribute="top" secondItem="San-2H-cDx" secondAttribute="top" id="GWs-Oh-vl6"/>
+                                    <constraint firstAttribute="bottom" secondItem="ezr-Nf-DP2" secondAttribute="bottom" id="K3G-3f-xCX"/>
+                                    <constraint firstItem="ezr-Nf-DP2" firstAttribute="leading" secondItem="San-2H-cDx" secondAttribute="leading" id="V0w-bc-8Ec"/>
+                                    <constraint firstAttribute="trailing" secondItem="ezr-Nf-DP2" secondAttribute="trailing" id="gsj-5d-SWN"/>
+                                    <constraint firstItem="ezr-Nf-DP2" firstAttribute="centerX" secondItem="San-2H-cDx" secondAttribute="centerX" placeholder="YES" id="vaD-oU-LTx"/>
+                                </constraints>
+                            </scrollView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="7yj-Qg-yNc" firstAttribute="leading" secondItem="PQr-Ze-W5v" secondAttribute="leading" id="12P-G6-Qo0"/>
+                            <constraint firstItem="eeM-94-9T8" firstAttribute="bottom" secondItem="PQr-Ze-W5v" secondAttribute="bottom" id="52o-4e-SDS"/>
+                            <constraint firstItem="eeM-94-9T8" firstAttribute="top" secondItem="San-2H-cDx" secondAttribute="bottom" constant="2" id="BQe-Ge-WiZ"/>
                             <constraint firstItem="3HX-gF-Ia1" firstAttribute="trailing" secondItem="PQr-Ze-W5v" secondAttribute="trailing" id="DHU-MB-ehF"/>
                             <constraint firstItem="3HX-gF-Ia1" firstAttribute="top" secondItem="PQr-Ze-W5v" secondAttribute="top" id="KAS-sP-hD5"/>
+                            <constraint firstItem="vKE-2y-bwe" firstAttribute="top" secondItem="ab9-aO-Jcz" secondAttribute="bottom" id="KJy-vL-ic1"/>
+                            <constraint firstItem="eeM-94-9T8" firstAttribute="leading" secondItem="vKE-2y-bwe" secondAttribute="trailing" id="KK7-ry-rA4"/>
                             <constraint firstItem="3HX-gF-Ia1" firstAttribute="leading" secondItem="PQr-Ze-W5v" secondAttribute="leading" id="M5p-Rq-TQo"/>
-                            <constraint firstItem="PQr-Ze-W5v" firstAttribute="bottom" secondItem="7yj-Qg-yNc" secondAttribute="bottom" constant="5" id="NDm-QK-xPv"/>
+                            <constraint firstItem="San-2H-cDx" firstAttribute="trailing" secondItem="PQr-Ze-W5v" secondAttribute="trailing" id="NbB-Dj-mlp"/>
                             <constraint firstItem="ab9-aO-Jcz" firstAttribute="leading" secondItem="PQr-Ze-W5v" secondAttribute="leading" id="O71-fv-omx"/>
-                            <constraint firstItem="ab9-aO-Jcz" firstAttribute="bottom" secondItem="PQr-Ze-W5v" secondAttribute="bottom" id="PwI-7N-99q"/>
+                            <constraint firstItem="San-2H-cDx" firstAttribute="leading" secondItem="PQr-Ze-W5v" secondAttribute="leading" id="SuY-6S-DGZ"/>
                             <constraint firstItem="dnL-hW-IbR" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="T03-5v-qzB"/>
+                            <constraint firstItem="eeM-94-9T8" firstAttribute="height" secondItem="vKE-2y-bwe" secondAttribute="height" id="UfY-yU-4pP"/>
+                            <constraint firstItem="PQr-Ze-W5v" firstAttribute="trailing" secondItem="eeM-94-9T8" secondAttribute="trailing" id="V30-UZ-22X"/>
                             <constraint firstItem="dnL-hW-IbR" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" id="iTK-GG-0pd"/>
+                            <constraint firstItem="vKE-2y-bwe" firstAttribute="bottom" secondItem="PQr-Ze-W5v" secondAttribute="bottom" id="lH6-ql-ZBA"/>
+                            <constraint firstItem="eeM-94-9T8" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="PQr-Ze-W5v" secondAttribute="leading" symbolic="YES" id="mfg-gX-VkO"/>
                             <constraint firstItem="ab9-aO-Jcz" firstAttribute="top" secondItem="3HX-gF-Ia1" secondAttribute="bottom" id="rH1-a8-sxI"/>
+                            <constraint firstItem="vKE-2y-bwe" firstAttribute="top" secondItem="7yj-Qg-yNc" secondAttribute="bottom" constant="5" id="uWz-r3-PVj"/>
                             <constraint firstItem="ab9-aO-Jcz" firstAttribute="trailing" secondItem="PQr-Ze-W5v" secondAttribute="trailing" id="vQg-qI-dlu"/>
+                            <constraint firstItem="vKE-2y-bwe" firstAttribute="leading" secondItem="PQr-Ze-W5v" secondAttribute="leading" id="xIz-OW-eQI"/>
                             <constraint firstItem="7yj-Qg-yNc" firstAttribute="trailing" secondItem="PQr-Ze-W5v" secondAttribute="trailing" id="y4L-Xw-5jh"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="PQr-Ze-W5v"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Chat" image="dggIcon" id="acW-dT-cKf"/>
                     <connections>
+                        <outlet property="chatInputTextView" destination="vKE-2y-bwe" id="34S-4a-RLY"/>
                         <outlet property="chatTableView" destination="ab9-aO-Jcz" id="90J-6K-G0d"/>
                         <outlet property="loginBarButton" destination="sFR-GF-0cc" id="mGL-uk-X6Q"/>
                         <outlet property="navigationBar" destination="3HX-gF-Ia1" id="cBd-rU-7Yn"/>
                         <outlet property="nvActivityIndicatorView" destination="dnL-hW-IbR" id="fWF-2J-7cc"/>
                         <outlet property="scrollDownLabel" destination="7yj-Qg-yNc" id="LhS-Ug-J5s"/>
+                        <outlet property="sendButton" destination="eeM-94-9T8" id="hrO-ol-2SV"/>
+                        <outlet property="suggestionsScrollView" destination="San-2H-cDx" id="7tf-kP-lfU"/>
+                        <outlet property="suggestionsStackView" destination="ezr-Nf-DP2" id="cGv-1T-IFe"/>
                         <segue destination="Zc8-1e-RIZ" kind="presentation" identifier="loginSegue" id="DdL-Ja-N7d"/>
                     </connections>
                 </viewController>

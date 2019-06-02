@@ -98,7 +98,7 @@ class ChatTableViewCell: UITableViewCell {
         fullMessage.append(formatTimestamp(timestamp: timestamp))
         fullMessage.append(NSAttributedString(string: " "))
         fullMessage.append(NSAttributedString(string: " "))
-        fullMessage.append(styleMessage(message: emote.prefix))
+        fullMessage.append(styleMessage(message: emote.prefix, regularMessage: false))
         
 
         let countText = NSMutableAttributedString(string: String(count))
@@ -194,7 +194,7 @@ class ChatTableViewCell: UITableViewCell {
         return dateText
     }
     
-    private func styleMessage(message: String) -> NSMutableAttributedString {
+    private func styleMessage(message: String, regularMessage: Bool = true) -> NSMutableAttributedString {
         var words = message.split(separator: " ")
         let styledMessage = NSMutableAttributedString(string: "")
         
@@ -205,7 +205,7 @@ class ChatTableViewCell: UITableViewCell {
         let isAction = message.lowercased().starts(with: "/me ")
         let isEpic = message.lowercased().starts(with: ">")
         
-        if isAction {
+        if isAction || !regularMessage {
             words.removeFirst()
             words.insert(" ", at: 0)
         } else {

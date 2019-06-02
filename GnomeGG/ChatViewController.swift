@@ -11,6 +11,7 @@
 // CHAT
 // cap number of stored messages so the app doesn't explode eventually
 // highlights
+// bans
 // chat suggestions
 // MENTIONS
 // TOOLS
@@ -20,7 +21,7 @@ import UIKit
 import Starscream
 import NVActivityIndicatorView
 
-class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, WebSocketDelegate {
+class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, WebSocketDelegate, UITextViewDelegate {
     
     var messages = [DGGMessage]()
     var users = [User]()
@@ -47,17 +48,30 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var nvActivityIndicatorView: NVActivityIndicatorView!
     @IBOutlet weak var loginBarButton: UIBarButtonItem!
     @IBOutlet weak var navigationBar: UINavigationBar!
+    @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var chatInputTextView: UITextView!
+    @IBOutlet weak var suggestionsScrollView: UIScrollView!
+    @IBOutlet weak var suggestionsStackView: UIStackView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         nvActivityIndicatorView.startAnimating()
         
         scrollDownLabel.isHidden = true
+        suggestionsScrollView.isHidden = true
         addScrollDownButton()
         
         dggAPI.getFlairList()
         dggAPI.getEmoteList()
+        
+        chatInputTextView.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
 
+
+        
         dggAPI.getUserInfo(completionHandler: {
             if settings.dggUsername != "" {
                 print("Logged in as: " + settings.dggUsername)
@@ -85,9 +99,14 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         chatTableView.estimatedRowHeight = 200
         chatTableView.rowHeight = UITableView.automaticDimension
+        updateUI()
         
         if settings.loginKey == "" {
             loginBarButton.title = "Login"
@@ -185,11 +204,13 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     func websocketDidConnect(socket: WebSocketClient) {
         print("websocket is connected")
         websocketBackoff = 100
+        updateUI()
     }
     
     func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
         print("websocket is disconnected: \(error?.localizedDescription)")
         print("reconnecting")
+        updateUI()
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(self.websocketBackoff), execute: {
             guard self.dontRecover else {
                 return
@@ -254,6 +275,25 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
         print("got some data: \(data.count)")
+    }
+    
+    // MARK: - Textview
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        textField.resignFirstResponder()
+        
+        //or
+        //self.view.endEditing(true)
+        
+        return true
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if (text == "\n") {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
     }
 
     // MARK: - TableView
@@ -322,6 +362,27 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             connectToWebsocket()
         }
     }
+    
+    private func updateUI() {
+        sendButton.isHidden = !authenticatedWebsocket
+        chatInputTextView.isHidden = !authenticatedWebsocket
+        sendButton.isEnabled = websocket?.isConnected ?? false
+    }
+    
+    @objc
+    func keyboardWillHide() {
+        self.view.frame.origin.y = 0
+    }
+    
+    @objc
+    func keyboardWillChange(notification: NSNotification) {
+        
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if chatInputTextView.isFirstResponder {
+                self.view.frame.origin.y = -(keyboardSize.height - tabBarController!.tabBar.frame.height)
+            }
+        }
+    }
 
     @IBAction func loginTap(_ sender: Any) {
         if settings.loginKey == "" {
@@ -336,6 +397,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             self.present(alert, animated: true)
         }
+    }
+    @IBAction func sendTap(_ sender: Any) {
     }
 }
 
