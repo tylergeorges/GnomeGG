@@ -197,7 +197,7 @@ class ChatTableViewCell: UITableViewCell {
     private func styleMessage(message: String, regularMessage: Bool = true) -> NSMutableAttributedString {
         var words = message.split(separator: " ")
         let styledMessage = NSMutableAttributedString(string: "")
-        
+
         let lowerWords = message.lowercased().split(separator: " ")
         let hasNSFW = lowerWords.contains("nsfw")
         let hasSpoiler = lowerWords.contains("spoiler")
@@ -205,15 +205,20 @@ class ChatTableViewCell: UITableViewCell {
         let isAction = message.lowercased().starts(with: "/me ")
         let isEpic = message.lowercased().starts(with: ">")
         
-        if isAction || !regularMessage {
+        if isAction {
             words.removeFirst()
             words.insert(" ", at: 0)
-        } else {
+        } else if regularMessage {
             words.insert(":", at: 0)
         }
         
         for (i, word) in words.enumerated() {
+            guard word != " " else {
+                continue
+            }
+
             var isEmote = false
+
             for emote in dggAPI.emotes where emote.prefix == word {
                 isEmote = true
                 let emoteAttachement = NSTextAttachment()

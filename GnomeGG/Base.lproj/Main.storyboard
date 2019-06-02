@@ -79,7 +79,7 @@
                             </tableView>
                             <label opaque="NO" alpha="0.59999999999999998" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MORE MESSAGE BELOW" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7yj-Qg-yNc">
                                 <rect key="frame" x="0.0" y="723" width="414" height="40"/>
-                                <color key="backgroundColor" red="0.13333333333333333" green="0.13333333333333333" blue="0.13333333333333333" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.1764705882352941" green="0.1764705882352941" blue="0.1803921568627451" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="qwR-Of-5GL"/>
                                 </constraints>
@@ -123,13 +123,14 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="San-2H-cDx">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.90000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="San-2H-cDx">
                                 <rect key="frame" x="0.0" y="716" width="414" height="50"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ezr-Nf-DP2">
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ezr-Nf-DP2">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
                                     </stackView>
                                 </subviews>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="6Ke-Ii-hfZ"/>
                                     <constraint firstItem="ezr-Nf-DP2" firstAttribute="height" secondItem="San-2H-cDx" secondAttribute="height" id="BaR-A8-Bv8"/>
@@ -170,6 +171,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Chat" image="dggIcon" id="acW-dT-cKf"/>
                     <connections>
+                        <outlet property="chatInputHeightConstraint" destination="5s4-xz-6Hk" id="O40-dn-5o1"/>
                         <outlet property="chatInputTextView" destination="vKE-2y-bwe" id="34S-4a-RLY"/>
                         <outlet property="chatTableView" destination="ab9-aO-Jcz" id="90J-6K-G0d"/>
                         <outlet property="loginBarButton" destination="sFR-GF-0cc" id="mGL-uk-X6Q"/>

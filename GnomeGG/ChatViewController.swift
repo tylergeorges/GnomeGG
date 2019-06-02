@@ -32,6 +32,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     var websocketBackoff = 100
     var dontRecover = false
     var authenticatedWebsocket = false
+    var chatInputHeight: CGFloat?
     
     // scroll tracking
     var lastContentOffset: CGFloat = 0
@@ -41,6 +42,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    var activeSuggestions = [Suggestion]()
     var lastComboableEmote: Emote?
     
     @IBOutlet weak var chatTableView: UITableView!
@@ -52,9 +54,11 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var chatInputTextView: UITextView!
     @IBOutlet weak var suggestionsScrollView: UIScrollView!
     @IBOutlet weak var suggestionsStackView: UIStackView!
+    @IBOutlet weak var chatInputHeightConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        chatInputHeight = chatInputHeightConstraint.constant
         nvActivityIndicatorView.startAnimating()
         
         scrollDownLabel.isHidden = true
@@ -245,7 +249,10 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         case "NAMES":
             if let message = DGGParser.parseNamesMessage(message: rest) {
-                newMessage(message: message)
+                switch message {
+                case let .Names(_, newUsers): users = newUsers
+                default: return
+                }
             }
         case "MUTE":
             if let message = DGGParser.parseMuteMessage(message: rest) {
@@ -278,14 +285,73 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     // MARK: - Textview
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        
-        textField.resignFirstResponder()
-        
-        //or
-        //self.view.endEditing(true)
+    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+        suggestionsScrollView.isHidden = true
+        // send the message
+        chatInputTextView.text = ""
         
         return true
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        guard let text = textView.text else {
+            suggestionsScrollView.isHidden = true
+            return
+        }
+        
+        guard text.last != " " else {
+            suggestionsScrollView.isHidden = true
+            return
+        }
+        
+        let words = text.components(separatedBy: " ")
+        guard let lastWord = words.last else {
+            suggestionsScrollView.isHidden = true
+            return
+        }
+        
+        guard lastWord.count > 2 else {
+            suggestionsScrollView.isHidden = true
+            return
+        }
+        
+        suggestionsStackView.removeAllArrangedSubviews()
+        let suggestions = generateSuggestions(text: lastWord)
+        activeSuggestions = suggestions
+        for (i, suggestion) in suggestions.enumerated() {
+            let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
+            label.center = CGPoint(x: 160, y: 285)
+            label.textAlignment = .center
+            
+            switch suggestion {
+            case let .Emote(emote):
+                let emoteAttachement = NSTextAttachment()
+                emoteAttachement.image = emote.image
+                emoteAttachement.bounds = CGRect(x: 0, y: -5, width: emote.width, height: emote.height)
+                let emoteString = NSMutableAttributedString(attachment: emoteAttachement)
+                label.attributedText = emoteString
+            case let .User(nick):
+                label.text = nick
+                label.textColor = UIColor.white
+            }
+            label.isUserInteractionEnabled = true
+            label.tag = i
+            label.layer.masksToBounds = true
+            label.layer.cornerRadius = 5
+            label.backgroundColor = UIColor.black
+            let tap = UITapGestureRecognizer(target: self, action: #selector(suggestionTapped(sender:)))
+            label.addGestureRecognizer(tap)
+            
+            suggestionsStackView.addArrangedSubview(label)
+        }
+        
+        if suggestions.count > 0 {
+            suggestionsScrollView.isHidden = false
+        } else {
+            suggestionsScrollView.isHidden = true
+        }
+        
+        
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -343,6 +409,32 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    @objc
+    private func suggestionTapped(sender: UITapGestureRecognizer? = nil) {
+        print("suggestion tapped!")
+        guard let tag = sender?.view?.tag else {
+            return
+        }
+        
+        guard let text = chatInputTextView.text else {
+            return
+        }
+        
+        let suggestion = activeSuggestions[tag]
+        var components = text.components(separatedBy: " ")
+        
+        switch suggestion {
+        case let .Emote(emote):
+            components[components.count - 1] = emote.prefix
+        case let .User(nick):
+            components[components.count - 1] = nick
+        }
+        
+        components.append("")
+        chatInputTextView.text = components.joined(separator: " ")
+        suggestionsScrollView.isHidden = true
+    }
+    
     private func addScrollDownButton() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(ChatViewController.scrollToBottom))
         scrollDownLabel.addGestureRecognizer(tap)
@@ -367,6 +459,32 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         sendButton.isHidden = !authenticatedWebsocket
         chatInputTextView.isHidden = !authenticatedWebsocket
         sendButton.isEnabled = websocket?.isConnected ?? false
+        
+        if authenticatedWebsocket {
+            chatInputHeightConstraint.constant = chatInputHeight!
+        } else {
+            chatInputHeightConstraint.constant = 0
+        }
+    }
+    
+    private func generateSuggestions(text: String) -> [Suggestion] {
+        var suggestions = [Suggestion]()
+        
+        let matchText = text.lowercased()
+        
+        for emote in dggAPI.emotes {
+            if emote.prefix.lowercased().starts(with: matchText) {
+                suggestions.append(.Emote(emote: emote))
+            }
+        }
+        
+        for user in self.users {
+            if user.nick.lowercased().starts(with: matchText) {
+                suggestions.append(.User(nick: user.nick))
+            }
+        }
+        
+        return suggestions
     }
     
     @objc
@@ -398,7 +516,34 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.present(alert, animated: true)
         }
     }
+
     @IBAction func sendTap(_ sender: Any) {
+        chatInputTextView.resignFirstResponder()
+        suggestionsScrollView.isHidden = true
+        
+        // send the message
+        chatInputTextView.text = ""
     }
 }
 
+enum Suggestion {
+    case Emote(emote: Emote)
+    case User(nick: String)
+}
+
+extension UIStackView {
+    
+    func removeAllArrangedSubviews() {
+        
+        let removedSubviews = arrangedSubviews.reduce([]) { (allSubviews, subview) -> [UIView] in
+            self.removeArrangedSubview(subview)
+            return allSubviews + [subview]
+        }
+        
+        // Deactivate all constraints
+        NSLayoutConstraint.deactivate(removedSubviews.flatMap({ $0.constraints }))
+        
+        // Remove the views from self
+        removedSubviews.forEach({ $0.removeFromSuperview() })
+    }
+}
