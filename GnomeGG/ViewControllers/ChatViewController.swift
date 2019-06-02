@@ -35,6 +35,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     var websocketBackoff = 100
     var dontRecover = false
     var authenticatedWebsocket = false
+    var loadingHistory = false
     var chatInputHeight: CGFloat?
     
     // scroll tracking
@@ -87,6 +88,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         })
 
         dggAPI.getHistory(completionHandler: { oldMessages in
+            self.loadingHistory = true
             self.nvActivityIndicatorView.stopAnimating()
             self.nvActivityIndicatorView.isHidden = true
             
@@ -98,6 +100,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.newMessage(message: message)
             }
             
+            print("got history, connect to websocket")
+            self.loadingHistory = false
             self.connectToWebsocket()
         })
         
@@ -115,13 +119,21 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         chatTableView.rowHeight = UITableView.automaticDimension
         updateUI()
         
+        print("selected index")
+        print(tabBarController?.selectedIndex)
+        
+        print("Connected?")
+        print(websocket?.isConnected)
+        
         if settings.loginKey == "" {
             loginBarButton.title = "Login"
         } else {
             loginBarButton.title = "Logout"
             
             if !authenticatedWebsocket {
-                connectToWebsocket()
+                if !loadingHistory {
+                    connectToWebsocket()
+                }
             }
         }
     }
@@ -252,6 +264,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         case "NAMES":
             if let message = DGGParser.parseNamesMessage(message: rest) {
+                newMessage(message: message)
                 switch message {
                 case let .Names(_, newUsers): users = newUsers
                 default: return

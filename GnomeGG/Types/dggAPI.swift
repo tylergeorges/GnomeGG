@@ -352,8 +352,8 @@ class DGGAPI {
     }
     
     private func showAuthenticationSuccess() {
-        let banner = NotificationBanner(title: "Authentication Succeful", subtitle: "Authenticated as " + settings.dggUsername, style: .success)
-        banner.show()
+//        let banner = NotificationBanner(title: "Authentication Succeful", subtitle: "Authenticated as " + settings.dggUsername, style: .success)
+//        banner.show()
     }
 }
 

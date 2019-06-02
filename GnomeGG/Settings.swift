@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 class Settings {
     
@@ -41,6 +42,17 @@ class Settings {
         }
     }
     
+    var stalkHistory: [StalkRecord] {
+        didSet {
+            do {
+                let encodedData: Data = try NSKeyedArchiver.archivedData(withRootObject: stalkHistory, requiringSecureCoding: false)
+                defaults.set(encodedData, forKey: DefaultKeys.stalkHistory)
+            } catch let error {
+                print(error)
+            }
+        }
+    }
+    
     
     let defaults = UserDefaults.standard
     
@@ -51,6 +63,7 @@ class Settings {
         static let dggAccessToken = "dggAccessToken"
         static let dggRefreshToken = "dggRefreshToken"
         static let dggUsername = "dggUsername"
+        static let stalkHistory = "stalkHistory"
     }
     
     // Default values
@@ -60,6 +73,7 @@ class Settings {
         static let dggAccessToken = ""
         static let dggRefreshToken = ""
         static let dggUsername = ""
+        static let stalkHistory = [StalkRecord]()
     }
     
     init() {
@@ -74,5 +88,18 @@ class Settings {
         dggAccessToken = defaults.string(forKey: DefaultKeys.dggAccessToken) ?? DefaultSettings.dggAccessToken
         dggRefreshToken = defaults.string(forKey: DefaultKeys.dggRefreshToken) ?? DefaultSettings.dggRefreshToken
         dggUsername = defaults.string(forKey: DefaultKeys.dggUsername) ?? DefaultSettings.dggUsername
+        let decodedStalkHistory  = defaults.data(forKey: DefaultKeys.stalkHistory)
+        if let data = decodedStalkHistory {
+            do {
+                stalkHistory = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as! [StalkRecord]
+            } catch let error {
+                print(error)
+                stalkHistory = DefaultSettings.stalkHistory
+            }
+        } else {
+            print("error decoding stalk history")
+            stalkHistory = DefaultSettings.stalkHistory
+        }
+        
     }
 }

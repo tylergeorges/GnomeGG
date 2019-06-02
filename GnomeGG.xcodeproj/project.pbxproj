@@ -12,6 +12,10 @@
 		8D7BAC4922A23E0800A5E1E6 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4822A23E0800A5E1E6 /* Settings.swift */; };
 		8D7BAC4B22A25C0100A5E1E6 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4A22A25C0100A5E1E6 /* SettingsViewController.swift */; };
 		8D7BAC4F22A3A4A000A5E1E6 /* MentionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4E22A3A4A000A5E1E6 /* MentionsViewController.swift */; };
+		8D7BAC5222A458CE00A5E1E6 /* StalkListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC5122A458CE00A5E1E6 /* StalkListViewController.swift */; };
+		8D7BAC5422A4670500A5E1E6 /* StalkRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC5322A4670500A5E1E6 /* StalkRecord.swift */; };
+		8D7BAC5622A46C1700A5E1E6 /* StalkHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC5522A46C1700A5E1E6 /* StalkHistoryTableViewCell.swift */; };
+		8D7BAC5822A472E900A5E1E6 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC5722A472E900A5E1E6 /* CustomTabBarController.swift */; };
 		8DEA19ED22A0C67500ECB238 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DEA19EC22A0C67500ECB238 /* AppDelegate.swift */; };
 		8DEA19EF22A0C67500ECB238 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DEA19EE22A0C67500ECB238 /* ChatViewController.swift */; };
 		8DEA19F422A0C67500ECB238 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8DEA19F222A0C67500ECB238 /* Main.storyboard */; };
@@ -30,6 +34,10 @@
 		8D7BAC4822A23E0800A5E1E6 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		8D7BAC4A22A25C0100A5E1E6 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		8D7BAC4E22A3A4A000A5E1E6 /* MentionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MentionsViewController.swift; sourceTree = "<group>"; };
+		8D7BAC5122A458CE00A5E1E6 /* StalkListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StalkListViewController.swift; sourceTree = "<group>"; };
+		8D7BAC5322A4670500A5E1E6 /* StalkRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StalkRecord.swift; sourceTree = "<group>"; };
+		8D7BAC5522A46C1700A5E1E6 /* StalkHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StalkHistoryTableViewCell.swift; sourceTree = "<group>"; };
+		8D7BAC5722A472E900A5E1E6 /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		8DEA19E922A0C67500ECB238 /* GnomeGG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GnomeGG.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DEA19EC22A0C67500ECB238 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8DEA19EE22A0C67500ECB238 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
@@ -62,6 +70,18 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		8D7BAC5022A4549D00A5E1E6 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				8DEA19EE22A0C67500ECB238 /* ChatViewController.swift */,
+				8D7BAC4622A235ED00A5E1E6 /* LoginViewController.swift */,
+				8D7BAC4A22A25C0100A5E1E6 /* SettingsViewController.swift */,
+				8D7BAC4E22A3A4A000A5E1E6 /* MentionsViewController.swift */,
+				8D7BAC5122A458CE00A5E1E6 /* StalkListViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		8DEA19E022A0C67500ECB238 = {
 			isa = PBXGroup;
 			children = (
@@ -86,15 +106,13 @@
 				8DEA1A0322A0DD3600ECB238 /* Types */,
 				8DEA1A0022A0D4E000ECB238 /* TableCells */,
 				8DEA19EC22A0C67500ECB238 /* AppDelegate.swift */,
-				8DEA19EE22A0C67500ECB238 /* ChatViewController.swift */,
-				8D7BAC4622A235ED00A5E1E6 /* LoginViewController.swift */,
-				8D7BAC4A22A25C0100A5E1E6 /* SettingsViewController.swift */,
-				8D7BAC4E22A3A4A000A5E1E6 /* MentionsViewController.swift */,
+				8D7BAC5022A4549D00A5E1E6 /* ViewControllers */,
 				8DEA19F222A0C67500ECB238 /* Main.storyboard */,
 				8DEA19F522A0C67600ECB238 /* Assets.xcassets */,
 				8DEA19F722A0C67600ECB238 /* LaunchScreen.storyboard */,
 				8DEA19FA22A0C67600ECB238 /* Info.plist */,
 				8D7BAC4822A23E0800A5E1E6 /* Settings.swift */,
+				8D7BAC5722A472E900A5E1E6 /* CustomTabBarController.swift */,
 			);
 			path = GnomeGG;
 			sourceTree = "<group>";
@@ -103,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				8DEA1A0122A0D4F700ECB238 /* ChatTableViewCell.swift */,
+				8D7BAC5522A46C1700A5E1E6 /* StalkHistoryTableViewCell.swift */,
 			);
 			path = TableCells;
 			sourceTree = "<group>";
@@ -112,6 +131,7 @@
 			children = (
 				8DEA1A0422A0DDCA00ECB238 /* dggParser.swift */,
 				8DEA1A0622A0F9FA00ECB238 /* dggAPI.swift */,
+				8D7BAC5322A4670500A5E1E6 /* StalkRecord.swift */,
 			);
 			path = Types;
 			sourceTree = "<group>";
@@ -266,13 +286,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D7BAC4722A235ED00A5E1E6 /* LoginViewController.swift in Sources */,
+				8D7BAC5422A4670500A5E1E6 /* StalkRecord.swift in Sources */,
 				8D7BAC4922A23E0800A5E1E6 /* Settings.swift in Sources */,
 				8D7BAC4F22A3A4A000A5E1E6 /* MentionsViewController.swift in Sources */,
 				8DEA1A0222A0D4F700ECB238 /* ChatTableViewCell.swift in Sources */,
+				8D7BAC5222A458CE00A5E1E6 /* StalkListViewController.swift in Sources */,
+				8D7BAC5822A472E900A5E1E6 /* CustomTabBarController.swift in Sources */,
 				8DEA1A0522A0DDCA00ECB238 /* dggParser.swift in Sources */,
 				8DEA19ED22A0C67500ECB238 /* AppDelegate.swift in Sources */,
 				8DEA19EF22A0C67500ECB238 /* ChatViewController.swift in Sources */,
 				8DEA1A0722A0F9FA00ECB238 /* dggAPI.swift in Sources */,
+				8D7BAC5622A46C1700A5E1E6 /* StalkHistoryTableViewCell.swift in Sources */,
 				8D7BAC4B22A25C0100A5E1E6 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

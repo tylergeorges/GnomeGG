@@ -45,9 +45,17 @@ class MentionsViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        mentionsTableView.estimatedRowHeight = 200
+        mentionsTableView.rowHeight = UITableView.automaticDimension
+        
+        
         loginLabel.isHidden = settings.dggUsername != ""
         arrowImageView.isHidden = settings.dggUsername != ""
         loadInitialMentions()
+        
+        print("selected index")
+        print(tabBarController?.selectedIndex)
     }
     
     @objc
@@ -174,7 +182,6 @@ class MentionsViewController: UIViewController, UITableViewDelegate, UITableView
         let cell = tableView.dequeueReusableCell(withIdentifier: "chatCell", for: indexPath) as! ChatTableViewCell
         cell.selectionStyle = .none
         cell.rederMessage(message: messages[indexPath.row])
-        cell.selectionStyle = .none
         
         if !loadingMentions && !outOfMentions && lastIndex < indexPath.row && (indexPath.row + 10) > messages.count {
             loadMentions()
