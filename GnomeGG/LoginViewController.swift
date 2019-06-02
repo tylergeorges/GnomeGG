@@ -13,8 +13,9 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var stepLabel: UILabel!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var addKeyButton: UIButton!
+    @IBOutlet var instructions: Array<UIView>?
     
-    let keyURL = "https://www.destiny.gg/profile/developer"
+    let keyURL = "https://www.destiny.gg/login"
     
     var waitingForLoginKey = false
 
@@ -64,13 +65,22 @@ class LoginViewController: UIViewController {
             stepLabel.text = "Step 1: Login with your dgg Account"
             loginButton.setTitle("Login with DGG", for: .normal)
             loginButton.isHidden = false
+            for view in instructions! {
+                view.isHidden = true
+            }
         } else if settings.loginKey == "" {
             stepLabel.text = "Step 2: Acquire a Chat Login Key"
             loginButton.setTitle("Get login key", for: .normal)
             loginButton.isHidden = false
+            for view in instructions! {
+                view.isHidden = false
+            }
         } else {
             stepLabel.text = "Login Key Acquired"
             loginButton.isHidden = true
+            for view in instructions! {
+                view.isHidden = true
+            }
             self.dismiss(animated: true, completion: nil)
         }
     }
@@ -146,7 +156,11 @@ class LoginViewController: UIViewController {
 
         }
     }
-
+    
+    @IBAction func doneTap(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     @IBAction func addKeyTap(_ sender: Any) {
         let alert = UIAlertController(title: "Where is the key?", message: "", preferredStyle: .alert)
         

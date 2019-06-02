@@ -97,6 +97,7 @@ class ChatTableViewCell: UITableViewCell {
         let fullMessage = NSMutableAttributedString(string: "")
         fullMessage.append(formatTimestamp(timestamp: timestamp))
         fullMessage.append(NSAttributedString(string: " "))
+        fullMessage.append(NSAttributedString(string: " "))
         fullMessage.append(styleMessage(message: emote.prefix))
         
 
@@ -132,8 +133,9 @@ class ChatTableViewCell: UITableViewCell {
         fullMessage.append(spacer)
         fullMessage.append(customFlair(image: UIImage(named: "infobadge")!, width: 16, height: 16))
         fullMessage.append(spacer)
-        let template = "Connected to Websocket. %d connections, %d users."
-        let message = NSMutableAttributedString(string: String(format: template, connectionCount, userCount))
+        let username = (settings.dggUsername != "") ? settings.dggUsername : "Anonymous"
+        let template = "Connected to Websocket as %@. %d connections, %d users."
+        let message = NSMutableAttributedString(string: String(format: template, username, connectionCount, userCount))
         message.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "FFFFFFF"), range: NSRange(location: 0, length: message.length))
         fullMessage.append(message)
         

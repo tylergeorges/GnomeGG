@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import Alamofire
 import SwiftyJSON
+import NotificationBannerSwift
 
 class DGGAPI {
     var flairs = [Flair]()
@@ -87,7 +88,7 @@ class DGGAPI {
                 let json = JSON(value)
                 
                 guard let nick = json["nick"].string else {
-                    // error authenticating
+                    self.showAuthenticationError(reason: "API did not return a nick")
                     settings.dggUsername = ""
                     completionHandler()
                     return
@@ -95,10 +96,11 @@ class DGGAPI {
                 
                 settings.dggUsername = nick
                 completionHandler()
+                self.showAuthenticationSuccess()
                 
                 
-            case .failure(let error):
-                print(error)
+            case .failure:
+                self.showAuthenticationError(reason: "Error Making User Information Request")
                 completionHandler()
             }
         }
@@ -188,7 +190,7 @@ class DGGAPI {
     }
     
     private func oauthFailed(reason: String) {
-        print("Oauth failed with reason " + reason)
+        showAuthenticationError(reason: reason)
     }
     
     func getOauthURL() -> URL? {
@@ -330,6 +332,16 @@ class DGGAPI {
     
     private func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
         URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+    }
+    
+    private func showAuthenticationError(reason: String) {
+        let banner = NotificationBanner(title: "Authorization Error", subtitle: reason, style: .danger)
+        banner.show()
+    }
+    
+    private func showAuthenticationSuccess() {
+        let banner = NotificationBanner(title: "Authentication Succeful", subtitle: "Authenticated as " + settings.dggUsername, style: .success)
+        banner.show()
     }
 }
 

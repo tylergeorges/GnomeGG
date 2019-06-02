@@ -61,7 +61,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         dggAPI.getUserInfo(completionHandler: {
             if settings.dggUsername != "" {
                 print("Logged in as: " + settings.dggUsername)
-                self.title = "Logged in as: " + settings.dggUsername
+//                self.title = "Logged in as: " + settings.dggUsername
             }
         })
 
@@ -311,19 +311,30 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     private func runOnUIThread(_ block: @escaping () -> Void) {
         DispatchQueue.main.async(execute: block)
     }
+    
+    private func logout() {
+        settings.loginKey = ""
+        settings.dggAccessToken = ""
+        settings.dggRefreshToken = ""
+        settings.dggUsername = ""
+        loginBarButton.title = "Login"
+        if authenticatedWebsocket {
+            connectToWebsocket()
+        }
+    }
 
     @IBAction func loginTap(_ sender: Any) {
         if settings.loginKey == "" {
             performSegue(withIdentifier: "loginSegue", sender: self)
         } else {
-            settings.loginKey = ""
-            settings.dggAccessToken = ""
-            settings.dggRefreshToken = ""
-            settings.dggUsername = ""
-            loginBarButton.title = "Login"
-            if authenticatedWebsocket {
-                connectToWebsocket()
-            }
+            let alert = UIAlertController(title: "Logout?", message: "Are you sure you want to log out?", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Yee", style: .default, handler: {action in
+                self.logout()
+            }))
+            
+            self.present(alert, animated: true)
         }
     }
 }
