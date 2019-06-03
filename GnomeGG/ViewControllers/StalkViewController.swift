@@ -164,5 +164,4 @@ class StalkViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         return cell
     }
-
 }

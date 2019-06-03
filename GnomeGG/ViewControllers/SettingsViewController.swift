@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import StoreKit
 
 class SettingsViewController: UIViewController {
 
@@ -18,9 +19,18 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var resetUsernameButton: UIButton!
     @IBOutlet weak var rateTheAppButton: UIButton!
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
+    @IBOutlet weak var gnomeImageView: UIImageView!
+    
+    let twitter = "https://twitter.com/tehpolecat"
+    let overrustle = "https://overrustlelogs.net/"
+    let github = "https://github.com/voloshink/GnomeGG"
+    let dggChat = "https://www.destiny.gg/"
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let random = Int.random(in: 0 ..< 4)
+        gnomeImageView.isHidden = random != 0
         
         updateUI()
         
@@ -98,10 +108,21 @@ class SettingsViewController: UIViewController {
         updateUI()
     }
     @IBAction func rateTheAppTap(_ sender: Any) {
+        if #available( iOS 10.3,*){
+            SKStoreReviewController.requestReview()
+        }
+    }
+    @IBAction func chatButtonTap(_ sender: Any) {
+        UIApplication.shared.open(URL(string: dggChat)!)
     }
     @IBAction func twitterButtonTap(_ sender: Any) {
+        UIApplication.shared.open(URL(string: twitter)!)
     }
     @IBAction func githubButtonTap(_ sender: Any) {
+        UIApplication.shared.open(URL(string: github)!)
     }
     
+    @IBAction func overrustleButtonTap(_ sender: Any) {
+        UIApplication.shared.open(URL(string: overrustle)!)
+    }
 }

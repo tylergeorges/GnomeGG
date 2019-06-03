@@ -38,7 +38,7 @@ class DGGAPI {
                     self.downloadFlair(json: flairJson)
                 }
                 
-                self.flairs.append(Flair.init(name: "polecat", color: "e463cf", hidden: false, priority: 0, image: UIImage(named: "cherry")!, height: 18, width: 18))
+                self.flairs.append(Flair.init(name: "polecat", label: "App Only Cute Label", color: "e463cf", hidden: false, priority: 0, image: UIImage(named: "cherry")!, height: 18, width: 18))
             case .failure(let error):
                 print(error)
             }
@@ -330,6 +330,10 @@ class DGGAPI {
             return
         }
         
+        guard let label = json["label"].string else {
+            return
+        }
+        
         getData(from: URL(string: url)!) { data, response, error in
             guard let data = data, error == nil else { return }
             DispatchQueue.main.async() {
@@ -337,7 +341,7 @@ class DGGAPI {
                     print("error downloading image")
                     return
                 }
-                self.flairs.append(Flair.init(name: name, color: color, hidden: hidden, priority: priority, image: image, height: height, width: width))
+                self.flairs.append(Flair.init(name: name, label: label, color: color, hidden: hidden, priority: priority, image: image, height: height, width: width))
             }
         }
     }
@@ -359,6 +363,7 @@ class DGGAPI {
 
 struct Flair {
     let name: String
+    let label: String
     let color: String
     let hidden: Bool
     let priority: Int

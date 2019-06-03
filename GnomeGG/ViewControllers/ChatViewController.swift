@@ -11,16 +11,16 @@
 // CHAT
 // cap number of stored messages so the app doesn't explode eventually
 // highlights
-// bans
 // hide scroll down when suggestions are showing
 // BDGG emotes https://raw.githubusercontent.com/BryceMatthes/chat-gui/master/assets/emotes.json
 // https://raw.githubusercontent.com/BryceMatthes/chat-gui/master/assets/emotes/emoticons
 // TOOLS
 // -logs
-// emote list
-// flair list
-// -destiny links
+// -keyword search
 // SETTINGS
+// dynamic constranits
+// VV why dis message not work???
+// "MSG {\"nick\":\"hotdoglover86\",\"features\":[\"subscriber\",\"flair9\",\"flair13\"],\"timestamp\":1559537867279,\"data\":\"Abathur\\nHmmStiny\\nShekels\\nAMAZIN\\nDANKMEMES\\nAYYYLMAO\\nHmmStiny\\nCheekerZ\\nNOBULLY\\nSlugstiny\\nDEATH\\nBlade\\nLOVE\\nDAFUK\\nNappa\\nOverRustle\\nMLADY\\nDANKMEMES\\nWEEWOO\\nPICNIC\\nShekels\\nGODSTINY\\nAYAYA\\nSNAP\\nAngelThump\\nFrankerZ\\nSOTRIGGERED\\nKappaRoss\\nBlubstiny\\nGameOfThrows\\nAbathur\\nHhhehhehe\\nDravewin\\nAbathur\\nHmmStiny\\nShekels\\nAMAZIN\\nDANKMEMES\\nAYYYLMAO\\nHmmStiny\\nCheekerZ\\nNOBULLY\\nSlugstiny\\nDEATH\\nBlade\\nLOVE\\nDAFUK\\nNappa\\nOverRustle\\nMLADY\\nDANKMEMES\\nWEEWOO\\nPICNIC\\nShekels\\nGODSTINY\\nAYAYA\\nSNAP\\nAngelThump\\nFrankerZ\\nSOTRIGGERED\"}"
 
 import UIKit
 import Starscream
@@ -92,7 +92,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         })
 
         dggAPI.getHistory(completionHandler: { oldMessages in
-            self.loadingHistory = true
             self.nvActivityIndicatorView.stopAnimating()
             self.nvActivityIndicatorView.isHidden = true
             
@@ -122,10 +121,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         chatTableView.estimatedRowHeight = 200
         chatTableView.rowHeight = UITableView.automaticDimension
         updateUI()
-        
-        print("selected index")
-        print(tabBarController?.selectedIndex)
-        
+
         print("Connected?")
         print(websocket?.isConnected)
         
@@ -134,7 +130,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         } else {
             loginBarButton.title = "Logout"
             
-            if !authenticatedWebsocket {
+            if !authenticatedWebsocket && !(websocket?.isConnected ?? true) {
                 if !loadingHistory {
                     connectToWebsocket()
                 }

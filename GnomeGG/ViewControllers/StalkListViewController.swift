@@ -54,9 +54,6 @@ class StalkListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     // MARK: - TableView
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Stalk History"
-    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedUser = stalkHistory[indexPath.row].nick

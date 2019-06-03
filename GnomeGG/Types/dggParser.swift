@@ -10,6 +10,8 @@ import Foundation
 import SwiftyJSON
 
 class DGGParser {
+    static let customCute = ["Polecat", "PolarBearFur"]
+    
     static func parseUserMessage(message: String) -> DGGMessage? {
         if let dataFromString = message.data(using: .utf8, allowLossyConversion: false) {
             do {
@@ -26,8 +28,7 @@ class DGGParser {
                 
                 var features = featuresArray.map { $0.stringValue }
                 
-                // memes
-                if nick == "Polecat" || nick == "PolarBearFur" {
+                if DGGParser.customCute.contains(nick) {
                     features.append("polecat")
                 }
 
@@ -102,7 +103,11 @@ class DGGParser {
                         continue
                     }
                     
-                    let parsedFeatures = features.map {$0.stringValue}
+                    var parsedFeatures = features.map {$0.stringValue}
+                    
+                    if DGGParser.customCute.contains(nick) {
+                        parsedFeatures.append("polecat")
+                    }
                     
                     parsedUsers.append(User(nick: nick, features: parsedFeatures))
                 }

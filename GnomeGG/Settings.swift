@@ -73,7 +73,7 @@ class Settings {
         static let dggAccessToken = ""
         static let dggRefreshToken = ""
         static let dggUsername = ""
-        static let stalkHistory = [StalkRecord]()
+        static let stalkHistory = [StalkRecord(nick: "Destiny", date: Date())]
     }
     
     init() {

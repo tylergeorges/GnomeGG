@@ -194,8 +194,12 @@ class ChatTableViewCell: UITableViewCell {
         fullMessage.append(spacer)
         let template = "%@ muted by %@"
         let message = NSMutableAttributedString(string: String(format: template, target, banner))
+        print(String(format: template, target, banner))
+        print(message.string)
         message.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "FFFFFFF"), range: NSRange(location: 0, length: message.length))
         fullMessage.append(message)
+        
+        print(fullMessage.string)
         
         messageTextView.attributedText = fullMessage
     }
