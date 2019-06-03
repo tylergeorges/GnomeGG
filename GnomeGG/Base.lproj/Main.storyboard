@@ -447,6 +447,12 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="typeName" value="circleStrokeSpin"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Mentions Found" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SHH-Sr-Q4i">
+                                <rect key="frame" x="132" y="396" width="150" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.031372549020000001" green="0.031372549020000001" blue="0.031372549020000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -460,8 +466,10 @@
                             <constraint firstItem="T0Y-sO-MS8" firstAttribute="trailing" secondItem="O1u-W8-tvY" secondAttribute="trailing" id="bzj-cb-Ipv"/>
                             <constraint firstItem="llA-FH-g1m" firstAttribute="top" secondItem="T0Y-sO-MS8" secondAttribute="bottom" id="dEC-JY-gTH"/>
                             <constraint firstItem="n8W-gv-L6D" firstAttribute="leading" secondItem="O1u-W8-tvY" secondAttribute="leading" id="eTE-D8-wSi"/>
+                            <constraint firstItem="SHH-Sr-Q4i" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" id="fKU-xy-wMJ"/>
                             <constraint firstItem="x0K-JC-irU" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" id="joK-oY-fBI"/>
                             <constraint firstItem="sRm-91-S5g" firstAttribute="leading" secondItem="O1u-W8-tvY" secondAttribute="leading" id="vrH-KF-Jl1"/>
+                            <constraint firstItem="SHH-Sr-Q4i" firstAttribute="centerY" secondItem="QS5-Rx-YEW" secondAttribute="centerY" id="wFt-0P-J4x"/>
                             <constraint firstItem="T0Y-sO-MS8" firstAttribute="top" secondItem="O1u-W8-tvY" secondAttribute="top" id="wpv-zm-Gcf"/>
                             <constraint firstItem="llA-FH-g1m" firstAttribute="leading" secondItem="O1u-W8-tvY" secondAttribute="leading" id="xtA-IO-88I"/>
                         </constraints>
@@ -472,6 +480,7 @@
                         <outlet property="arrowImageView" destination="sRm-91-S5g" id="yhY-fF-sy0"/>
                         <outlet property="loginLabel" destination="n8W-gv-L6D" id="rgC-MA-Oxw"/>
                         <outlet property="mentionsTableView" destination="llA-FH-g1m" id="h3G-NO-TGR"/>
+                        <outlet property="noMentionsLabel" destination="SHH-Sr-Q4i" id="1lQ-mx-xsP"/>
                         <outlet property="nvActivityIndicator" destination="x0K-JC-irU" id="SFR-yx-bEe"/>
                     </connections>
                 </viewController>
@@ -602,16 +611,94 @@
             </objects>
             <point key="canvasLocation" x="2760.8695652173915" y="1106.9196428571429"/>
         </scene>
-        <!--View Controller-->
+        <!--Stalk View Controller-->
         <scene sceneID="mGb-By-J5u">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="r0V-MW-UAV" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="r0V-MW-UAV" customClass="StalkViewController" customModule="GnomeGG" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dxj-L0-J6t">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NtG-C4-C1h">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="chatCell" rowHeight="110" id="W8x-1S-xKu" customClass="ChatTableViewCell" customModule="GnomeGG" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="110"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="W8x-1S-xKu" id="bEl-CW-r49">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="110"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mhc-bK-ZMf">
+                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="109.5"/>
+                                                    <attributedString key="attributedText">
+                                                        <fragment>
+                                                            <string key="content">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                                            <attributes>
+                                                                <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                                <font key="NSFont" size="14" name="Helvetica"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                </textView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstItem="Mhc-bK-ZMf" firstAttribute="leading" secondItem="bEl-CW-r49" secondAttribute="leading" id="5SQ-tZ-M4j"/>
+                                                <constraint firstAttribute="trailing" secondItem="Mhc-bK-ZMf" secondAttribute="trailing" id="SK8-HJ-HEq"/>
+                                                <constraint firstItem="Mhc-bK-ZMf" firstAttribute="top" secondItem="bEl-CW-r49" secondAttribute="top" id="tIZ-K0-VJA"/>
+                                                <constraint firstAttribute="bottom" secondItem="Mhc-bK-ZMf" secondAttribute="bottom" id="w59-25-uEA"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="messageTextView" destination="Mhc-bK-ZMf" id="KQd-tY-lAW"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rjo-tF-RpE" customClass="NVActivityIndicatorView" customModule="NVActivityIndicatorView">
+                                <rect key="frame" x="107" y="348" width="200" height="200"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="200" id="3vx-Zr-F4f"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="7wU-OX-iWz"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="200" id="DdR-78-fda"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="LVx-Z0-fnO"/>
+                                    <constraint firstAttribute="height" constant="200" id="PER-Ke-BhD"/>
+                                    <constraint firstAttribute="width" constant="200" id="TW8-Zl-WPL"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="typeName" value="circleStrokeSpin"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Messages Found For User" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EJf-WM-ZUg">
+                                <rect key="frame" x="93.5" y="437.5" width="227" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Rjo-tF-RpE" firstAttribute="centerY" secondItem="dxj-L0-J6t" secondAttribute="centerY" id="BCB-16-KOH"/>
+                            <constraint firstItem="Rjo-tF-RpE" firstAttribute="centerX" secondItem="dxj-L0-J6t" secondAttribute="centerX" id="H6H-O6-Dkt"/>
+                            <constraint firstItem="EJf-WM-ZUg" firstAttribute="centerY" secondItem="dxj-L0-J6t" secondAttribute="centerY" id="LXQ-7K-sui"/>
+                            <constraint firstItem="NtG-C4-C1h" firstAttribute="leading" secondItem="RH2-3J-Pg5" secondAttribute="leading" id="Wzt-pa-Cbt"/>
+                            <constraint firstItem="NtG-C4-C1h" firstAttribute="top" secondItem="RH2-3J-Pg5" secondAttribute="top" id="cyQ-yv-BuC"/>
+                            <constraint firstItem="RH2-3J-Pg5" firstAttribute="trailing" secondItem="NtG-C4-C1h" secondAttribute="trailing" id="ebz-8J-sQx"/>
+                            <constraint firstItem="EJf-WM-ZUg" firstAttribute="centerX" secondItem="dxj-L0-J6t" secondAttribute="centerX" id="gUS-uw-HEG"/>
+                            <constraint firstItem="RH2-3J-Pg5" firstAttribute="bottom" secondItem="NtG-C4-C1h" secondAttribute="bottom" id="rrF-eJ-vmf"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="RH2-3J-Pg5"/>
                     </view>
+                    <connections>
+                        <outlet property="noMessagesLabel" destination="EJf-WM-ZUg" id="4OQ-Vf-3Q8"/>
+                        <outlet property="nvActivityIndicatorView" destination="Rjo-tF-RpE" id="gY7-w4-9hS"/>
+                        <outlet property="stalkTableView" destination="NtG-C4-C1h" id="VFv-aW-pDi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YL8-kY-aho" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

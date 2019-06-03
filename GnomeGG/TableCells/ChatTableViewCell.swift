@@ -23,7 +23,7 @@ class ChatTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func rederMessage(message: DGGMessage) {
+    func renderMessage(message: DGGMessage, isLog: Bool = false) {
         if let currentMessage = currentMessage {
             guard !(currentMessage == message) else {
                 return
@@ -33,7 +33,12 @@ class ChatTableViewCell: UITableViewCell {
         
         switch message {
         case let .UserMessage(nick, features, timestamp, data):
-            renderUserMessage(nick: nick, features: features, date: timestamp, data: data)
+            if isLog && features.count == 0 {
+                let customFeatures = getFeatures(for: nick)
+                renderUserMessage(nick: nick, features: customFeatures, date: timestamp, data: data, isLog: true)
+            } else {
+                renderUserMessage(nick: nick, features: features, date: timestamp, data: data, isLog: false)
+            }
         case let .Combo(timestamp, count, emote):
             renderCombo(emote: emote, count: count, timestamp: timestamp)
         case let .Broadcast(timestamp, data):
@@ -52,7 +57,7 @@ class ChatTableViewCell: UITableViewCell {
 
     }
     
-    private func renderUserMessage(nick: String, features: [String], date: Date, data: String) {
+    private func renderUserMessage(nick: String, features: [String], date: Date, data: String, isLog: Bool = false) {
         let fullMessage = NSMutableAttributedString(string: "")
         
         fullMessage.append(formatTimestamp(timestamp: date))
@@ -312,6 +317,14 @@ class ChatTableViewCell: UITableViewCell {
     private func hexColorStringToUIColor(hex: String) -> UIColor {
         return UIColorFromRGB(rgbValue: UInt(hex, radix: 16)!)
     }
+    
+    private func getFeatures(for user: String) -> [String] {
+        for u in users where user.lowercased() == u.nick.lowercased() {
+            return u.features
+        }
+        
+        return [String]()
+    }
 
 }
 
@@ -319,7 +332,6 @@ extension String {
     var isValidURL: Bool {
         let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
         if let match = detector.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count)) {
-            // it is a link, if the match covers the whole string
             return match.range.length == self.utf16.count
         } else {
             return false

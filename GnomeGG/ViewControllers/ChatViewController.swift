@@ -13,10 +13,12 @@
 // highlights
 // bans
 // hide scroll down when suggestions are showing
-// MENTIONS
+// BDGG emotes https://raw.githubusercontent.com/BryceMatthes/chat-gui/master/assets/emotes.json
+// https://raw.githubusercontent.com/BryceMatthes/chat-gui/master/assets/emotes/emoticons
 // TOOLS
-// -stalk
 // -logs
+// emote list
+// flair list
 // -destiny links
 // SETTINGS
 
@@ -24,10 +26,12 @@ import UIKit
 import Starscream
 import NVActivityIndicatorView
 
+var users = [User]()
+
 class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, WebSocketDelegate, UITextViewDelegate {
     
     var messages = [DGGMessage]()
-    var users = [User]()
+    
     var websocket: WebSocket?
     
     let dggWebsocketURL = "https://www.destiny.gg/ws"
@@ -395,7 +399,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         // it's over for chatcels
         let cell = tableView.dequeueReusableCell(withIdentifier: "chatCell", for: indexPath) as! ChatTableViewCell
         cell.selectionStyle = .none
-        cell.rederMessage(message: messages[indexPath.row])
+        cell.renderMessage(message: messages[indexPath.row])
         
         return cell
     }
@@ -498,7 +502,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         }
         
-        for user in self.users {
+        for user in users {
             if user.nick.lowercased().starts(with: matchText) {
                 suggestions.append(.User(nick: user.nick))
             }

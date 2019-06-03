@@ -16,6 +16,7 @@
 		8D7BAC5422A4670500A5E1E6 /* StalkRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC5322A4670500A5E1E6 /* StalkRecord.swift */; };
 		8D7BAC5622A46C1700A5E1E6 /* StalkHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC5522A46C1700A5E1E6 /* StalkHistoryTableViewCell.swift */; };
 		8D7BAC5822A472E900A5E1E6 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC5722A472E900A5E1E6 /* CustomTabBarController.swift */; };
+		8D7BAC5A22A4C68A00A5E1E6 /* StalkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC5922A4C68A00A5E1E6 /* StalkViewController.swift */; };
 		8DEA19ED22A0C67500ECB238 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DEA19EC22A0C67500ECB238 /* AppDelegate.swift */; };
 		8DEA19EF22A0C67500ECB238 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DEA19EE22A0C67500ECB238 /* ChatViewController.swift */; };
 		8DEA19F422A0C67500ECB238 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8DEA19F222A0C67500ECB238 /* Main.storyboard */; };
@@ -38,6 +39,7 @@
 		8D7BAC5322A4670500A5E1E6 /* StalkRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StalkRecord.swift; sourceTree = "<group>"; };
 		8D7BAC5522A46C1700A5E1E6 /* StalkHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StalkHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		8D7BAC5722A472E900A5E1E6 /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
+		8D7BAC5922A4C68A00A5E1E6 /* StalkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StalkViewController.swift; sourceTree = "<group>"; };
 		8DEA19E922A0C67500ECB238 /* GnomeGG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GnomeGG.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DEA19EC22A0C67500ECB238 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8DEA19EE22A0C67500ECB238 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 				8D7BAC4A22A25C0100A5E1E6 /* SettingsViewController.swift */,
 				8D7BAC4E22A3A4A000A5E1E6 /* MentionsViewController.swift */,
 				8D7BAC5122A458CE00A5E1E6 /* StalkListViewController.swift */,
+				8D7BAC5922A4C68A00A5E1E6 /* StalkViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -297,6 +300,7 @@
 				8DEA19EF22A0C67500ECB238 /* ChatViewController.swift in Sources */,
 				8DEA1A0722A0F9FA00ECB238 /* dggAPI.swift in Sources */,
 				8D7BAC5622A46C1700A5E1E6 /* StalkHistoryTableViewCell.swift in Sources */,
+				8D7BAC5A22A4C68A00A5E1E6 /* StalkViewController.swift in Sources */,
 				8D7BAC4B22A25C0100A5E1E6 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

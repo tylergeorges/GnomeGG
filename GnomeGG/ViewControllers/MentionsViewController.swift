@@ -27,6 +27,7 @@ class MentionsViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var arrowImageView: UIImageView!
     @IBOutlet weak var mentionsTableView: UITableView!
     @IBOutlet weak var nvActivityIndicator: NVActivityIndicatorView!
+    @IBOutlet weak var noMentionsLabel: UILabel!
     
     private let refreshControl = UIRefreshControl()
     
@@ -36,6 +37,7 @@ class MentionsViewController: UIViewController, UITableViewDelegate, UITableView
         mentionsTableView.delegate = self
         mentionsTableView.dataSource = self
         refreshController()
+        noMentionsLabel.isHidden = true
         // Do any additional setup after loading the view.
     }
     
@@ -53,9 +55,6 @@ class MentionsViewController: UIViewController, UITableViewDelegate, UITableView
         loginLabel.isHidden = settings.dggUsername != ""
         arrowImageView.isHidden = settings.dggUsername != ""
         loadInitialMentions()
-        
-        print("selected index")
-        print(tabBarController?.selectedIndex)
     }
     
     @objc
@@ -106,6 +105,15 @@ class MentionsViewController: UIViewController, UITableViewDelegate, UITableView
                 
                 if json.arrayValue.count < self.count {
                     self.outOfMentions = true
+                    if self.messages.count == 0 {
+                        self.noMentionsLabel.isHidden = false
+                        self.mentionsTableView.isHidden = true
+                    }
+                }
+                
+                if json.arrayValue.count != 0 {
+                    self.noMentionsLabel.isHidden = true
+                    self.mentionsTableView.isHidden = false
                 }
                 
                 for mention in json.arrayValue.reversed() {
@@ -181,13 +189,10 @@ class MentionsViewController: UIViewController, UITableViewDelegate, UITableView
         // it's over for chatcels
         let cell = tableView.dequeueReusableCell(withIdentifier: "chatCell", for: indexPath) as! ChatTableViewCell
         cell.selectionStyle = .none
-        cell.rederMessage(message: messages[indexPath.row])
+        cell.renderMessage(message: messages[indexPath.row], isLog: true)
         
         if !loadingMentions && !outOfMentions && lastIndex < indexPath.row && (indexPath.row + 10) > messages.count {
             loadMentions()
-//            print(indexPath.row)
-//            print(messages.count)
-//            loadMoreMessages()
         }
         
         lastIndex = indexPath.row
