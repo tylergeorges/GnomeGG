@@ -18,6 +18,7 @@ class StalkViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet weak var noMessagesLabel: UILabel!
     
     var messages = [DGGMessage]()
+    var renderedMessages = [NSMutableAttributedString]()
     var offset = 0
     let count = 100
     var loadingStalks = false
@@ -59,7 +60,7 @@ class StalkViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 
                 if json.arrayValue.count < self.count {
                     self.outOfStalks = true
-                    if self.messages.count == 0 {
+                    if self.renderedMessages.count == 0 {
                         self.noMessagesLabel.isHidden = false
                         self.stalkTableView.isHidden = true
                     }
@@ -83,7 +84,9 @@ class StalkViewController: UIViewController, UITableViewDelegate, UITableViewDat
                         continue
                     }
                     
-                    self.messages.append(.UserMessage(nick: nick, features: [], timestamp: Date(timeIntervalSince1970: Double(date/1000)), data: text))
+                    let message: DGGMessage = .UserMessage(nick: nick, features: [], timestamp: Date(timeIntervalSince1970: Double(date/1000)), data: text)
+                    self.messages.append(message)
+                    self.renderedMessages.append(renderMessage(message: message, isLog: true))
                 }
                 
                 self.stalkTableView.reloadData()
@@ -108,6 +111,7 @@ class StalkViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         nvActivityIndicatorView.startAnimating()
         messages = [DGGMessage]()
+        renderedMessages = [NSMutableAttributedString]()
         offset = 0
         outOfStalks = false
         loadingStalks = false
@@ -147,16 +151,16 @@ class StalkViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return messages.count
+        return renderedMessages.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // it's over for chatcels
         let cell = tableView.dequeueReusableCell(withIdentifier: "chatCell", for: indexPath) as! ChatTableViewCell
         cell.selectionStyle = .none
-        cell.renderMessage(message: messages[indexPath.row], isLog: true)
+        cell.renderMessage(message: renderedMessages[indexPath.row], messageEnum: messages[indexPath.row], isLog: true)
         
-        if !loadingStalks && !outOfStalks && lastIndex < indexPath.row && (indexPath.row + 10) > messages.count {
+        if !loadingStalks && !outOfStalks && lastIndex < indexPath.row && (indexPath.row + 10) > renderedMessages.count {
             getMessages()
         }
         

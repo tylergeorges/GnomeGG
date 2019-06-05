@@ -14,6 +14,8 @@ import NVActivityIndicatorView
 class MentionsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var messages = [DGGMessage]()
+    var renderedMessages = [NSMutableAttributedString]()
+
     var offset = 0
     let count = 100
     var loadingMentions = false
@@ -66,6 +68,7 @@ class MentionsViewController: UIViewController, UITableViewDelegate, UITableView
 
         nvActivityIndicator.startAnimating()
         messages = [DGGMessage]()
+        renderedMessages = [NSMutableAttributedString]()
         offset = 0
         outOfMentions = false
         loadingMentions = false
@@ -105,7 +108,7 @@ class MentionsViewController: UIViewController, UITableViewDelegate, UITableView
                 
                 if json.arrayValue.count < self.count {
                     self.outOfMentions = true
-                    if self.messages.count == 0 {
+                    if self.renderedMessages.count == 0 {
                         self.noMentionsLabel.isHidden = false
                         self.mentionsTableView.isHidden = true
                     }
@@ -129,7 +132,9 @@ class MentionsViewController: UIViewController, UITableViewDelegate, UITableView
                         continue
                     }
                     
-                    self.messages.append(.UserMessage(nick: nick, features: [], timestamp: Date(timeIntervalSince1970: Double(date/1000)), data: text))
+                    let message: DGGMessage = .UserMessage(nick: nick, features: [], timestamp: Date(timeIntervalSince1970: Double(date/1000)), data: text)
+                    self.messages.append(message)
+                    self.renderedMessages.append(renderMessage(message: message, isLog: true))
                 }
                 
                 self.mentionsTableView.reloadData()
@@ -182,16 +187,16 @@ class MentionsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return messages.count
+        return renderedMessages.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // it's over for chatcels
         let cell = tableView.dequeueReusableCell(withIdentifier: "chatCell", for: indexPath) as! ChatTableViewCell
         cell.selectionStyle = .none
-        cell.renderMessage(message: messages[indexPath.row], isLog: true)
+        cell.renderMessage(message: renderedMessages[indexPath.row],messageEnum: messages[indexPath.row], isLog: true)
         
-        if !loadingMentions && !outOfMentions && lastIndex < indexPath.row && (indexPath.row + 10) > messages.count {
+        if !loadingMentions && !outOfMentions && lastIndex < indexPath.row && (indexPath.row + 10) > renderedMessages.count {
             loadMentions()
         }
         

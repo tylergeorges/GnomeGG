@@ -20,7 +20,6 @@
 // -logs
 // -keyword search
 // SETTINGS
-// dynamic constranits
 // VV why dis message not work???
 // "MSG {\"nick\":\"hotdoglover86\",\"features\":[\"subscriber\",\"flair9\",\"flair13\"],\"timestamp\":1559537867279,\"data\":\"Abathur\\nHmmStiny\\nShekels\\nAMAZIN\\nDANKMEMES\\nAYYYLMAO\\nHmmStiny\\nCheekerZ\\nNOBULLY\\nSlugstiny\\nDEATH\\nBlade\\nLOVE\\nDAFUK\\nNappa\\nOverRustle\\nMLADY\\nDANKMEMES\\nWEEWOO\\nPICNIC\\nShekels\\nGODSTINY\\nAYAYA\\nSNAP\\nAngelThump\\nFrankerZ\\nSOTRIGGERED\\nKappaRoss\\nBlubstiny\\nGameOfThrows\\nAbathur\\nHhhehhehe\\nDravewin\\nAbathur\\nHmmStiny\\nShekels\\nAMAZIN\\nDANKMEMES\\nAYYYLMAO\\nHmmStiny\\nCheekerZ\\nNOBULLY\\nSlugstiny\\nDEATH\\nBlade\\nLOVE\\nDAFUK\\nNappa\\nOverRustle\\nMLADY\\nDANKMEMES\\nWEEWOO\\nPICNIC\\nShekels\\nGODSTINY\\nAYAYA\\nSNAP\\nAngelThump\\nFrankerZ\\nSOTRIGGERED\"}"
 
@@ -33,6 +32,7 @@ var users = [User]()
 class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, WebSocketDelegate, UITextViewDelegate {
     
     var messages = [DGGMessage]()
+    var renderedMessages = [NSMutableAttributedString]()
     
     var websocket: WebSocket?
     
@@ -185,14 +185,15 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if !wasCombo {
             messages.append(message)
-            
+            renderedMessages.append(renderMessage(message: message))
+            chatTableView.beginUpdates()
+            chatTableView.insertRows(at: [IndexPath(row: messages.count - 1, section: 0)], with: .none)
+            chatTableView.endUpdates()
+        } else {
+            chatTableView.beginUpdates()
+            chatTableView.reloadRows(at: [IndexPath(row: messages.count - 1, section: 0)], with: .none)
+            chatTableView.endUpdates()
         }
-        chatTableView.reloadData()
-        
-//        if  !disableAutoScrolling {
-//            chatTableView.reloadData()
-//        }
-        
         
         if !disableAutoScrolling {
             scrollToBottom()
@@ -229,8 +230,14 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         switch messages.last! {
-        case .Combo(let timestamp, let count, let emote): messages[messages.count - 1] = .Combo(timestamp: timestamp, count: count + 1, emote: emote)
-        case .UserMessage(_, _, let timestamp, _): messages[messages.count - 1] = .Combo(timestamp: timestamp, count: 2, emote: emote)
+        case .Combo(let timestamp, let count, let emote):
+            let updateCombo: DGGMessage = .Combo(timestamp: timestamp, count: count + 1, emote: emote)
+            messages[messages.count - 1] = updateCombo
+            renderedMessages[renderedMessages.count - 1] = renderMessage(message: updateCombo)
+        case .UserMessage(_, _, let timestamp, _):
+            let newCombo: DGGMessage = .Combo(timestamp: timestamp, count: 2, emote: emote)
+            messages[messages.count - 1] = newCombo
+            renderedMessages[renderedMessages.count - 1] = renderMessage(message: newCombo)
         default: return false
         }
         
@@ -407,14 +414,14 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return messages.count
+        return renderedMessages.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // it's over for chatcels
         let cell = tableView.dequeueReusableCell(withIdentifier: "chatCell", for: indexPath) as! ChatTableViewCell
         cell.selectionStyle = .none
-        cell.renderMessage(message: messages[indexPath.row])
+        cell.renderMessage(message: renderedMessages[indexPath.row], messageEnum: messages[indexPath.row])
         
         return cell
     }
@@ -443,7 +450,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     private func scrollToBottom(animated: Bool = false) {
         disableAutoScrolling = false
         DispatchQueue.main.async {
-            let indexPath = IndexPath(row: self.messages.count-1, section: 0)
+            let indexPath = IndexPath(row: self.renderedMessages.count-1, section: 0)
             self.chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: animated)
         }
     }
