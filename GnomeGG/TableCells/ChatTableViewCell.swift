@@ -94,9 +94,10 @@ class ChatTableViewCell: UITableViewCell {
         let color = topColor.replacingOccurrences(of: "#", with: "")
         usernameText.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: color), range: NSRange(location: 0, length: usernameText.length))
         fullMessage.append(usernameText)
-        let message = styleMessage(message: data)
+        let message = styleMessage(message: data, isLog: isLog)
         fullMessage.append(message)
 
+//        fullMessage.addAttribute(.backgroundColor, value: UIColor.black, range: NSRange(location: 0, length: fullMessage.length))
         messageTextView.attributedText = fullMessage
     }
     
@@ -136,7 +137,7 @@ class ChatTableViewCell: UITableViewCell {
         fullMessage.append(formatTimestamp(timestamp: timestamp))
         fullMessage.append(NSAttributedString(string: " "))
         fullMessage.append(styleMessage(message: data))
-        fullMessage.addAttribute(.backgroundColor, value: hexColorStringToUIColor(hex: "151515"), range: NSRange(location: 0, length: fullMessage.length))
+        self.backgroundColor = hexColorStringToUIColor(hex: "151515")
         fullMessage.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "edea12"), range: NSRange(location: 0, length: fullMessage.length))
         messageTextView.attributedText = fullMessage
     }
@@ -233,7 +234,8 @@ class ChatTableViewCell: UITableViewCell {
         return dateText
     }
     
-    private func styleMessage(message: String, regularMessage: Bool = true) -> NSMutableAttributedString {
+    private func styleMessage(message: String, regularMessage: Bool = true, isLog: Bool = false) -> NSMutableAttributedString {
+        // 06263e <- highlight color
         var words = message.split(separator: " ")
         let styledMessage = NSMutableAttributedString(string: "")
 
@@ -252,10 +254,6 @@ class ChatTableViewCell: UITableViewCell {
         }
         
         for (i, word) in words.enumerated() {
-            guard word != " " else {
-                continue
-            }
-
             var isEmote = false
 
             for emote in dggAPI.emotes where emote.prefix == word {
@@ -334,6 +332,7 @@ class ChatTableViewCell: UITableViewCell {
 
 extension String {
     var isValidURL: Bool {
+        return false
         let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
         if let match = detector.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count)) {
             return match.range.length == self.utf16.count

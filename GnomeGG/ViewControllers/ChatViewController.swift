@@ -12,8 +12,10 @@
 // cap number of stored messages so the app doesn't explode eventually
 // highlights
 // hide scroll down when suggestions are showing
-// BDGG emotes https://raw.githubusercontent.com/BryceMatthes/chat-gui/master/assets/emotes.json
-// https://raw.githubusercontent.com/BryceMatthes/chat-gui/master/assets/emotes/emoticons
+// BDGG emotes https://raw.githubusercontent.com/BryceMatthes/chat-gui/master/assets/emotes.json https://raw.githubusercontent.com/BryceMatthes/chat-gui/master/assets/emotes/emoticons
+// user tagging
+// highlight user messages on tap
+// if input is active, add username to input
 // TOOLS
 // -logs
 // -keyword search
@@ -73,7 +75,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         suggestionsScrollView.isHidden = true
         addScrollDownButton()
         
+        print("getting flairs")
         dggAPI.getFlairList()
+        print("getting emotes")
         dggAPI.getEmoteList()
         
         chatInputTextView.delegate = self
@@ -83,18 +87,21 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
 
 
-        
-        dggAPI.getUserInfo(completionHandler: {
-            if settings.dggUsername != "" {
-                print("Logged in as: " + settings.dggUsername)
-//                self.title = "Logged in as: " + settings.dggUsername
-            }
-        })
+        if settings.dggUsername == "" && settings.dggAccessToken != "" {
+            dggAPI.getUserInfo(completionHandler: {
+                if settings.dggUsername != "" {
+                    print("Logged in as: " + settings.dggUsername)
+                    //                self.title = "Logged in as: " + settings.dggUsername
+                }
+            })
+        }
 
+        print("getting history")
         dggAPI.getHistory(completionHandler: { oldMessages in
+            print("got history")
             self.nvActivityIndicatorView.stopAnimating()
             self.nvActivityIndicatorView.isHidden = true
-            
+
             for msg in oldMessages {
                 guard let message = DGGParser.parseUserMessage(message: msg.components(separatedBy: " ")[1...].joined(separator: " ")) else {
                     continue
@@ -102,7 +109,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
 
                 self.newMessage(message: message)
             }
-            
+
             print("got history, connect to websocket")
             self.loadingHistory = false
             self.connectToWebsocket()
@@ -139,9 +146,11 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     private func connectToWebsocket() {
-        
+        print("connectToWebsocket()")
+        self.newMessage(message: .Connecting)
         var request = URLRequest(url: URL(string: dggWebsocketURL)!)
         request.timeoutInterval = 5
+        request.setValue("13", forHTTPHeaderField: "Sec-WebSocket-Version")
         authenticatedWebsocket = settings.loginKey != ""
         if authenticatedWebsocket {
             let cookieTemplate = "authtoken=%@"
@@ -149,19 +158,23 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         if let websocket = websocket {
-            self.dontRecover = true
             if websocket.isConnected {
+                print("killing existing connection")
+                self.dontRecover = true
                 websocket.disconnect()
                 newMessage(message: .Disconnected(reason: "Updating Socket"))
             }
             
+            print("setting websocket to nill")
             self.websocket = nil
         }
         
+        print("making new websocket")
         websocket = WebSocket(request: request)
         if let websocket = websocket {
             websocket.delegate = self
             dontRecover = false
+            print("calling connect")
             websocket.connect()
         }
     }
@@ -172,8 +185,14 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if !wasCombo {
             messages.append(message)
+            
         }
         chatTableView.reloadData()
+        
+//        if  !disableAutoScrolling {
+//            chatTableView.reloadData()
+//        }
+        
         
         if !disableAutoScrolling {
             scrollToBottom()
@@ -228,15 +247,15 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
         print("websocket is disconnected: \(error?.localizedDescription)")
-        print("reconnecting")
         updateUI()
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(self.websocketBackoff), execute: {
-            guard self.dontRecover else {
+            print("reconnecting")
+            guard !self.dontRecover else {
+                print("don't recover")
                 return
             }
 
             self.websocketBackoff = self.websocketBackoff * 2
-            self.newMessage(message: .Connecting)
             self.connectToWebsocket()
         })
         if let error = error as? WSError {

@@ -20,11 +20,17 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var rateTheAppButton: UIButton!
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
     @IBOutlet weak var gnomeImageView: UIImageView!
+    @IBOutlet weak var authWIthDggHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var setUsernameHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var harshIgnoreSwitch: UISwitch!
+    @IBOutlet weak var chatHighlightSwitch: UISwitch!
     
     let twitter = "https://twitter.com/tehpolecat"
     let overrustle = "https://overrustlelogs.net/"
     let github = "https://github.com/voloshink/GnomeGG"
     let dggChat = "https://www.destiny.gg/"
+    
+    var heightConstraints: CGFloat?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,8 +38,16 @@ class SettingsViewController: UIViewController {
         let random = Int.random(in: 0 ..< 4)
         gnomeImageView.isHidden = random != 0
         
-        updateUI()
+        harshIgnoreSwitch.isOn = settings.harshIgnore
+        chatHighlightSwitch.isOn = settings.usernameHighlights
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        heightConstraints = setUsernameHeightConstraint.constant
+        updateUI()
     }
     
     func receivedOauthCode(code: String, state: String) {
@@ -45,35 +59,45 @@ class SettingsViewController: UIViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-    
-    
+
     private func updateUI() {
+        loggedInAsLabel.text = "Logged in as: " + settings.dggUsername
         if settings.dggUsername != "" {
             authWithDggButton.isHidden = true
             setUsernameButton.isHidden = true
             loggedInAsLabel.isHidden = false
-            loggedInAsLabel.text = "Logged in as: " + settings.dggUsername
+            setUsernameHeightConstraint.constant = 0
+            authWIthDggHeightConstraint.constant = 0
             resetUsernameButton.isHidden = false
         } else {
             authWithDggButton.isHidden = false
             setUsernameButton.isHidden = false
             loggedInAsLabel.isHidden = true
-            loggedInAsLabel.text = "Logged in as: " + settings.dggUsername
+            setUsernameHeightConstraint.constant = heightConstraints!
+            authWIthDggHeightConstraint.constant = heightConstraints!
             resetUsernameButton.isHidden = true
         }
         
     }
     
-
-    /*
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        guard let identifier = segue.identifier else {
+            return
+        }
+        
+        if identifier == "manageIgnores" {
+            let destvc = segue.destination as! StringSettingViewController
+            destvc.setting = .Ignores
+        }
+        
+        if identifier == "manageHighlights" {
+            let destvc = segue.destination as! StringSettingViewController
+            destvc.setting = .Highlights
+        }
     }
-    */
+    
     @IBAction func doneTapped(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
@@ -124,5 +148,11 @@ class SettingsViewController: UIViewController {
     
     @IBAction func overrustleButtonTap(_ sender: Any) {
         UIApplication.shared.open(URL(string: overrustle)!)
+    }
+    @IBAction func harshIgnoreSwitch(_ sender: Any) {
+        settings.harshIgnore = harshIgnoreSwitch.isOn
+    }
+    @IBAction func chatHighlightSwitch(_ sender: Any) {
+        settings.usernameHighlights = chatHighlightSwitch.isOn
     }
 }

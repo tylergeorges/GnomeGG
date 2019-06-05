@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		358999804AB4042B415BBFEC /* Pods_GnomeGG.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26DA3A29A62BA1F1DDFF7ED1 /* Pods_GnomeGG.framework */; };
+		8D075A4B22A60BFD0024D028 /* UserTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D075A4A22A60BFD0024D028 /* UserTag.swift */; };
+		8D075A4D22A630830024D028 /* StringSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D075A4C22A630830024D028 /* StringSettingViewController.swift */; };
+		8D075A4F22A630B60024D028 /* StringSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D075A4E22A630B60024D028 /* StringSettingTableViewCell.swift */; };
 		8D7BAC4722A235ED00A5E1E6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4622A235ED00A5E1E6 /* LoginViewController.swift */; };
 		8D7BAC4922A23E0800A5E1E6 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4822A23E0800A5E1E6 /* Settings.swift */; };
 		8D7BAC4B22A25C0100A5E1E6 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4A22A25C0100A5E1E6 /* SettingsViewController.swift */; };
@@ -37,6 +40,9 @@
 		26DA3A29A62BA1F1DDFF7ED1 /* Pods_GnomeGG.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GnomeGG.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		699A9900724567D4AEED2D21 /* Pods-GnomeGG.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GnomeGG.release.xcconfig"; path = "Pods/Target Support Files/Pods-GnomeGG/Pods-GnomeGG.release.xcconfig"; sourceTree = "<group>"; };
 		6EFB1CC601DA4F7BFCF73444 /* Pods-GnomeGG.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GnomeGG.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GnomeGG/Pods-GnomeGG.debug.xcconfig"; sourceTree = "<group>"; };
+		8D075A4A22A60BFD0024D028 /* UserTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTag.swift; sourceTree = "<group>"; };
+		8D075A4C22A630830024D028 /* StringSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringSettingViewController.swift; sourceTree = "<group>"; };
+		8D075A4E22A630B60024D028 /* StringSettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringSettingTableViewCell.swift; sourceTree = "<group>"; };
 		8D7BAC4622A235ED00A5E1E6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		8D7BAC4822A23E0800A5E1E6 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		8D7BAC4A22A25C0100A5E1E6 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -96,6 +102,7 @@
 				8D7BAC5F22A4DCE000A5E1E6 /* EmoteListViewController.swift */,
 				8D7BAC6122A4DCE900A5E1E6 /* FlairListViewController.swift */,
 				8D7BAC6322A4E71100A5E1E6 /* ToolsViewController.swift */,
+				8D075A4C22A630830024D028 /* StringSettingViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -143,6 +150,7 @@
 				8D7BAC5522A46C1700A5E1E6 /* StalkHistoryTableViewCell.swift */,
 				8D7BAC5B22A4DC5200A5E1E6 /* EmoteTableViewCell.swift */,
 				8D7BAC5D22A4DC6000A5E1E6 /* FlairTableViewCell.swift */,
+				8D075A4E22A630B60024D028 /* StringSettingTableViewCell.swift */,
 			);
 			path = TableCells;
 			sourceTree = "<group>";
@@ -153,6 +161,7 @@
 				8DEA1A0422A0DDCA00ECB238 /* dggParser.swift */,
 				8DEA1A0622A0F9FA00ECB238 /* dggAPI.swift */,
 				8D7BAC5322A4670500A5E1E6 /* StalkRecord.swift */,
+				8D075A4A22A60BFD0024D028 /* UserTag.swift */,
 			);
 			path = Types;
 			sourceTree = "<group>";
@@ -316,12 +325,15 @@
 				8D7BAC4F22A3A4A000A5E1E6 /* MentionsViewController.swift in Sources */,
 				8DEA1A0222A0D4F700ECB238 /* ChatTableViewCell.swift in Sources */,
 				8D7BAC5222A458CE00A5E1E6 /* StalkListViewController.swift in Sources */,
+				8D075A4B22A60BFD0024D028 /* UserTag.swift in Sources */,
 				8D7BAC5822A472E900A5E1E6 /* CustomTabBarController.swift in Sources */,
 				8DEA1A0522A0DDCA00ECB238 /* dggParser.swift in Sources */,
 				8D7BAC6022A4DCE000A5E1E6 /* EmoteListViewController.swift in Sources */,
+				8D075A4D22A630830024D028 /* StringSettingViewController.swift in Sources */,
 				8DEA19ED22A0C67500ECB238 /* AppDelegate.swift in Sources */,
 				8DEA19EF22A0C67500ECB238 /* ChatViewController.swift in Sources */,
 				8D7BAC6422A4E71100A5E1E6 /* ToolsViewController.swift in Sources */,
+				8D075A4F22A630B60024D028 /* StringSettingTableViewCell.swift in Sources */,
 				8DEA1A0722A0F9FA00ECB238 /* dggAPI.swift in Sources */,
 				8D7BAC5622A46C1700A5E1E6 /* StalkHistoryTableViewCell.swift in Sources */,
 				8D7BAC5A22A4C68A00A5E1E6 /* StalkViewController.swift in Sources */,

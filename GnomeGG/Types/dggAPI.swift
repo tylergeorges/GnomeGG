@@ -27,6 +27,7 @@ class DGGAPI {
     let codeVerifier = "jjEJi7X1CNrqvmfKMQzYXfNqR647cz6DEWpLmYMtDELDqQWclDoYMUwDKqas"
     let codeChallenge = "M2Y0N2ZiMTQxNTU3ZmY2NDIyNDI0OTc3ZDA1NTY4MWMyM2UwYTJiZGMzZWVhZGQ4MDk3NTQ0MGIxMDk1ZjIxNg=="
     var state: String?
+    var sessionManager: SessionManager?
     
     func getFlairList() {
 
@@ -37,7 +38,6 @@ class DGGAPI {
                 for (_, flairJson) in json {
                     self.downloadFlair(json: flairJson)
                 }
-                
                 self.flairs.append(Flair.init(name: "polecat", label: "App Only Cute Label", color: "e463cf", hidden: false, priority: 0, image: UIImage(named: "cherry")!, height: 18, width: 18))
             case .failure(let error):
                 print(error)
@@ -60,7 +60,11 @@ class DGGAPI {
     }
     
     func getHistory(completionHandler: @escaping  ([String]) -> Void) {
-        Alamofire.request(historyEndpoint, method: .get).validate().responseJSON { response in
+        let configuration = URLSessionConfiguration.background(withIdentifier: "me.polecat.app.background")
+        configuration.timeoutIntervalForRequest = 1
+        configuration.timeoutIntervalForResource = 2
+        sessionManager = Alamofire.SessionManager(configuration: configuration)
+        sessionManager!.request(historyEndpoint, method: .get).validate().responseJSON { response in
             switch response.result {
             case .success(let value):
                 let json = JSON(value)

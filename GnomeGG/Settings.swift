@@ -53,6 +53,51 @@ class Settings {
         }
     }
     
+    var customHighlights: [String] {
+        didSet {
+            do {
+                let encodedData: Data = try NSKeyedArchiver.archivedData(withRootObject: customHighlights, requiringSecureCoding: false)
+                defaults.set(encodedData, forKey: DefaultKeys.customHighlights)
+            } catch let error {
+                print(error)
+            }
+        }
+    }
+    
+    var ignoredUsers: [String] {
+        didSet {
+            do {
+                let encodedData: Data = try NSKeyedArchiver.archivedData(withRootObject: ignoredUsers, requiringSecureCoding: false)
+                defaults.set(encodedData, forKey: DefaultKeys.ignoredUsers)
+            } catch let error {
+                print(error)
+            }
+        }
+    }
+    
+    var userTags: [UserTag] {
+        didSet {
+            do {
+                let encodedData: Data = try NSKeyedArchiver.archivedData(withRootObject: userTags, requiringSecureCoding: false)
+                defaults.set(encodedData, forKey: DefaultKeys.userTags)
+            } catch let error {
+                print(error)
+            }
+        }
+    }
+    
+    var usernameHighlights: Bool {
+        didSet {
+            defaults.set(usernameHighlights, forKey: DefaultKeys.usernameHighlights)
+        }
+    }
+    
+    var harshIgnore: Bool {
+        didSet {
+            defaults.set(harshIgnore, forKey: DefaultKeys.harshIgnore)
+        }
+    }
+    
     
     let defaults = UserDefaults.standard
     
@@ -64,6 +109,11 @@ class Settings {
         static let dggRefreshToken = "dggRefreshToken"
         static let dggUsername = "dggUsername"
         static let stalkHistory = "stalkHistory"
+        static let usernameHighlights = "usernameHighlights"
+        static let customHighlights = "customHighlights"
+        static let ignoredUsers = "ignoredUsers"
+        static let userTags = "userTags"
+        static let harshIgnore = "harshIgnore"
     }
     
     // Default values
@@ -74,6 +124,11 @@ class Settings {
         static let dggRefreshToken = ""
         static let dggUsername = ""
         static let stalkHistory = [StalkRecord(nick: "Destiny", date: Date())]
+        static let usernameHighlights = true
+        static let customHighlights = [String]()
+        static let ignoredUsers = [String]()
+        static let userTags = [UserTag]()
+        static let harshIgnore = false
     }
     
     init() {
@@ -84,10 +139,17 @@ class Settings {
             notifications = DefaultSettings.notifications
         }
         
+        if defaults.object(forKey: DefaultKeys.usernameHighlights) != nil {
+            usernameHighlights = defaults.bool(forKey: DefaultKeys.usernameHighlights)
+        } else {
+            usernameHighlights = DefaultSettings.usernameHighlights
+        }
+        
         loginKey = defaults.string(forKey: DefaultKeys.loginKey) ?? DefaultSettings.loginKey
         dggAccessToken = defaults.string(forKey: DefaultKeys.dggAccessToken) ?? DefaultSettings.dggAccessToken
         dggRefreshToken = defaults.string(forKey: DefaultKeys.dggRefreshToken) ?? DefaultSettings.dggRefreshToken
         dggUsername = defaults.string(forKey: DefaultKeys.dggUsername) ?? DefaultSettings.dggUsername
+        
         let decodedStalkHistory  = defaults.data(forKey: DefaultKeys.stalkHistory)
         if let data = decodedStalkHistory {
             do {
@@ -101,5 +163,46 @@ class Settings {
             stalkHistory = DefaultSettings.stalkHistory
         }
         
+        let customHighlights = defaults.data(forKey: DefaultKeys.customHighlights)
+        if let data = customHighlights {
+            do {
+                self.customHighlights = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as! [String]
+            } catch let error {
+                print(error)
+                self.customHighlights = DefaultSettings.customHighlights
+            }
+        } else {
+            self.customHighlights = DefaultSettings.customHighlights
+        }
+        
+        let ignoredUsers = defaults.data(forKey: DefaultKeys.ignoredUsers)
+        if let data = ignoredUsers {
+            do {
+                self.ignoredUsers = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as! [String]
+            } catch let error {
+                print(error)
+                self.ignoredUsers = DefaultSettings.ignoredUsers
+            }
+        } else {
+            self.ignoredUsers = DefaultSettings.ignoredUsers
+        }
+        
+        let userTags = defaults.data(forKey: DefaultKeys.userTags)
+        if let data = userTags {
+            do {
+                self.userTags = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as! [UserTag]
+            } catch let error {
+                print(error)
+                self.userTags = DefaultSettings.userTags
+            }
+        } else {
+            self.userTags = DefaultSettings.userTags
+        }
+        
+        if defaults.object(forKey: DefaultKeys.harshIgnore) != nil {
+            harshIgnore = defaults.bool(forKey: DefaultKeys.harshIgnore)
+        } else {
+            harshIgnore = DefaultSettings.harshIgnore
+        }
     }
 }
