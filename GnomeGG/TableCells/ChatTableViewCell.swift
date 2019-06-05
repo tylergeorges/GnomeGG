@@ -73,7 +73,7 @@ private func hexColorStringToUIColor(hex: String) -> UIColor {
     return UIColorFromRGB(rgbValue: UInt(hex, radix: 16)!)
 }
 
-private func containsWord(string: String, keyword: String) -> Bool {
+public func containsWord(string: String, keyword: String) -> Bool {
     let words = string.lowercased().split(separator: " ")
     for word in words {
         if word == keyword.lowercased() {

@@ -182,9 +182,17 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     private func newMessage(message: DGGMessage) {
         
         switch message {
-        case let .UserMessage(nick, _, _, _):
+        case let .UserMessage(nick, _, _, data):
             for user in settings.ignoredUsers where user.lowercased() == nick.lowercased() {
                 return
+            }
+            
+            if settings.harshIgnore {
+                for user in settings.ignoredUsers {
+                    if containsWord(string: data, keyword: user) {
+                        return
+                    }
+                }
             }
         default: break
         }
