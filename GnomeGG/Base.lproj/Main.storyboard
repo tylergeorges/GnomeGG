@@ -137,8 +137,8 @@
                                     <constraint firstAttribute="height" constant="50" id="6Ke-Ii-hfZ"/>
                                     <constraint firstItem="ezr-Nf-DP2" firstAttribute="height" secondItem="San-2H-cDx" secondAttribute="height" id="BaR-A8-Bv8"/>
                                     <constraint firstItem="ezr-Nf-DP2" firstAttribute="top" secondItem="San-2H-cDx" secondAttribute="top" id="GWs-Oh-vl6"/>
-                                    <constraint firstAttribute="bottom" secondItem="ezr-Nf-DP2" secondAttribute="bottom" id="K3G-3f-xCX"/>
                                     <constraint firstItem="ezr-Nf-DP2" firstAttribute="leading" secondItem="San-2H-cDx" secondAttribute="leading" id="V0w-bc-8Ec"/>
+                                    <constraint firstAttribute="bottom" secondItem="ezr-Nf-DP2" secondAttribute="bottom" id="XEy-4b-MZq"/>
                                     <constraint firstAttribute="trailing" secondItem="ezr-Nf-DP2" secondAttribute="trailing" id="gsj-5d-SWN"/>
                                     <constraint firstItem="ezr-Nf-DP2" firstAttribute="centerX" secondItem="San-2H-cDx" secondAttribute="centerX" placeholder="YES" id="vaD-oU-LTx"/>
                                 </constraints>
@@ -148,6 +148,7 @@
                         <constraints>
                             <constraint firstItem="7yj-Qg-yNc" firstAttribute="leading" secondItem="PQr-Ze-W5v" secondAttribute="leading" id="12P-G6-Qo0"/>
                             <constraint firstItem="eeM-94-9T8" firstAttribute="bottom" secondItem="PQr-Ze-W5v" secondAttribute="bottom" id="52o-4e-SDS"/>
+                            <constraint firstItem="eeM-94-9T8" firstAttribute="top" secondItem="San-2H-cDx" secondAttribute="bottom" constant="2" id="8Mu-ba-gBA"/>
                             <constraint firstItem="eeM-94-9T8" firstAttribute="top" secondItem="San-2H-cDx" secondAttribute="bottom" constant="2" id="BQe-Ge-WiZ"/>
                             <constraint firstItem="3HX-gF-Ia1" firstAttribute="trailing" secondItem="PQr-Ze-W5v" secondAttribute="trailing" id="DHU-MB-ehF"/>
                             <constraint firstItem="3HX-gF-Ia1" firstAttribute="top" secondItem="PQr-Ze-W5v" secondAttribute="top" id="KAS-sP-hD5"/>

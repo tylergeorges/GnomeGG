@@ -181,6 +181,14 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     private func newMessage(message: DGGMessage) {
         
+        switch message {
+        case let .UserMessage(nick, _, _, _):
+            for user in settings.ignoredUsers where user.lowercased() == nick.lowercased() {
+                return
+            }
+        default: break
+        }
+        
         let wasCombo = handleCombo(message: message)
         
         if !wasCombo {
@@ -365,7 +373,10 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         let suggestions = generateSuggestions(text: lastWord)
         activeSuggestions = suggestions
         for (i, suggestion) in suggestions.enumerated() {
-            let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
+            let label = PaddingLabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
+            label.leftInset = 20
+            label.rightInset = 20
+
             label.center = CGPoint(x: 160, y: 285)
             label.textAlignment = .center
             

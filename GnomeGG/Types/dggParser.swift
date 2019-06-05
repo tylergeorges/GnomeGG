@@ -466,7 +466,6 @@ private func formatTimestamp(timestamp: Date) -> NSMutableAttributedString {
 }
 
 private func styleMessage(message: String, regularMessage: Bool = true, isLog: Bool = false) -> NSMutableAttributedString {
-    // 06263e <- highlight color
     var words = message.split(separator: " ")
     let styledMessage = NSMutableAttributedString(string: "")
     
