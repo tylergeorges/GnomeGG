@@ -15,7 +15,7 @@ class StalkListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     var selectedUser: String?
     
-    var stalkHistory = [StalkRecord]()
+    var stalkHistory = [StringRecord]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,8 +56,8 @@ class StalkListViewController: UIViewController, UITableViewDelegate, UITableVie
     // MARK: - TableView
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedUser = stalkHistory[indexPath.row].nick
-        for (i, record) in settings.stalkHistory.enumerated() where record.nick.lowercased() == stalkHistory[indexPath.row].nick.lowercased() {
+        selectedUser = stalkHistory[indexPath.row].string
+        for (i, record) in settings.stalkHistory.enumerated() where record.string.lowercased() == stalkHistory[indexPath.row].string.lowercased() {
             settings.stalkHistory[i].date = Date()
         }
         
@@ -70,7 +70,7 @@ class StalkListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if (editingStyle == .delete) {
-            for (i, record) in settings.stalkHistory.enumerated() where record.nick.lowercased() == stalkHistory[indexPath.row].nick.lowercased() {
+            for (i, record) in settings.stalkHistory.enumerated() where record.string.lowercased() == stalkHistory[indexPath.row].string.lowercased() {
                 settings.stalkHistory.remove(at: i)
             }
             stalkHistory.remove(at: indexPath.row)
@@ -87,7 +87,7 @@ class StalkListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "stalkedUserCell", for: indexPath) as! StalkHistoryTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "stalkedUserCell", for: indexPath) as! stringRecordTableViewCell
         cell.selectionStyle = .none
         
         cell.renderCell(record: stalkHistory[indexPath.row])
@@ -108,13 +108,13 @@ class StalkListViewController: UIViewController, UITableViewDelegate, UITableVie
             if let username = alert.textFields?.first?.text?.trimmingCharacters(in: .whitespacesAndNewlines) {
                 var inArray = false
                 
-                for (i, record) in settings.stalkHistory.enumerated() where record.nick.lowercased() == username.lowercased() {
+                for (i, record) in settings.stalkHistory.enumerated() where record.string.lowercased() == username.lowercased() {
                     inArray = true
                     settings.stalkHistory[i].date = Date()
                 }
                 
                 if !inArray {
-                    settings.stalkHistory.append(StalkRecord(nick: username, date: Date()))
+                    settings.stalkHistory.append(StringRecord(string: username, date: Date()))
                 }
                 
                 self.selectedUser = username

@@ -42,11 +42,22 @@ class Settings {
         }
     }
     
-    var stalkHistory: [StalkRecord] {
+    var stalkHistory: [StringRecord] {
         didSet {
             do {
                 let encodedData: Data = try NSKeyedArchiver.archivedData(withRootObject: stalkHistory, requiringSecureCoding: false)
                 defaults.set(encodedData, forKey: DefaultKeys.stalkHistory)
+            } catch let error {
+                print(error)
+            }
+        }
+    }
+    
+    var lookupHistory: [StringRecord] {
+        didSet {
+            do {
+                let encodedData: Data = try NSKeyedArchiver.archivedData(withRootObject: lookupHistory, requiringSecureCoding: false)
+                defaults.set(encodedData, forKey: DefaultKeys.lookupHistory)
             } catch let error {
                 print(error)
             }
@@ -114,6 +125,7 @@ class Settings {
         static let ignoredUsers = "ignoredUsers"
         static let userTags = "userTags"
         static let harshIgnore = "harshIgnore"
+        static let lookupHistory = "lookupHistory"
     }
     
     // Default values
@@ -123,12 +135,13 @@ class Settings {
         static let dggAccessToken = ""
         static let dggRefreshToken = ""
         static let dggUsername = ""
-        static let stalkHistory = [StalkRecord(nick: "Destiny", date: Date())]
+        static let stalkHistory = [StringRecord(string: "Destiny", date: Date())]
         static let usernameHighlights = true
         static let customHighlights = [String]()
         static let ignoredUsers = [String]()
         static let userTags = [UserTag]()
         static let harshIgnore = false
+        static let lookupHistory = [StringRecord]()
     }
     
     init() {
@@ -153,7 +166,7 @@ class Settings {
         let decodedStalkHistory  = defaults.data(forKey: DefaultKeys.stalkHistory)
         if let data = decodedStalkHistory {
             do {
-                stalkHistory = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as! [StalkRecord]
+                stalkHistory = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as! [StringRecord]
             } catch let error {
                 print(error)
                 stalkHistory = DefaultSettings.stalkHistory
@@ -161,6 +174,19 @@ class Settings {
         } else {
             print("error decoding stalk history")
             stalkHistory = DefaultSettings.stalkHistory
+        }
+        
+        let decodedLookupHistory  = defaults.data(forKey: DefaultKeys.lookupHistory)
+        if let data = decodedLookupHistory {
+            do {
+                lookupHistory = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as! [StringRecord]
+            } catch let error {
+                print(error)
+                lookupHistory = DefaultSettings.lookupHistory
+            }
+        } else {
+            print("error decoding lookup history")
+            lookupHistory = DefaultSettings.lookupHistory
         }
         
         let customHighlights = defaults.data(forKey: DefaultKeys.customHighlights)

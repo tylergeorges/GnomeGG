@@ -8,24 +8,24 @@
 
 import Foundation
 
-class StalkRecord: NSObject, NSCoding {
+class StringRecord: NSObject, NSCoding {
     var date: Date
-    var nick: String
+    var string: String
     
-    init(nick: String, date: Date) {
-        self.nick = nick
+    init(string: String, date: Date) {
+        self.string = string
         self.date = date
     }
     
     required convenience init(coder aDecoder: NSCoder) {
-        let nick = aDecoder.decodeObject(forKey: "nick") as! String
+        let string = aDecoder.decodeObject(forKey: "string") as! String
         let date = aDecoder.decodeObject(forKey: "date") as! Date
         
-        self.init(nick: nick, date: date)
+        self.init(string: string, date: date)
     }
     
     func encode(with aCoder: NSCoder) {
-        aCoder.encode(nick, forKey: "nick")
+        aCoder.encode(string, forKey: "string")
         aCoder.encode(date, forKey: "date")
     }
 }

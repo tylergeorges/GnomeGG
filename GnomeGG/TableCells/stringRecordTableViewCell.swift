@@ -8,7 +8,7 @@
 
 import UIKit
 
-class StalkHistoryTableViewCell: UITableViewCell {
+class stringRecordTableViewCell: UITableViewCell {
 
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
@@ -24,8 +24,8 @@ class StalkHistoryTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func renderCell(record: StalkRecord) {
-        nameLabel.text = record.nick
+    func renderCell(record: StringRecord) {
+        nameLabel.text = record.string
         let dateFormatter = DateFormatter()
         if Calendar.current.isDateInToday(record.date) {
             dateFormatter.dateFormat = "HH:mm"

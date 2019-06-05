@@ -41,7 +41,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="680"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="chatCell" rowHeight="110" id="02O-23-Nyi" customClass="ChatTableViewCell" customModule="GnomeGG" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="chatCell" rowHeight="110" id="02O-23-Nyi" customClass="ChatTableViewCell" customModule="GnomeGG" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="110"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="02O-23-Nyi" id="kYz-4B-hjb">
@@ -53,7 +53,7 @@
                                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <attributedString key="attributedText">
                                                         <fragment>
-                                                            <mutableString key="content">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                                                            <string key="content">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                             <attributes>
                                                                 <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                 <font key="NSFont" size="14" name="Roboto-Regular"/>
@@ -388,7 +388,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="chatCell" rowHeight="110" id="Wno-Mj-jl5" customClass="ChatTableViewCell" customModule="GnomeGG" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="chatCell" rowHeight="110" id="Wno-Mj-jl5" customClass="ChatTableViewCell" customModule="GnomeGG" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="110"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Wno-Mj-jl5" id="yoZ-Zo-M3Q">
@@ -519,6 +519,9 @@
                                 <state key="normal" title="Keyword Search">
                                     <color key="titleColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <segue destination="X5p-w7-3sa" kind="show" id="rPx-O7-HC1"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qu9-uC-1fu">
                                 <rect key="frame" x="170.5" y="174" width="73" height="30"/>
@@ -668,7 +671,7 @@
                                 <rect key="frame" x="0.0" y="105" width="414" height="669"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="stalkedUserCell" rowHeight="45" id="6e6-GW-kcd" customClass="StalkHistoryTableViewCell" customModule="GnomeGG" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="stalkedUserCell" rowHeight="45" id="6e6-GW-kcd" customClass="stringRecordTableViewCell" customModule="GnomeGG" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6e6-GW-kcd" id="Jif-TG-PWK">
@@ -743,7 +746,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TjW-yi-nuL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2760.8695652173915" y="1106.9196428571429"/>
+            <point key="canvasLocation" x="2578" y="1174"/>
         </scene>
         <!--Emotes-->
         <scene sceneID="kDA-R6-Lji">
@@ -757,7 +760,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="emoteCell" rowHeight="45" id="hew-6Q-lQF" customClass="EmoteTableViewCell" customModule="GnomeGG" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="emoteCell" rowHeight="45" id="hew-6Q-lQF" customClass="EmoteTableViewCell" customModule="GnomeGG" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hew-6Q-lQF" id="jem-yC-ux0">
@@ -833,7 +836,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="chatCell" rowHeight="110" id="W8x-1S-xKu" customClass="ChatTableViewCell" customModule="GnomeGG" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="chatCell" rowHeight="110" id="W8x-1S-xKu" customClass="ChatTableViewCell" customModule="GnomeGG" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="110"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="W8x-1S-xKu" id="bEl-CW-r49">
@@ -1212,7 +1215,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="stringSettingCell" rowHeight="45" id="Ksk-T8-gd1" customClass="StringSettingTableViewCell" customModule="GnomeGG" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="stringSettingCell" rowHeight="45" id="Ksk-T8-gd1" customClass="StringSettingTableViewCell" customModule="GnomeGG" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Ksk-T8-gd1" id="oPM-1n-xfl">
@@ -1320,7 +1323,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="flairCell" rowHeight="45" id="fa7-HC-yMc" customClass="FlairTableViewCell" customModule="GnomeGG" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="flairCell" rowHeight="45" id="fa7-HC-yMc" customClass="FlairTableViewCell" customModule="GnomeGG" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fa7-HC-yMc" id="Hec-s4-Ycf">
@@ -1384,6 +1387,199 @@
             </objects>
             <point key="canvasLocation" x="1787" y="1854"/>
         </scene>
+        <!--Search List-->
+        <scene sceneID="IFN-D0-Mdu">
+            <objects>
+                <viewController hidesBottomBarWhenPushed="YES" id="X5p-w7-3sa" customClass="SearchListViewController" customModule="GnomeGG" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="wsz-Vb-yi6">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Egm-le-vx7">
+                                <rect key="frame" x="0.0" y="105" width="414" height="669"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchKeywordCell" rowHeight="45" id="mhe-bo-0pB" customClass="stringRecordTableViewCell" customModule="GnomeGG" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mhe-bo-0pB" id="0f0-ws-CQU">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="chl-Tf-fyJ">
+                                                    <rect key="frame" x="30" y="12" width="38" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ffv-1F-gzs">
+                                                    <rect key="frame" x="98" y="12" width="45" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" red="0.031372549020000001" green="0.031372549020000001" blue="0.031372549020000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstItem="Ffv-1F-gzs" firstAttribute="leading" secondItem="chl-Tf-fyJ" secondAttribute="trailing" constant="30" id="E3B-fy-X4x"/>
+                                                <constraint firstItem="Ffv-1F-gzs" firstAttribute="centerY" secondItem="0f0-ws-CQU" secondAttribute="centerY" id="NVV-cY-HUC"/>
+                                                <constraint firstItem="chl-Tf-fyJ" firstAttribute="centerY" secondItem="0f0-ws-CQU" secondAttribute="centerY" id="ag4-9B-IDi"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Ffv-1F-gzs" secondAttribute="trailing" constant="20" symbolic="YES" id="qz8-NV-w4O"/>
+                                                <constraint firstItem="chl-Tf-fyJ" firstAttribute="leading" secondItem="0f0-ws-CQU" secondAttribute="leadingMargin" constant="10" id="xGX-BZ-hVq"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="nameLabel" destination="Ffv-1F-gzs" id="jXN-xO-C4L"/>
+                                            <outlet property="timeLabel" destination="chl-Tf-fyJ" id="Zny-Gu-NGi"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cEN-Jg-Vyy">
+                                <rect key="frame" x="136" y="10" width="142" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Search Keyword">
+                                    <color key="titleColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="searchTap:" destination="X5p-w7-3sa" eventType="touchUpInside" id="uWg-ZX-71S"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search History" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eDn-nE-srE">
+                                <rect key="frame" x="143" y="76" width="128" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.031372549020000001" green="0.031372549020000001" blue="0.031372549020000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="eDn-nE-srE" firstAttribute="centerX" secondItem="wsz-Vb-yi6" secondAttribute="centerX" id="3ek-2i-xuG"/>
+                            <constraint firstItem="eDn-nE-srE" firstAttribute="top" secondItem="cEN-Jg-Vyy" secondAttribute="bottom" constant="30" id="CB7-bm-Cbk"/>
+                            <constraint firstItem="cEN-Jg-Vyy" firstAttribute="centerX" secondItem="wsz-Vb-yi6" secondAttribute="centerX" id="Ujt-a3-pxw"/>
+                            <constraint firstItem="Egm-le-vx7" firstAttribute="trailing" secondItem="hml-Zt-D1F" secondAttribute="trailing" id="Ylk-zc-ocG"/>
+                            <constraint firstItem="cEN-Jg-Vyy" firstAttribute="top" secondItem="hml-Zt-D1F" secondAttribute="top" constant="10" id="b5h-dz-waB"/>
+                            <constraint firstItem="Egm-le-vx7" firstAttribute="top" secondItem="eDn-nE-srE" secondAttribute="bottom" constant="5" id="hbA-bi-X08"/>
+                            <constraint firstItem="Egm-le-vx7" firstAttribute="leading" secondItem="hml-Zt-D1F" secondAttribute="leading" id="lTe-0D-TBV"/>
+                            <constraint firstItem="Egm-le-vx7" firstAttribute="bottom" secondItem="hml-Zt-D1F" secondAttribute="bottom" id="rd7-vK-CkX"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="hml-Zt-D1F"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Search List" id="wLS-X2-M5s"/>
+                    <connections>
+                        <outlet property="newSearchButton" destination="cEN-Jg-Vyy" id="lXC-aJ-qte"/>
+                        <outlet property="searchTableView" destination="Egm-le-vx7" id="cQF-5c-YAz"/>
+                        <segue destination="YI5-eS-Wmq" kind="show" identifier="searchKeyword" id="ZWz-Bd-Fv0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MSb-gx-HaE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3894" y="406"/>
+        </scene>
+        <!--Search View Controller-->
+        <scene sceneID="toA-VR-b36">
+            <objects>
+                <viewController hidesBottomBarWhenPushed="YES" id="YI5-eS-Wmq" customClass="SearchViewController" customModule="GnomeGG" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aVq-Vh-sPB">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NcF-Ph-Pmd">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                <color key="barTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </textAttributes>
+                                <items>
+                                    <navigationItem title="Search" id="Fv2-j5-K9H"/>
+                                </items>
+                            </navigationBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="25F-8v-7n1" userLabel="Mentions Table View">
+                                <rect key="frame" x="0.0" y="44" width="414" height="730"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="chatCell" rowHeight="110" id="1ND-sQ-4Ui" customClass="ChatTableViewCell" customModule="GnomeGG" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="110"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1ND-sQ-4Ui" id="4ZM-db-S3J">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="110"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dhY-Jm-B08">
+                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="110"/>
+                                                    <attributedString key="attributedText">
+                                                        <fragment>
+                                                            <string key="content">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                                            <attributes>
+                                                                <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                                <font key="NSFont" size="14" name="Helvetica"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                </textView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="dhY-Jm-B08" secondAttribute="bottom" id="E71-oc-wOg"/>
+                                                <constraint firstAttribute="trailing" secondItem="dhY-Jm-B08" secondAttribute="trailing" id="Ii0-fG-TPo"/>
+                                                <constraint firstItem="dhY-Jm-B08" firstAttribute="top" secondItem="4ZM-db-S3J" secondAttribute="top" id="ZTn-sw-3Rx"/>
+                                                <constraint firstItem="dhY-Jm-B08" firstAttribute="leading" secondItem="4ZM-db-S3J" secondAttribute="leading" id="j3M-e8-EmE"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="messageTextView" destination="dhY-Jm-B08" id="ZwV-Qf-gTt"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l1f-SG-aXt" customClass="NVActivityIndicatorView" customModule="NVActivityIndicatorView">
+                                <rect key="frame" x="107" y="304" width="200" height="200"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="5pK-NB-Vvc"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="200" id="FUq-s7-V9f"/>
+                                    <constraint firstAttribute="width" constant="200" id="KC4-ZW-h8x"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="ZFl-gj-hto"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="typeName" value="circleStrokeSpin"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Messages Found" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cdw-Qr-jgd">
+                                <rect key="frame" x="129" y="393.5" width="156.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.031372549020000001" green="0.031372549020000001" blue="0.031372549020000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="l1f-SG-aXt" firstAttribute="centerY" secondItem="aVq-Vh-sPB" secondAttribute="centerY" id="3n5-op-iSC"/>
+                            <constraint firstItem="NcF-Ph-Pmd" firstAttribute="top" secondItem="gbi-fT-Ai8" secondAttribute="top" id="BpV-2G-Kj6"/>
+                            <constraint firstItem="25F-8v-7n1" firstAttribute="leading" secondItem="gbi-fT-Ai8" secondAttribute="leading" id="DAi-GW-Zj3"/>
+                            <constraint firstItem="gbi-fT-Ai8" firstAttribute="bottom" secondItem="25F-8v-7n1" secondAttribute="bottom" id="HH0-cJ-ABD"/>
+                            <constraint firstItem="cdw-Qr-jgd" firstAttribute="centerY" secondItem="aVq-Vh-sPB" secondAttribute="centerY" id="Mdc-Hj-G0q"/>
+                            <constraint firstItem="l1f-SG-aXt" firstAttribute="centerX" secondItem="aVq-Vh-sPB" secondAttribute="centerX" id="NZx-8w-2L6"/>
+                            <constraint firstItem="cdw-Qr-jgd" firstAttribute="centerX" secondItem="aVq-Vh-sPB" secondAttribute="centerX" id="O5J-AE-2ln"/>
+                            <constraint firstItem="NcF-Ph-Pmd" firstAttribute="leading" secondItem="gbi-fT-Ai8" secondAttribute="leading" id="Vhb-QX-ftv"/>
+                            <constraint firstItem="25F-8v-7n1" firstAttribute="top" secondItem="NcF-Ph-Pmd" secondAttribute="bottom" id="aOV-VK-SM9"/>
+                            <constraint firstItem="NcF-Ph-Pmd" firstAttribute="trailing" secondItem="gbi-fT-Ai8" secondAttribute="trailing" id="bW7-oI-8Sf"/>
+                            <constraint firstItem="gbi-fT-Ai8" firstAttribute="trailing" secondItem="25F-8v-7n1" secondAttribute="trailing" id="mWf-G5-q6T"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="gbi-fT-Ai8"/>
+                    </view>
+                    <connections>
+                        <outlet property="mentionsTableView" destination="25F-8v-7n1" id="Sg2-zP-nvL"/>
+                        <outlet property="noMentionsLabel" destination="cdw-Qr-jgd" id="S5K-QA-hj7"/>
+                        <outlet property="nvActivityIndicator" destination="l1f-SG-aXt" id="cwu-dk-SXQ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8dG-kf-38F" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5004" y="406"/>
+        </scene>
     </scenes>
     <resources>
         <image name="dggIcon" width="30" height="30"/>
@@ -1400,6 +1596,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="tvd-il-KWG"/>
-        <segue reference="czj-oe-qmq"/>
+        <segue reference="dP3-v0-n0h"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -27,23 +27,24 @@ class ChatTableViewCell: UITableViewCell {
     func renderMessage(message: NSMutableAttributedString, messageEnum: DGGMessage, isLog: Bool = false) {
         var backgroundColor = defaultBackgroundColor
 
-        switch messageEnum {
-        case let .UserMessage(_, _, _, data):
-            if settings.usernameHighlights && settings.dggUsername != "" {
-                if containsWord(string: data, keyword: settings.dggUsername) {
-                    backgroundColor = highlightBackgroundColor
+        if !isLog {
+            switch messageEnum {
+            case let .UserMessage(_, _, _, data):
+                if settings.usernameHighlights && settings.dggUsername != "" {
+                    if containsWord(string: data, keyword: settings.dggUsername) {
+                        backgroundColor = highlightBackgroundColor
+                    }
                 }
-            }
-            
-            for keyword in settings.customHighlights {
-                if containsWord(string: data, keyword: keyword) {
-                    backgroundColor = highlightBackgroundColor
+                
+                for keyword in settings.customHighlights {
+                    if containsWord(string: data, keyword: keyword) {
+                        backgroundColor = highlightBackgroundColor
+                    }
                 }
+            case .Broadcast: backgroundColor = broadcastBackgroundColor
+            default: break
             }
-        case .Broadcast: backgroundColor = broadcastBackgroundColor
-        default: break
         }
-        
         
         // hack to make it so uitextview is opaque and not rendered as a blended layer
         for subview in messageTextView.subviews {
