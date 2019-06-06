@@ -209,6 +209,56 @@ class DGGParser {
             return nil
         }
     }
+    
+    static func parseChatErrorMessage(message: String) -> DGGMessage? {
+        let error = message.replacingOccurrences(of: "\"", with: "")
+        var errorMessage = error
+        switch error {
+        case "toomanyconnections": errorMessage = "Too Many Chat Connections"
+        case "protocolerror": errorMessage = "Protocol Error"
+        case "needlogin": errorMessage = "You Are Not Logged In"
+        case "nopermission": errorMessage = "You Do Not Have Permissions To Perform This Action"
+        case "invalidmsg": errorMessage = "Invalid Message"
+        case "muted": errorMessage = "You Are Muted"
+        case "submode": errorMessage = "The Chat Is In Sub Mode"
+        case "throttled": errorMessage = "You Are Sending Messages Too Fast"
+        case "duplicate": errorMessage = "Message Identical To Your Last Message"
+        case "notfound": errorMessage = "User Not Found"
+        case "needbanreason": errorMessage = "Please Provide a Ban Reason"
+        default: break
+        }
+        return .ChatErrorMessage(data: errorMessage)
+    }
+    
+    static func parsePrivateMessage(message: String) -> DGGMessage? {
+        if let dataFromString = message.data(using: .utf8, allowLossyConversion: false) {
+            do {
+                let json = try JSON(data: dataFromString)
+                
+                guard let nick = json["nick"].string else {
+                    return nil
+                }
+                
+                guard let unixTimestamp = json["timestamp"].double else {
+                    return nil
+                }
+                
+                let timestamp = Date(timeIntervalSince1970: unixTimestamp / 1000)
+                
+                guard let data = json["data"].string else {
+                    return nil
+                }
+                
+                return .PrivateMessage(timestamp: timestamp, nick: nick, data: data)
+                
+            } catch {
+                print("Error parsing message")
+                return nil
+            }
+        } else {
+            return nil
+        }
+    }
 }
 
 public enum DGGMessage {
@@ -221,6 +271,8 @@ public enum DGGMessage {
     case Mute(nick: String, features: [String], timestamp: Date, target: String)
     case Ban(nick: String, features: [String], timestamp: Date, target: String)
     case InternalMessage(data: String)
+    case ChatErrorMessage(data: String)
+    case PrivateMessage(timestamp: Date, nick: String, data: String)
 }
 
 public func ==(lhs: DGGMessage, rhs: DGGMessage) -> Bool {
@@ -265,6 +317,10 @@ public func renderMessage(message: DGGMessage, isLog: Bool = false) -> NSMutable
         return renderBan(timestamp: timestamp, banner: nick, target: target)
     case let .InternalMessage(data):
         return renderInternalMessage(message: data)
+    case let .ChatErrorMessage(data):
+        return renderChatErrorMessage(message: data)
+    case let .PrivateMessage(timestamp, nick, data):
+        return renderPrivateMessage(nick: nick, timestamp: timestamp, data: data)
     }
 }
 
@@ -308,6 +364,23 @@ private func renderUserMessage(nick: String, features: [String], date: Date, dat
     let message = styleMessage(message: data, isLog: isLog)
     fullMessage.append(message)
 
+    return fullMessage
+}
+
+private func renderPrivateMessage(nick: String, timestamp: Date, data: String) -> NSMutableAttributedString {
+    let fullMessage = NSMutableAttributedString(string: "")
+    
+    let spacer = NSMutableAttributedString(string: " ")
+    fullMessage.append(formatTimestamp(timestamp: timestamp))
+    fullMessage.append(spacer)
+    let usernameText = NSMutableAttributedString(string: nick)
+    usernameText.addAttribute(.foregroundColor, value: UIColor.white, range: NSRange(location: 0, length: usernameText.length))
+    fullMessage.append(usernameText)
+    fullMessage.append(spacer)
+    let actualMessage = styleMessage(message: "whispered: " + data, regularMessage: false, isLog: true)
+    actualMessage.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: dggMessageColor), range: NSRange(location: 0, length: actualMessage.length))
+    fullMessage.append(actualMessage)
+    
     return fullMessage
 }
 
@@ -458,6 +531,19 @@ private func renderInternalMessage(message: String) -> NSMutableAttributedString
     fullMessage.append(formatTimestamp(timestamp: Date()))
     fullMessage.append(spacer)
     fullMessage.append(customFlair(image: UIImage(named: "infobadge")!, width: 16, height: 16))
+    fullMessage.append(spacer)
+    let message = NSMutableAttributedString(string: message)
+    message.addAttribute(.foregroundColor, value: UIColor.white, range: NSRange(location: 0, length: message.length))
+    fullMessage.append(message)
+    return fullMessage
+}
+
+private func renderChatErrorMessage(message: String) -> NSMutableAttributedString {
+    let spacer = NSAttributedString(string: " ")
+    let fullMessage = NSMutableAttributedString(string: "")
+    fullMessage.append(formatTimestamp(timestamp: Date()))
+    fullMessage.append(spacer)
+    fullMessage.append(customFlair(image: UIImage(named: "errorbadge")!, width: 16, height: 16))
     fullMessage.append(spacer)
     let message = NSMutableAttributedString(string: message)
     message.addAttribute(.foregroundColor, value: UIColor.white, range: NSRange(location: 0, length: message.length))

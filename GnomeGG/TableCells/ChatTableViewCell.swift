@@ -42,6 +42,7 @@ class ChatTableViewCell: UITableViewCell {
                     }
                 }
             case .Broadcast: backgroundColor = broadcastBackgroundColor
+            case .PrivateMessage: backgroundColor = broadcastBackgroundColor
             default: break
             }
         }

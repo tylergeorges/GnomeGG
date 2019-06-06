@@ -39,6 +39,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     var authenticatedWebsocket = false
     var loadingHistory = false
     var chatInputHeight: CGFloat?
+    var suggestionsHeight: CGFloat?
     
     // scroll tracking
     var lastContentOffset: CGFloat = 0
@@ -48,7 +49,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    let chatCommands = ["/me", "/message", "/ignore", "/unignore", "/w"]
+    let chatCommands = ["/me", "/message", "/ignore", "/unignore", "/w", "/msg", "/reply"]
+    
+    var lastMessageFrom: String?
     
     var activeSuggestions = [Suggestion]()
     var lastComboableEmote: Emote?
@@ -63,14 +66,17 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var suggestionsScrollView: UIScrollView!
     @IBOutlet weak var suggestionsStackView: UIStackView!
     @IBOutlet weak var chatInputHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var suggestionsHeightConstraints: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         chatInputHeight = chatInputHeightConstraint.constant
+        suggestionsHeight = suggestionsHeightConstraints.constant
         nvActivityIndicatorView.startAnimating()
         
         scrollDownLabel.isHidden = true
         suggestionsScrollView.isHidden = true
+        suggestionsHeightConstraints.constant = 0
         addScrollDownButton()
         
         print("getting flairs")
@@ -325,6 +331,20 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             if let user = DGGParser.parseDoorMessage(message: rest) {
                 userJoined(user: user)
             }
+        case "ERR":
+            if let error = DGGParser.parseChatErrorMessage(message: rest) {
+                newMessage(message: error)
+            }
+        case "PRIVMSGSENT":
+            newMessage(message: .InternalMessage(data: "Your Message Has Been Sent"))
+        case "PRIVMSG":
+            if let message = DGGParser.parsePrivateMessage(message: rest) {
+                switch message {
+                case let .PrivateMessage(_, nick,_): lastMessageFrom = nick
+                default: break
+                }
+                newMessage(message: message)
+            }
         default: print("got some text: \(text)")
         }
     }
@@ -346,6 +366,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK: - Textview
     func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
         suggestionsScrollView.isHidden = true
+        suggestionsHeightConstraints.constant = 0
         sendNewMessage()
         
         return true
@@ -354,22 +375,45 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     func textViewDidChange(_ textView: UITextView) {
         guard let text = textView.text else {
             suggestionsScrollView.isHidden = true
+            suggestionsHeightConstraints.constant = 0
+            sendButton.setImage(UIImage(named: "cancel"), for: .normal)
             return
+        }
+        
+        if text.count == 0 {
+            sendButton.setImage(UIImage(named: "cancel"), for: .normal)
+        } else {
+            sendButton.setImage(UIImage(named: "send"), for: .normal)
+        }
+        
+        if text.lowercased() == "/reply " {
+            if let target = lastMessageFrom {
+                textView.text = "/message " + target + " "
+                suggestionsScrollView.isHidden = true
+                suggestionsHeightConstraints.constant = 0
+            } else {
+                textView.text = ""
+                suggestionsScrollView.isHidden = true
+                suggestionsHeightConstraints.constant = 0
+            }
         }
         
         guard text.last != " " else {
             suggestionsScrollView.isHidden = true
+            suggestionsHeightConstraints.constant = 0
             return
         }
         
         let words = text.components(separatedBy: " ")
         guard let lastWord = words.last else {
             suggestionsScrollView.isHidden = true
+            suggestionsHeightConstraints.constant = 0
             return
         }
         
         guard lastWord.count > 2 else {
             suggestionsScrollView.isHidden = true
+            suggestionsHeightConstraints.constant = 0
             return
         }
         
@@ -398,7 +442,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             label.isUserInteractionEnabled = true
             label.tag = i
             label.layer.masksToBounds = true
-            label.layer.cornerRadius = 5
+            label.layer.cornerRadius = 25
             label.backgroundColor = UIColor.black
             let tap = UITapGestureRecognizer(target: self, action: #selector(suggestionTapped(sender:)))
             label.addGestureRecognizer(tap)
@@ -408,8 +452,10 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if suggestions.count > 0 {
             suggestionsScrollView.isHidden = false
+            suggestionsHeightConstraints.constant = suggestionsHeight!
         } else {
             suggestionsScrollView.isHidden = true
+            suggestionsHeightConstraints.constant = 0
         }
         
         
@@ -417,15 +463,26 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if (text == "\n") {
+            sendButton.setImage(UIImage(named: "send"), for: .normal)
             textView.resignFirstResponder()
             return false
         }
         return true
     }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        sendButton.setImage(UIImage(named: "send"), for: .normal)
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text.count == 0 {
+            sendButton.setImage(UIImage(named: "cancel"), for: .normal)
+        }
+        
+    }
 
     // MARK: - TableView
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("tap tap")
         let message = messages[indexPath.count]
         
         switch message {
@@ -502,12 +559,26 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         case let .Emote(emote):
             components[components.count - 1] = emote.prefix
         case let .User(nick):
+            if nick == "/reply" && components.count == 1 {
+                if let target = lastMessageFrom {
+                    chatInputTextView.text = "/message " + target + " "
+                    suggestionsScrollView.isHidden = true
+                    suggestionsHeightConstraints.constant = 0
+                } else {
+                    chatInputTextView.text = ""
+                    suggestionsScrollView.isHidden = true
+                    suggestionsHeightConstraints.constant = 0
+                }
+                
+                return
+            }
             components[components.count - 1] = nick
         }
         
         components.append("")
         chatInputTextView.text = components.joined(separator: " ")
         suggestionsScrollView.isHidden = true
+        suggestionsHeightConstraints.constant = 0
     }
     
     private func addScrollDownButton() {
@@ -622,19 +693,22 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                 }
             }
             
-            if command == "/w" || command == "/message" {
+            if command == "/w" || command == "/message" || command == "/msg" {
                 if words.count < 3 {
                     return
                 }
                 
                 // send private message
-                newMessage(message: .InternalMessage(data: "would send privmsg to " + words[1]))
+                let privateMessageTemplate = "PRIVMSG {\"nick\":\"%@\",\"data\":\"%@\"}"
+                websocket?.write(string: String(format: privateMessageTemplate, String(words[1]), words[2...].joined(separator: " ")))
                 return
             }
         }
         
         
         // send the message
+        let messageTemplate = "MSG {\"data\":\"%@\"}"
+        websocket?.write(string: String(format: messageTemplate, trimmedMessage))
         
         print("send message " + trimmedMessage)
     }
@@ -672,6 +746,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBAction func sendTap(_ sender: Any) {
         chatInputTextView.resignFirstResponder()
         suggestionsScrollView.isHidden = true
+        suggestionsHeightConstraints.constant = 0
     }
 }
 

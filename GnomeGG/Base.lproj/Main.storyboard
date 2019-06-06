@@ -79,17 +79,6 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <label opaque="NO" alpha="0.59999999999999998" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MORE MESSAGE BELOW" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7yj-Qg-yNc">
-                                <rect key="frame" x="0.0" y="723" width="414" height="40"/>
-                                <color key="backgroundColor" red="0.1764705882352941" green="0.1764705882352941" blue="0.1803921568627451" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="qwR-Of-5GL"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                                <color key="textColor" red="0.87058823529411766" green="0.87058823529411766" blue="0.87058823529411766" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                                <size key="shadowOffset" width="0.0" height="0.0"/>
-                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dnL-hW-IbR" customClass="NVActivityIndicatorView" customModule="NVActivityIndicatorView">
                                 <rect key="frame" x="107" y="306.5" width="200" height="200"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -101,13 +90,13 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="typeName" value="circleStrokeSpin"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eeM-94-9T8">
-                                <rect key="frame" x="364" y="768" width="50" height="45"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eeM-94-9T8">
+                                <rect key="frame" x="369" y="768" width="45" height="45"/>
                                 <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="AQk-U7-ZNt"/>
+                                    <constraint firstAttribute="width" constant="45" id="AQk-U7-ZNt"/>
                                 </constraints>
-                                <state key="normal" title="Send">
+                                <state key="normal" image="send">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
@@ -115,7 +104,7 @@
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="vKE-2y-bwe">
-                                <rect key="frame" x="0.0" y="768" width="364" height="45"/>
+                                <rect key="frame" x="0.0" y="768" width="369" height="45"/>
                                 <color key="backgroundColor" red="0.066666666666666666" green="0.066666666666666666" blue="0.066666666666666666" alpha="1" colorSpace="calibratedRGB"/>
                                 <accessibility key="accessibilityConfiguration" hint="Write Something..."/>
                                 <constraints>
@@ -143,6 +132,17 @@
                                     <constraint firstItem="ezr-Nf-DP2" firstAttribute="centerX" secondItem="San-2H-cDx" secondAttribute="centerX" placeholder="YES" id="vaD-oU-LTx"/>
                                 </constraints>
                             </scrollView>
+                            <label opaque="NO" alpha="0.59999999999999998" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MORE MESSAGE BELOW" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7yj-Qg-yNc">
+                                <rect key="frame" x="0.0" y="671" width="414" height="40"/>
+                                <color key="backgroundColor" red="0.1764705882352941" green="0.1764705882352941" blue="0.1803921568627451" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="qwR-Of-5GL"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                <color key="textColor" red="0.87058823529411766" green="0.87058823529411766" blue="0.87058823529411766" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <size key="shadowOffset" width="0.0" height="0.0"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -165,10 +165,10 @@
                             <constraint firstItem="vKE-2y-bwe" firstAttribute="bottom" secondItem="PQr-Ze-W5v" secondAttribute="bottom" id="lH6-ql-ZBA"/>
                             <constraint firstItem="eeM-94-9T8" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="PQr-Ze-W5v" secondAttribute="leading" symbolic="YES" id="mfg-gX-VkO"/>
                             <constraint firstItem="ab9-aO-Jcz" firstAttribute="top" secondItem="3HX-gF-Ia1" secondAttribute="bottom" id="rH1-a8-sxI"/>
-                            <constraint firstItem="vKE-2y-bwe" firstAttribute="top" secondItem="7yj-Qg-yNc" secondAttribute="bottom" constant="5" id="uWz-r3-PVj"/>
                             <constraint firstItem="ab9-aO-Jcz" firstAttribute="trailing" secondItem="PQr-Ze-W5v" secondAttribute="trailing" id="vQg-qI-dlu"/>
                             <constraint firstItem="vKE-2y-bwe" firstAttribute="leading" secondItem="PQr-Ze-W5v" secondAttribute="leading" id="xIz-OW-eQI"/>
                             <constraint firstItem="7yj-Qg-yNc" firstAttribute="trailing" secondItem="PQr-Ze-W5v" secondAttribute="trailing" id="y4L-Xw-5jh"/>
+                            <constraint firstItem="San-2H-cDx" firstAttribute="top" secondItem="7yj-Qg-yNc" secondAttribute="bottom" constant="5" id="zCl-ej-kFZ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="PQr-Ze-W5v"/>
                     </view>
@@ -181,7 +181,8 @@
                         <outlet property="navigationBar" destination="3HX-gF-Ia1" id="cBd-rU-7Yn"/>
                         <outlet property="nvActivityIndicatorView" destination="dnL-hW-IbR" id="fWF-2J-7cc"/>
                         <outlet property="scrollDownLabel" destination="7yj-Qg-yNc" id="LhS-Ug-J5s"/>
-                        <outlet property="sendButton" destination="eeM-94-9T8" id="hrO-ol-2SV"/>
+                        <outlet property="sendButton" destination="eeM-94-9T8" id="5YQ-1K-OWp"/>
+                        <outlet property="suggestionsHeightConstraints" destination="6Ke-Ii-hfZ" id="UiX-tm-W0c"/>
                         <outlet property="suggestionsScrollView" destination="San-2H-cDx" id="7tf-kP-lfU"/>
                         <outlet property="suggestionsStackView" destination="ezr-Nf-DP2" id="cGv-1T-IFe"/>
                         <segue destination="Zc8-1e-RIZ" kind="presentation" identifier="loginSegue" id="DdL-Ja-N7d"/>
@@ -1616,6 +1617,7 @@
         <image name="dggIcon" width="30" height="30"/>
         <image name="gnomeiswatching" width="91.5" height="67.5"/>
         <image name="mentions" width="30" height="30"/>
+        <image name="send" width="30" height="30"/>
         <image name="settings" width="30" height="30"/>
         <image name="step1" width="562.5" height="241"/>
         <image name="step2" width="562.5" height="90"/>
