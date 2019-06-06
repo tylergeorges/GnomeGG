@@ -18,6 +18,7 @@ class DGGAPI {
     
     let flairEndpoint = "https://cdn.destiny.gg/4.2.0/flairs/flairs.json"
     let emoteEndpoint = "https://cdn.destiny.gg/4.2.0/emotes/emotes.json"
+    let bbdggEmoteEndpoint = "https://polecat.me/api/bbdgg_emotes"
     let historyEndpoint = "https://www.destiny.gg/api/chat/history"
     let dggOauthURL = "https://www.destiny.gg/oauth/authorize"
     let dggTokenURL = "https://www.destiny.gg/oauth/token"
@@ -27,11 +28,24 @@ class DGGAPI {
     let codeVerifier = "jjEJi7X1CNrqvmfKMQzYXfNqR647cz6DEWpLmYMtDELDqQWclDoYMUwDKqas"
     let codeChallenge = "M2Y0N2ZiMTQxNTU3ZmY2NDIyNDI0OTc3ZDA1NTY4MWMyM2UwYTJiZGMzZWVhZGQ4MDk3NTQ0MGIxMDk1ZjIxNg=="
     var state: String?
-    var sessionManager: SessionManager?
+    var backgroundSessionManager: SessionManager?
+    var activeSessionManager: SessionManager?
+    
+    init() {
+        let backgroundConfiguration = URLSessionConfiguration.background(withIdentifier: "me.polecat.app.background")
+        backgroundConfiguration.timeoutIntervalForRequest = 2
+        backgroundConfiguration.timeoutIntervalForResource = 2
+        backgroundSessionManager = Alamofire.SessionManager(configuration: backgroundConfiguration)
+        
+        let activeConfiguration = URLSessionConfiguration.default
+        activeConfiguration.timeoutIntervalForRequest = 2
+        activeConfiguration.timeoutIntervalForResource = 2
+        activeSessionManager = Alamofire.SessionManager(configuration: activeConfiguration)
+    }
+    
     
     func getFlairList() {
-
-        Alamofire.request(flairEndpoint, method: .get).validate().responseJSON { response in
+        activeSessionManager!.request(flairEndpoint, method: .get).validate().responseJSON { response in
             switch response.result {
             case .success(let value):
                 let json = JSON(value)
@@ -46,7 +60,21 @@ class DGGAPI {
     }
     
     func getEmoteList() {
-        Alamofire.request(emoteEndpoint, method: .get).validate().responseJSON { response in
+        activeSessionManager!.request(emoteEndpoint, method: .get).validate().responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                let json = JSON(value)
+                for (_, emoteJosn) in json {
+                    self.downloadEmote(json: emoteJosn)
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    func getBBDGGEmoteList() {
+        activeSessionManager!.request(bbdggEmoteEndpoint, method: .get).validate().responseJSON { response in
             switch response.result {
             case .success(let value):
                 let json = JSON(value)
@@ -60,11 +88,7 @@ class DGGAPI {
     }
     
     func getHistory(completionHandler: @escaping  ([String]) -> Void) {
-        let configuration = URLSessionConfiguration.background(withIdentifier: "me.polecat.app.background")
-        configuration.timeoutIntervalForRequest = 1
-        configuration.timeoutIntervalForResource = 2
-        sessionManager = Alamofire.SessionManager(configuration: configuration)
-        sessionManager!.request(historyEndpoint, method: .get).validate().responseJSON { response in
+        activeSessionManager!.request(historyEndpoint, method: .get).validate().responseJSON { response in
             switch response.result {
             case .success(let value):
                 let json = JSON(value)
@@ -82,7 +106,7 @@ class DGGAPI {
             return
         }
         
-        Alamofire.request(url, method: .get).validate().responseJSON { response in
+        backgroundSessionManager!.request(url, method: .get).validate().responseJSON { response in
             if response.response?.statusCode == 403 {
                 self.refreshAccessToken()
                 return
@@ -131,7 +155,7 @@ class DGGAPI {
             return
         }
         
-        Alamofire.request(url, method: .get).validate().responseJSON { response in
+        backgroundSessionManager!.request(url, method: .get).validate().responseJSON { response in
             switch response.result {
             case .success(let value):
                 let json = JSON(value)
@@ -174,7 +198,7 @@ class DGGAPI {
             return
         }
         
-        Alamofire.request(tokenURL, method: .get).validate().responseJSON { response in
+        backgroundSessionManager!.request(tokenURL, method: .get).validate().responseJSON { response in
             if response.response?.statusCode == 403 {
                 self.refreshAccessToken()
             }
@@ -293,6 +317,8 @@ class DGGAPI {
             return
         }
         
+        let isBBDGG = json["bbdgg"].bool ?? false
+        
         getData(from: URL(string: url)!) { data, response, error in
             guard let data = data, error == nil else { return }
             DispatchQueue.main.async() {
@@ -300,7 +326,7 @@ class DGGAPI {
                     print("error downloading image")
                     return
                 }
-                self.emotes.append(Emote.init(prefix: prefix, twitch: isTwitch, image: image, height: height, width: width))
+                self.emotes.append(Emote.init(prefix: prefix, twitch: isTwitch, bbdgg: isBBDGG, image: image, height: height, width: width))
             }
         }
     }
@@ -379,6 +405,7 @@ struct Flair {
 public struct Emote {
     let prefix: String
     let twitch: Bool
+    let bbdgg: Bool
     let image: UIImage
     let height: Int
     let width: Int

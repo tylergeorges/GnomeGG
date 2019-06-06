@@ -10,15 +10,13 @@
 // TODO:
 // CHAT
 // cap number of stored messages so the app doesn't explode eventually
-// highlights
-// hide scroll down when suggestions are showing
+// mix in commands for suggestions
+// message sending
+// special handling for commands maybe?
 // BDGG emotes https://raw.githubusercontent.com/BryceMatthes/chat-gui/master/assets/emotes.json https://raw.githubusercontent.com/BryceMatthes/chat-gui/master/assets/emotes/emoticons
 // user tagging
-// highlight user messages on tap
-// if input is active, add username to input
 // TOOLS
 // -logs
-// -keyword search
 // SETTINGS
 // VV why dis message not work???
 // "MSG {\"nick\":\"hotdoglover86\",\"features\":[\"subscriber\",\"flair9\",\"flair13\"],\"timestamp\":1559537867279,\"data\":\"Abathur\\nHmmStiny\\nShekels\\nAMAZIN\\nDANKMEMES\\nAYYYLMAO\\nHmmStiny\\nCheekerZ\\nNOBULLY\\nSlugstiny\\nDEATH\\nBlade\\nLOVE\\nDAFUK\\nNappa\\nOverRustle\\nMLADY\\nDANKMEMES\\nWEEWOO\\nPICNIC\\nShekels\\nGODSTINY\\nAYAYA\\nSNAP\\nAngelThump\\nFrankerZ\\nSOTRIGGERED\\nKappaRoss\\nBlubstiny\\nGameOfThrows\\nAbathur\\nHhhehhehe\\nDravewin\\nAbathur\\nHmmStiny\\nShekels\\nAMAZIN\\nDANKMEMES\\nAYYYLMAO\\nHmmStiny\\nCheekerZ\\nNOBULLY\\nSlugstiny\\nDEATH\\nBlade\\nLOVE\\nDAFUK\\nNappa\\nOverRustle\\nMLADY\\nDANKMEMES\\nWEEWOO\\nPICNIC\\nShekels\\nGODSTINY\\nAYAYA\\nSNAP\\nAngelThump\\nFrankerZ\\nSOTRIGGERED\"}"
@@ -46,6 +44,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // scroll tracking
     var lastContentOffset: CGFloat = 0
+    var lastRenderedIndex = 0
     var disableAutoScrolling = false {
         didSet {
             scrollDownLabel.isHidden = !disableAutoScrolling
@@ -79,6 +78,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         dggAPI.getFlairList()
         print("getting emotes")
         dggAPI.getEmoteList()
+        print("getting bbdgg emotes")
+        dggAPI.getBBDGGEmoteList()
+        
         
         chatInputTextView.delegate = self
         
@@ -202,13 +204,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         if !wasCombo {
             messages.append(message)
             renderedMessages.append(renderMessage(message: message))
-            chatTableView.beginUpdates()
-            chatTableView.insertRows(at: [IndexPath(row: messages.count - 1, section: 0)], with: .none)
-            chatTableView.endUpdates()
+            chatTableView.insertRows(at: [IndexPath(row: messages.count - 1, section: 0)], with: .bottom)
         } else {
-            chatTableView.beginUpdates()
             chatTableView.reloadRows(at: [IndexPath(row: messages.count - 1, section: 0)], with: .none)
-            chatTableView.endUpdates()
         }
         
         if !disableAutoScrolling {
@@ -428,6 +426,15 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     // MARK: - TableView
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("tap tap")
+        let message = messages[indexPath.count]
+        
+        switch message {
+        case let .UserMessage(nick, _, _, _): print(nick)
+        default: break
+        }
+    }
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -442,6 +449,10 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.selectionStyle = .none
         cell.renderMessage(message: renderedMessages[indexPath.row], messageEnum: messages[indexPath.row])
         
+        if indexPath.row == lastRenderedIndex {
+            print("reached last rendered index!")
+        }
+        
         return cell
     }
     
@@ -453,7 +464,11 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if (self.lastContentOffset > scrollView.contentOffset.y) {
-            disableAutoScrolling = true
+            if !disableAutoScrolling {
+                print("last active index seen " + String(renderedMessages.count))
+                lastRenderedIndex = renderedMessages.count
+                disableAutoScrolling = true
+            }
         }
         
         let height = scrollView.frame.size.height

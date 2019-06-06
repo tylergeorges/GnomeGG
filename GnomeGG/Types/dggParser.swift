@@ -426,12 +426,9 @@ private func renderMute(timestamp: Date, banner: String, target: String) -> NSMu
     fullMessage.append(spacer)
     let template = "%@ muted by %@"
     let message = NSMutableAttributedString(string: String(format: template, target, banner))
-    print(String(format: template, target, banner))
-    print(message.string)
     message.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "FFFFFFF"), range: NSRange(location: 0, length: message.length))
     fullMessage.append(message)
     
-    print(fullMessage.string)
     
     return fullMessage
 }
@@ -466,7 +463,7 @@ private func formatTimestamp(timestamp: Date) -> NSMutableAttributedString {
 }
 
 private func styleMessage(message: String, regularMessage: Bool = true, isLog: Bool = false) -> NSMutableAttributedString {
-    var words = message.split(separator: " ")
+    var words = message.replacingOccurrences(of: "\n", with: " ").trimmingCharacters(in: .whitespacesAndNewlines).split(separator: " ")
     let styledMessage = NSMutableAttributedString(string: "")
     
     let lowerWords = message.lowercased().split(separator: " ")
@@ -487,6 +484,10 @@ private func styleMessage(message: String, regularMessage: Bool = true, isLog: B
         var isEmote = false
         
         for emote in dggAPI.emotes where emote.prefix == word {
+            guard !(emote.bbdgg && !settings.bbdggEmotes) else {
+                continue
+            }
+            
             isEmote = true
             let emoteAttachement = NSTextAttachment()
             emoteAttachement.image = emote.image

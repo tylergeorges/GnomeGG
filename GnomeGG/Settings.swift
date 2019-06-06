@@ -109,6 +109,12 @@ class Settings {
         }
     }
     
+    var bbdggEmotes: Bool {
+        didSet {
+            defaults.set(bbdggEmotes, forKey: DefaultKeys.bbdggEmotes)
+        }
+    }
+    
     
     let defaults = UserDefaults.standard
     
@@ -126,6 +132,7 @@ class Settings {
         static let userTags = "userTags"
         static let harshIgnore = "harshIgnore"
         static let lookupHistory = "lookupHistory"
+        static let bbdggEmotes = "bbdggEmotes"
     }
     
     // Default values
@@ -142,6 +149,7 @@ class Settings {
         static let userTags = [UserTag]()
         static let harshIgnore = false
         static let lookupHistory = [StringRecord]()
+        static let bbdggEmotes = true
     }
     
     init() {
@@ -229,6 +237,12 @@ class Settings {
             harshIgnore = defaults.bool(forKey: DefaultKeys.harshIgnore)
         } else {
             harshIgnore = DefaultSettings.harshIgnore
+        }
+        
+        if defaults.object(forKey: DefaultKeys.bbdggEmotes) != nil {
+            bbdggEmotes = defaults.bool(forKey: DefaultKeys.bbdggEmotes)
+        } else {
+            bbdggEmotes = DefaultSettings.bbdggEmotes
         }
     }
 }

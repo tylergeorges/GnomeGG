@@ -24,6 +24,7 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var setUsernameHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var harshIgnoreSwitch: UISwitch!
     @IBOutlet weak var chatHighlightSwitch: UISwitch!
+    @IBOutlet weak var bbdggEmotesSwitch: UISwitch!
     
     let twitter = "https://twitter.com/tehpolecat"
     let overrustle = "https://overrustlelogs.net/"
@@ -40,6 +41,7 @@ class SettingsViewController: UIViewController {
         
         harshIgnoreSwitch.isOn = settings.harshIgnore
         chatHighlightSwitch.isOn = settings.usernameHighlights
+        bbdggEmotesSwitch.isOn = settings.bbdggEmotes
         
     }
     
@@ -154,5 +156,8 @@ class SettingsViewController: UIViewController {
     }
     @IBAction func chatHighlightSwitch(_ sender: Any) {
         settings.usernameHighlights = chatHighlightSwitch.isOn
+    }
+    @IBAction func bbdggEmoteSwitch(_ sender: Any) {
+        settings.bbdggEmotes = bbdggEmotesSwitch.isOn
     }
 }
