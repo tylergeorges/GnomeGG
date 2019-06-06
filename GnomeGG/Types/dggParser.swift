@@ -10,6 +10,7 @@ import Foundation
 import SwiftyJSON
 
 let chatFontSize: CGFloat = 14
+let dggMessageColor = "b9b9b9"
 
 class DGGParser {
     static let customCute = ["Polecat", "PolarBearFur"]
@@ -219,6 +220,7 @@ public enum DGGMessage {
     case Connecting
     case Mute(nick: String, features: [String], timestamp: Date, target: String)
     case Ban(nick: String, features: [String], timestamp: Date, target: String)
+    case InternalMessage(data: String)
 }
 
 public func ==(lhs: DGGMessage, rhs: DGGMessage) -> Bool {
@@ -261,6 +263,8 @@ public func renderMessage(message: DGGMessage, isLog: Bool = false) -> NSMutable
         return renderMute(timestamp: timestamp, banner: nick, target: target)
     case let .Ban(nick, _, timestamp, target):
         return renderBan(timestamp: timestamp, banner: nick, target: target)
+    case let .InternalMessage(data):
+        return renderInternalMessage(message: data)
     }
 }
 
@@ -445,6 +449,19 @@ private func renderBan(timestamp: Date, banner: String, target: String) -> NSMut
     message.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "FFFFFFF"), range: NSRange(location: 0, length: message.length))
     fullMessage.append(message)
     
+    return fullMessage
+}
+
+private func renderInternalMessage(message: String) -> NSMutableAttributedString {
+    let spacer = NSAttributedString(string: " ")
+    let fullMessage = NSMutableAttributedString(string: "")
+    fullMessage.append(formatTimestamp(timestamp: Date()))
+    fullMessage.append(spacer)
+    fullMessage.append(customFlair(image: UIImage(named: "infobadge")!, width: 16, height: 16))
+    fullMessage.append(spacer)
+    let message = NSMutableAttributedString(string: message)
+    message.addAttribute(.foregroundColor, value: UIColor.white, range: NSRange(location: 0, length: message.length))
+    fullMessage.append(message)
     return fullMessage
 }
 

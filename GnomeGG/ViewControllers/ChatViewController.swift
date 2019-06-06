@@ -201,7 +201,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if !wasCombo {
             messages.append(message)
-            renderedMessages.append(renderMessage(message: message))
+            let renderedMessage = renderMessage(message: message)
+            renderedMessages.append(renderedMessage)
             chatTableView.insertRows(at: [IndexPath(row: messages.count - 1, section: 0)], with: .bottom)
         } else {
             chatTableView.reloadRows(at: [IndexPath(row: messages.count - 1, section: 0)], with: .none)
@@ -345,8 +346,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK: - Textview
     func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
         suggestionsScrollView.isHidden = true
-        // send the message
-        chatInputTextView.text = ""
+        sendNewMessage()
         
         return true
     }
@@ -570,6 +570,75 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         return suggestions
     }
     
+    private func sendNewMessage() {
+        defer {
+            chatInputTextView.text = ""
+        }
+        
+        guard let message = chatInputTextView.text else {
+            return
+        }
+        
+        let trimmedMessage = message.trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: "\n", with: " ")
+        guard trimmedMessage != "" else {
+            return
+        }
+        
+        let words = trimmedMessage.split(separator: " ")
+        
+        for command in chatCommands where words.first?.lowercased() == command {
+            if command == "/ignore" {
+                if words.count == 1 {
+                    print("2")
+                    newMessage(message: .InternalMessage(data: "Ignored users: " + settings.ignoredUsers.joined(separator: ", ")))
+                    return
+                } else if words.count > 1 {
+                    let target = words[1]
+                    for ignored in settings.ignoredUsers where ignored.lowercased() == target.lowercased() {
+                        newMessage(message: .InternalMessage(data: target + " already ignored"))
+                        return
+                    }
+                    
+                    settings.ignoredUsers.append(String(target))
+                    newMessage(message: .InternalMessage(data: target + " ignored"))
+                    return
+                } else {
+                    return
+                }
+            }
+            
+            if command == "/unignore" {
+                if words.count < 2 {
+                    return
+                } else {
+                    let target = words[1]
+                    for (i, ignored) in settings.ignoredUsers.enumerated() where ignored.lowercased() == target.lowercased() {
+                        settings.ignoredUsers.remove(at: i)
+                        newMessage(message: .InternalMessage(data: target + " unignored"))
+                        return
+                    }
+                    
+                    newMessage(message: .InternalMessage(data: target + " is not ignored"))
+                }
+            }
+            
+            if command == "/w" || command == "/message" {
+                if words.count < 3 {
+                    return
+                }
+                
+                // send private message
+                newMessage(message: .InternalMessage(data: "would send privmsg to " + words[1]))
+                return
+            }
+        }
+        
+        
+        // send the message
+        
+        print("send message " + trimmedMessage)
+    }
+    
     @objc
     func keyboardWillHide() {
         self.view.frame.origin.y = 0
@@ -603,9 +672,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBAction func sendTap(_ sender: Any) {
         chatInputTextView.resignFirstResponder()
         suggestionsScrollView.isHidden = true
-        
-        // send the message
-        chatInputTextView.text = ""
     }
 }
 

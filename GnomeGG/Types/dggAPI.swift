@@ -38,8 +38,8 @@ class DGGAPI {
         backgroundSessionManager = Alamofire.SessionManager(configuration: backgroundConfiguration)
         
         let activeConfiguration = URLSessionConfiguration.default
-        activeConfiguration.timeoutIntervalForRequest = 2
-        activeConfiguration.timeoutIntervalForResource = 2
+        activeConfiguration.timeoutIntervalForRequest = 3
+        activeConfiguration.timeoutIntervalForResource = 3
         activeSessionManager = Alamofire.SessionManager(configuration: activeConfiguration)
     }
     
@@ -95,7 +95,9 @@ class DGGAPI {
                 let messages = json.arrayValue.map {$0.stringValue}
                 completionHandler(messages)
             case .failure(let error):
+                print("=======GET HISTORY ERROR=======")
                 print(error)
+                print("=======GET HISTORY ERROR=======")
                 completionHandler([String]())
             }
         }
