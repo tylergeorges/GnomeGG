@@ -10,10 +10,8 @@
 // TODO:
 // CHAT
 // cap number of stored messages so the app doesn't explode eventually
-// mix in commands for suggestions
 // message sending
 // special handling for commands maybe?
-// BDGG emotes https://raw.githubusercontent.com/BryceMatthes/chat-gui/master/assets/emotes.json https://raw.githubusercontent.com/BryceMatthes/chat-gui/master/assets/emotes/emoticons
 // user tagging
 // TOOLS
 // -logs
@@ -44,12 +42,13 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // scroll tracking
     var lastContentOffset: CGFloat = 0
-    var lastRenderedIndex = 0
     var disableAutoScrolling = false {
         didSet {
             scrollDownLabel.isHidden = !disableAutoScrolling
         }
     }
+    
+    let chatCommands = ["/me", "/message", "/ignore", "/unignore", "/w"]
     
     var activeSuggestions = [Suggestion]()
     var lastComboableEmote: Emote?
@@ -182,7 +181,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     private func newMessage(message: DGGMessage) {
-        
         switch message {
         case let .UserMessage(nick, _, _, data):
             for user in settings.ignoredUsers where user.lowercased() == nick.lowercased() {
@@ -376,7 +374,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         suggestionsStackView.removeAllArrangedSubviews()
-        let suggestions = generateSuggestions(text: lastWord)
+        let suggestions = generateSuggestions(text: lastWord, firstWord: words.count == 1)
         activeSuggestions = suggestions
         for (i, suggestion) in suggestions.enumerated() {
             let label = PaddingLabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
@@ -449,10 +447,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.selectionStyle = .none
         cell.renderMessage(message: renderedMessages[indexPath.row], messageEnum: messages[indexPath.row])
         
-        if indexPath.row == lastRenderedIndex {
-            print("reached last rendered index!")
+        if indexPath.row > lastRenderedIndex {
+            lastRenderedIndex = indexPath.row
         }
-        
         return cell
     }
     
@@ -463,10 +460,12 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard scrollView is UITableView else {
+            return
+        }
+
         if (self.lastContentOffset > scrollView.contentOffset.y) {
             if !disableAutoScrolling {
-                print("last active index seen " + String(renderedMessages.count))
-                lastRenderedIndex = renderedMessages.count
                 disableAutoScrolling = true
             }
         }
@@ -491,7 +490,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @objc
     private func suggestionTapped(sender: UITapGestureRecognizer? = nil) {
-        print("suggestion tapped!")
         guard let tag = sender?.view?.tag else {
             return
         }
@@ -547,7 +545,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    private func generateSuggestions(text: String) -> [Suggestion] {
+    private func generateSuggestions(text: String, firstWord: Bool = false) -> [Suggestion] {
         var suggestions = [Suggestion]()
         
         let matchText = text.lowercased()
@@ -561,6 +559,14 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         for user in users {
             if user.nick.lowercased().starts(with: matchText) {
                 suggestions.append(.User(nick: user.nick))
+            }
+        }
+        
+        if firstWord {
+            for command in chatCommands {
+                if command.lowercased().starts(with: matchText) {
+                    suggestions.append(.User(nick: command))
+                }
             }
         }
         
