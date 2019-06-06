@@ -447,9 +447,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.selectionStyle = .none
         cell.renderMessage(message: renderedMessages[indexPath.row], messageEnum: messages[indexPath.row])
         
-        if indexPath.row > lastRenderedIndex {
-            lastRenderedIndex = indexPath.row
-        }
         return cell
     }
     
