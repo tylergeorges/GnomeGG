@@ -26,13 +26,12 @@ import Starscream
 import NVActivityIndicatorView
 
 var users = [User]()
+var websocket: WebSocket?
 
 class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, WebSocketDelegate, UITextViewDelegate {
     
     var messages = [DGGMessage]()
     var renderedMessages = [NSMutableAttributedString]()
-    
-    var websocket: WebSocket?
     
     let dggWebsocketURL = "https://www.destiny.gg/ws"
     
@@ -172,16 +171,16 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             request.setValue(String(format: cookieTemplate, settings.dggCookie), forHTTPHeaderField: "Cookie")
         }
         
-        if let websocket = websocket {
-            if websocket.isConnected {
+        if let ws = websocket {
+            if ws.isConnected {
                 print("killing existing connection")
                 self.dontRecover = true
-                websocket.disconnect()
+                ws.disconnect()
                 newMessage(message: .Disconnected(reason: "Updating Socket"))
             }
             
             print("setting websocket to nill")
-            self.websocket = nil
+            websocket = nil
         }
         
         print("making new websocket")
@@ -349,7 +348,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         case "PRIVMSG":
             if let message = DGGParser.parsePrivateMessage(message: rest) {
                 switch message {
-                case let .PrivateMessage(_, nick,_): lastMessageFrom = nick
+                case let .PrivateMessage(_, nick,_, _): lastMessageFrom = nick
                 default: break
                 }
                 newMessage(message: message)

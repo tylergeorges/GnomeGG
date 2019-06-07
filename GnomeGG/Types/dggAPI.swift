@@ -22,6 +22,9 @@ class DGGAPI {
     private let historyEndpoint = "https://www.destiny.gg/api/chat/history"
     private let userInfoEndpoint = "https://www.destiny.gg/api/chat/me"
     private let logOutEndpoint = "https://www.destiny.gg/logout"
+    private let streamEndpoint = "https://www.destiny.gg/api/info/stream"
+    private let messagesEndpoint = "https://www.destiny.gg/api/messages/inbox"
+    private let pingEndpoint = "https://www.destiny.gg/ping"
 
     var backgroundSessionManager: SessionManager?
     var activeSessionManager: SessionManager?
@@ -33,8 +36,8 @@ class DGGAPI {
         backgroundSessionManager = Alamofire.SessionManager(configuration: backgroundConfiguration)
         
         let activeConfiguration = URLSessionConfiguration.default
-        activeConfiguration.timeoutIntervalForRequest = 3
-        activeConfiguration.timeoutIntervalForResource = 3
+        activeConfiguration.timeoutIntervalForRequest = 1
+        activeConfiguration.timeoutIntervalForResource = 1
         activeSessionManager = Alamofire.SessionManager(configuration: activeConfiguration)
     }
     
@@ -95,6 +98,15 @@ class DGGAPI {
                 print("=======GET HISTORY ERROR=======")
                 completionHandler([String]())
             }
+        }
+    }
+    
+    func ping() {
+        let headers: HTTPHeaders = [
+            "Cookie": getCookieString(),
+        ]
+        backgroundSessionManager?.request(pingEndpoint, headers: headers).validate().response { response in
+            print("Ping " + String(response.response?.statusCode ?? 999))
         }
     }
     
@@ -164,6 +176,60 @@ class DGGAPI {
         ]
         
         backgroundSessionManager!.request(logOutEndpoint, headers: headers).validate().response { response in}
+    }
+    
+    func getMessages(completionHandler: @escaping  ([MessageListing]?) -> Void) {
+        backgroundSessionManager!.request(messagesEndpoint, method: .get).validate().responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                let json = JSON(value)
+                var messages = [MessageListing]()
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+                dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+
+                for entry in json.arrayValue {
+                    guard let timestamp = entry["timestamp"].string else {
+                        continue
+                    }
+                    
+                    guard let date = dateFormatter.date(from: timestamp) else {
+                        print("error parsing date stamp")
+                        continue
+                    }
+                    
+                    guard let nick = entry["user"].string else {
+                        continue
+                    }
+                    
+                    guard let unread = entry["unread"].string else {
+                        continue
+                    }
+                    
+                    guard let read = entry["read"].string else {
+                        continue
+                    }
+                    
+                    guard let readInt = Int(read) else {
+                        continue
+                    }
+                    
+                    guard let unreadInt = Int(unread) else {
+                        continue
+                    }
+                    
+                    guard let message = entry["message"].string else {
+                        continue
+                    }
+                    
+                    messages.append(MessageListing(timestamp: date, user: nick, unread: unreadInt, read: readInt, message: message))
+                }
+                completionHandler(messages)
+            case .failure(let error):
+                print(error)
+                completionHandler(nil)
+            }
+        }
     }
     
     private func downloadEmote(json: JSON) {
@@ -291,4 +357,12 @@ public struct Emote {
 public struct User {
     let nick: String
     let features: [String]
+}
+
+public struct MessageListing {
+    let timestamp: Date
+    let user: String
+    let unread: Int
+    let read: Int
+    let message: String
 }

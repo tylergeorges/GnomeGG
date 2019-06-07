@@ -249,7 +249,11 @@ class DGGParser {
                     return nil
                 }
                 
-                return .PrivateMessage(timestamp: timestamp, nick: nick, data: data)
+                guard let id = json["messageid"].int else {
+                    return nil
+                }
+                
+                return .PrivateMessage(timestamp: timestamp, nick: nick, data: data, id: id)
                 
             } catch {
                 print("Error parsing message")
@@ -258,6 +262,10 @@ class DGGParser {
         } else {
             return nil
         }
+    }
+    
+    static func styleText(message: String) -> NSMutableAttributedString {
+        return styleMessage(message: message, regularMessage: false, isLog: true)
     }
 }
 
@@ -272,7 +280,7 @@ public enum DGGMessage {
     case Ban(nick: String, features: [String], timestamp: Date, target: String)
     case InternalMessage(data: String)
     case ChatErrorMessage(data: String)
-    case PrivateMessage(timestamp: Date, nick: String, data: String)
+    case PrivateMessage(timestamp: Date, nick: String, data: String, id: Int)
 }
 
 public func ==(lhs: DGGMessage, rhs: DGGMessage) -> Bool {
@@ -319,7 +327,7 @@ public func renderMessage(message: DGGMessage, isLog: Bool = false) -> NSMutable
         return renderInternalMessage(message: data)
     case let .ChatErrorMessage(data):
         return renderChatErrorMessage(message: data)
-    case let .PrivateMessage(timestamp, nick, data):
+    case let .PrivateMessage(timestamp, nick, data, _):
         return renderPrivateMessage(nick: nick, timestamp: timestamp, data: data)
     }
 }

@@ -16,6 +16,8 @@
 		8D2A838422A760FD00DF96D5 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2A838322A760FD00DF96D5 /* PaddingLabel.swift */; };
 		8D448ACB22A996CB006EF687 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D448ACA22A996CB006EF687 /* LoginViewController.swift */; };
 		8D448ACD22A9C16C006EF687 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D448ACC22A9C16C006EF687 /* WebKit.framework */; };
+		8D696E4522AB15EB000FFF63 /* MessageListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D696E4422AB15EB000FFF63 /* MessageListViewController.swift */; };
+		8D696E4722AB16B6000FFF63 /* MessageListingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D696E4622AB16B6000FFF63 /* MessageListingTableViewCell.swift */; };
 		8D7BAC4922A23E0800A5E1E6 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4822A23E0800A5E1E6 /* Settings.swift */; };
 		8D7BAC4B22A25C0100A5E1E6 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4A22A25C0100A5E1E6 /* SettingsViewController.swift */; };
 		8D7BAC4F22A3A4A000A5E1E6 /* MentionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4E22A3A4A000A5E1E6 /* MentionsViewController.swift */; };
@@ -54,6 +56,8 @@
 		8D2A838322A760FD00DF96D5 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		8D448ACA22A996CB006EF687 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		8D448ACC22A9C16C006EF687 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		8D696E4422AB15EB000FFF63 /* MessageListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageListViewController.swift; sourceTree = "<group>"; };
+		8D696E4622AB16B6000FFF63 /* MessageListingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageListingTableViewCell.swift; sourceTree = "<group>"; };
 		8D7BAC4822A23E0800A5E1E6 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		8D7BAC4A22A25C0100A5E1E6 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		8D7BAC4E22A3A4A000A5E1E6 /* MentionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MentionsViewController.swift; sourceTree = "<group>"; };
@@ -128,6 +132,7 @@
 				8D7BAC6322A4E71100A5E1E6 /* ToolsViewController.swift */,
 				8D075A4C22A630830024D028 /* StringSettingViewController.swift */,
 				8D448ACA22A996CB006EF687 /* LoginViewController.swift */,
+				8D696E4422AB15EB000FFF63 /* MessageListViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -178,6 +183,7 @@
 				8D7BAC5B22A4DC5200A5E1E6 /* EmoteTableViewCell.swift */,
 				8D7BAC5D22A4DC6000A5E1E6 /* FlairTableViewCell.swift */,
 				8D075A4E22A630B60024D028 /* StringSettingTableViewCell.swift */,
+				8D696E4622AB16B6000FFF63 /* MessageListingTableViewCell.swift */,
 			);
 			path = TableCells;
 			sourceTree = "<group>";
@@ -350,6 +356,7 @@
 				8D7BAC5C22A4DC5200A5E1E6 /* EmoteTableViewCell.swift in Sources */,
 				8D7BAC4922A23E0800A5E1E6 /* Settings.swift in Sources */,
 				8D7BAC5E22A4DC6000A5E1E6 /* FlairTableViewCell.swift in Sources */,
+				8D696E4722AB16B6000FFF63 /* MessageListingTableViewCell.swift in Sources */,
 				8D7BAC4F22A3A4A000A5E1E6 /* MentionsViewController.swift in Sources */,
 				8DCB087222A78749007C37AD /* SearchViewController.swift in Sources */,
 				8DEA1A0222A0D4F700ECB238 /* ChatTableViewCell.swift in Sources */,
@@ -360,6 +367,7 @@
 				8DEA1A0522A0DDCA00ECB238 /* dggParser.swift in Sources */,
 				8D7BAC6022A4DCE000A5E1E6 /* EmoteListViewController.swift in Sources */,
 				8D448ACB22A996CB006EF687 /* LoginViewController.swift in Sources */,
+				8D696E4522AB15EB000FFF63 /* MessageListViewController.swift in Sources */,
 				8D075A4D22A630830024D028 /* StringSettingViewController.swift in Sources */,
 				8DEA19ED22A0C67500ECB238 /* AppDelegate.swift in Sources */,
 				8DCB087022A78484007C37AD /* SearchListViewController.swift in Sources */,
