@@ -14,7 +14,8 @@
 		8D2A838022A75C7900DF96D5 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D2A837F22A75C7900DF96D5 /* Roboto-Regular.ttf */; };
 		8D2A838222A75C8500DF96D5 /* Roboto-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D2A838122A75C8500DF96D5 /* Roboto-Italic.ttf */; };
 		8D2A838422A760FD00DF96D5 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2A838322A760FD00DF96D5 /* PaddingLabel.swift */; };
-		8D7BAC4722A235ED00A5E1E6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4622A235ED00A5E1E6 /* LoginViewController.swift */; };
+		8D448ACB22A996CB006EF687 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D448ACA22A996CB006EF687 /* LoginViewController.swift */; };
+		8D448ACD22A9C16C006EF687 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D448ACC22A9C16C006EF687 /* WebKit.framework */; };
 		8D7BAC4922A23E0800A5E1E6 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4822A23E0800A5E1E6 /* Settings.swift */; };
 		8D7BAC4B22A25C0100A5E1E6 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4A22A25C0100A5E1E6 /* SettingsViewController.swift */; };
 		8D7BAC4F22A3A4A000A5E1E6 /* MentionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4E22A3A4A000A5E1E6 /* MentionsViewController.swift */; };
@@ -51,7 +52,8 @@
 		8D2A837F22A75C7900DF96D5 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		8D2A838122A75C8500DF96D5 /* Roboto-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Italic.ttf"; sourceTree = "<group>"; };
 		8D2A838322A760FD00DF96D5 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
-		8D7BAC4622A235ED00A5E1E6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		8D448ACA22A996CB006EF687 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		8D448ACC22A9C16C006EF687 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		8D7BAC4822A23E0800A5E1E6 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		8D7BAC4A22A25C0100A5E1E6 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		8D7BAC4E22A3A4A000A5E1E6 /* MentionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MentionsViewController.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D448ACD22A9C16C006EF687 /* WebKit.framework in Frameworks */,
 				358999804AB4042B415BBFEC /* Pods_GnomeGG.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -95,6 +98,7 @@
 		7781EC485B06542DFB3B2BBE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8D448ACC22A9C16C006EF687 /* WebKit.framework */,
 				26DA3A29A62BA1F1DDFF7ED1 /* Pods_GnomeGG.framework */,
 			);
 			name = Frameworks;
@@ -113,7 +117,6 @@
 			isa = PBXGroup;
 			children = (
 				8DEA19EE22A0C67500ECB238 /* ChatViewController.swift */,
-				8D7BAC4622A235ED00A5E1E6 /* LoginViewController.swift */,
 				8D7BAC4A22A25C0100A5E1E6 /* SettingsViewController.swift */,
 				8D7BAC4E22A3A4A000A5E1E6 /* MentionsViewController.swift */,
 				8DCB087122A78749007C37AD /* SearchViewController.swift */,
@@ -124,6 +127,7 @@
 				8D7BAC6122A4DCE900A5E1E6 /* FlairListViewController.swift */,
 				8D7BAC6322A4E71100A5E1E6 /* ToolsViewController.swift */,
 				8D075A4C22A630830024D028 /* StringSettingViewController.swift */,
+				8D448ACA22A996CB006EF687 /* LoginViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -154,11 +158,11 @@
 				8DEA1A0022A0D4E000ECB238 /* TableCells */,
 				8DEA19EC22A0C67500ECB238 /* AppDelegate.swift */,
 				8D7BAC5022A4549D00A5E1E6 /* ViewControllers */,
+				8D7BAC4822A23E0800A5E1E6 /* Settings.swift */,
 				8DEA19F222A0C67500ECB238 /* Main.storyboard */,
 				8DEA19F522A0C67600ECB238 /* Assets.xcassets */,
 				8DEA19F722A0C67600ECB238 /* LaunchScreen.storyboard */,
 				8DEA19FA22A0C67600ECB238 /* Info.plist */,
-				8D7BAC4822A23E0800A5E1E6 /* Settings.swift */,
 				8D7BAC5722A472E900A5E1E6 /* CustomTabBarController.swift */,
 				8D7BAC6522A4F79600A5E1E6 /* CustomNavigationViewController.swift */,
 				8D2A838322A760FD00DF96D5 /* PaddingLabel.swift */,
@@ -340,7 +344,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D7BAC4722A235ED00A5E1E6 /* LoginViewController.swift in Sources */,
 				8D7BAC6622A4F79600A5E1E6 /* CustomNavigationViewController.swift in Sources */,
 				8D7BAC6222A4DCE900A5E1E6 /* FlairListViewController.swift in Sources */,
 				8D7BAC5422A4670500A5E1E6 /* StringRecord.swift in Sources */,
@@ -356,6 +359,7 @@
 				8D2A838422A760FD00DF96D5 /* PaddingLabel.swift in Sources */,
 				8DEA1A0522A0DDCA00ECB238 /* dggParser.swift in Sources */,
 				8D7BAC6022A4DCE000A5E1E6 /* EmoteListViewController.swift in Sources */,
+				8D448ACB22A996CB006EF687 /* LoginViewController.swift in Sources */,
 				8D075A4D22A630830024D028 /* StringSettingViewController.swift in Sources */,
 				8DEA19ED22A0C67500ECB238 /* AppDelegate.swift in Sources */,
 				8DCB087022A78484007C37AD /* SearchListViewController.swift in Sources */,

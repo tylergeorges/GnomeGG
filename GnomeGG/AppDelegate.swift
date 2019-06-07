@@ -40,53 +40,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-    
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey  : Any] = [:]) -> Bool {
-        guard let host = url.host else {
-            return true
-        }
-        
-        print(url.absoluteString)
-        
-        guard host == "oauth" else {
-            return true
-        }
-
-        guard let parameters = url.queryParameters else {
-            return true
-        }
-        
-        guard let code = parameters["code"] else {
-            return true
-        }
-        
-        guard let state = parameters["state"] else {
-            return true
-        }
-        
-        guard var topController = UIApplication.shared.keyWindow?.rootViewController else  {
-            return true
-        }
-
-        while let presentedViewController = topController.presentedViewController {
-            topController = presentedViewController
-        }
-            
-        
-        if let settingsViewController = topController as? SettingsViewController {
-            settingsViewController.receivedOauthCode(code: code, state: state)
-            return true
-        }
-        
-        if let loginViewController = topController as? LoginViewController {
-            loginViewController.receivedOauthCode(code: code, state: state)
-            return true
-        }
-        
-        
-        
-        return true
-    }
 }
 
 let settings = Settings()

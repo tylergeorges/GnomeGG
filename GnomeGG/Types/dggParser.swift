@@ -457,7 +457,7 @@ private func renderNames(connectionCount: Int, userCount: Int) -> NSMutableAttri
     fullMessage.append(spacer)
     fullMessage.append(customFlair(image: UIImage(named: "infobadge")!, width: 16, height: 16))
     fullMessage.append(spacer)
-    let username = (settings.dggUsername != "") ? settings.dggUsername : "Anonymous"
+    let username = (settings.dggUsername != "") ? settings.dggUsername : ((settings.dggCookie != "") ? "User" : "Anonymous")
     let template = "Connected to Websocket as %@. %d connections, %d users."
     let message = NSMutableAttributedString(string: String(format: template, username, connectionCount, userCount))
     message.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "FFFFFFF"), range: NSRange(location: 0, length: message.length))

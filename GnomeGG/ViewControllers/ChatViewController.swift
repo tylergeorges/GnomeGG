@@ -18,6 +18,8 @@
 // SETTINGS
 // VV why dis message not work???
 // "MSG {\"nick\":\"hotdoglover86\",\"features\":[\"subscriber\",\"flair9\",\"flair13\"],\"timestamp\":1559537867279,\"data\":\"Abathur\\nHmmStiny\\nShekels\\nAMAZIN\\nDANKMEMES\\nAYYYLMAO\\nHmmStiny\\nCheekerZ\\nNOBULLY\\nSlugstiny\\nDEATH\\nBlade\\nLOVE\\nDAFUK\\nNappa\\nOverRustle\\nMLADY\\nDANKMEMES\\nWEEWOO\\nPICNIC\\nShekels\\nGODSTINY\\nAYAYA\\nSNAP\\nAngelThump\\nFrankerZ\\nSOTRIGGERED\\nKappaRoss\\nBlubstiny\\nGameOfThrows\\nAbathur\\nHhhehhehe\\nDravewin\\nAbathur\\nHmmStiny\\nShekels\\nAMAZIN\\nDANKMEMES\\nAYYYLMAO\\nHmmStiny\\nCheekerZ\\nNOBULLY\\nSlugstiny\\nDEATH\\nBlade\\nLOVE\\nDAFUK\\nNappa\\nOverRustle\\nMLADY\\nDANKMEMES\\nWEEWOO\\nPICNIC\\nShekels\\nGODSTINY\\nAYAYA\\nSNAP\\nAngelThump\\nFrankerZ\\nSOTRIGGERED\"}"
+// UNBAN {"nick":"Bot","features":["protected","bot"],"timestamp":1559850166179,"data":"kosidus"}
+// UNMUTE {"nick":"Bot","features":["protected","bot"],"timestamp":1559850479566,"data":"Tassadar"}
 
 import UIKit
 import Starscream
@@ -52,6 +54,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     let chatCommands = ["/me", "/message", "/ignore", "/unignore", "/w", "/msg", "/reply"]
     
     var lastMessageFrom: String?
+    var connectionCookie: String?
     
     var activeSuggestions = [Suggestion]()
     var lastComboableEmote: Emote?
@@ -59,7 +62,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var chatTableView: UITableView!
     @IBOutlet weak var scrollDownLabel: UILabel!
     @IBOutlet weak var nvActivityIndicatorView: NVActivityIndicatorView!
-    @IBOutlet weak var loginBarButton: UIBarButtonItem!
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var chatInputTextView: UITextView!
@@ -94,15 +96,21 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
 
 
-        if settings.dggUsername == "" && settings.dggAccessToken != "" {
-            dggAPI.getUserInfo(completionHandler: {
-                if settings.dggUsername != "" {
-                    print("Logged in as: " + settings.dggUsername)
-                    //                self.title = "Logged in as: " + settings.dggUsername
-                }
-            })
-        }
+        // TODO get user info on load
+//        if settings.dggUsername == "" && settings.dggAccessToken != "" {
+//            dggAPI.getUserInfo(completionHandler: {
+//                if settings.dggUsername != "" {
+//                    print("Logged in as: " + settings.dggUsername)
+//                    //                self.title = "Logged in as: " + settings.dggUsername
+//                }
+//            })
+//        }
 
+        print("getting user settings")
+        if settings.dggCookie != "" {
+            dggAPI.getUserSettings()
+        }
+        
         print("getting history")
         dggAPI.getHistory(completionHandler: { oldMessages in
             print("got history")
@@ -138,16 +146,17 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
 
         print("Connected?")
         print(websocket?.isConnected)
-        
-        if settings.loginKey == "" {
-            loginBarButton.title = "Login"
-        } else {
-            loginBarButton.title = "Logout"
-            
-            if !authenticatedWebsocket && !(websocket?.isConnected ?? true) {
+
+        if settings.dggCookie != "" {
+            if !authenticatedWebsocket && !(websocket?.isConnected ?? true) || settings.dggCookie != (connectionCookie ?? "") {
                 if !loadingHistory {
                     connectToWebsocket()
                 }
+            }
+        } else {
+            if authenticatedWebsocket {
+                authenticatedWebsocket = false
+                connectToWebsocket()
             }
         }
     }
@@ -157,11 +166,12 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.newMessage(message: .Connecting)
         var request = URLRequest(url: URL(string: dggWebsocketURL)!)
         request.timeoutInterval = 5
-        request.setValue("13", forHTTPHeaderField: "Sec-WebSocket-Version")
-        authenticatedWebsocket = settings.loginKey != ""
+        authenticatedWebsocket = settings.dggCookie != ""
         if authenticatedWebsocket {
-            let cookieTemplate = "authtoken=%@"
-            request.setValue(String(format: cookieTemplate, settings.loginKey), forHTTPHeaderField: "Cookie")
+            let cookieTemplate = "sid=%@"
+            request.setValue(String(format: cookieTemplate, settings.dggCookie), forHTTPHeaderField: "Cookie")
+//            let cookieTemplate = "authtoken=%@"
+//            request.setValue(String(format: cookieTemplate, settings.loginKey), forHTTPHeaderField: "Cookie")
         }
         
         if let websocket = websocket {
@@ -268,6 +278,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     func websocketDidConnect(socket: WebSocketClient) {
         print("websocket is connected")
         websocketBackoff = 100
+        connectionCookie = settings.dggCookie
         updateUI()
     }
     
@@ -591,11 +602,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     private func logout() {
-        settings.loginKey = ""
-        settings.dggAccessToken = ""
-        settings.dggRefreshToken = ""
-        settings.dggUsername = ""
-        loginBarButton.title = "Login"
+        settings.reset()
         if authenticatedWebsocket {
             connectToWebsocket()
         }
@@ -725,21 +732,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             if chatInputTextView.isFirstResponder {
                 self.view.frame.origin.y = -(keyboardSize.height - tabBarController!.tabBar.frame.height)
             }
-        }
-    }
-
-    @IBAction func loginTap(_ sender: Any) {
-        if settings.loginKey == "" {
-            performSegue(withIdentifier: "loginSegue", sender: self)
-        } else {
-            let alert = UIAlertController(title: "Logout?", message: "Are you sure you want to log out?", preferredStyle: .alert)
-            
-            alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
-            alert.addAction(UIAlertAction(title: "Yee", style: .default, handler: {action in
-                self.logout()
-            }))
-            
-            self.present(alert, animated: true)
         }
     }
 

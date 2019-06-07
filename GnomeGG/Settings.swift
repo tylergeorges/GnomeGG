@@ -12,33 +12,18 @@ import SwiftyJSON
 class Settings {
     
     // MARK: Properties
+    
+    // App settings
     var notifications: Bool {
         didSet {
             defaults.set(notifications, forKey: DefaultKeys.notifications)
         }
     }
     
-    var loginKey: String {
+    // todo
+    var syncSettings: Bool {
         didSet {
-            defaults.set(loginKey, forKey: DefaultKeys.loginKey)
-        }
-    }
-    
-    var dggAccessToken: String {
-        didSet {
-            defaults.set(dggAccessToken, forKey: DefaultKeys.dggAccessToken)
-        }
-    }
-    
-    var dggRefreshToken: String {
-        didSet {
-            defaults.set(dggRefreshToken, forKey: DefaultKeys.dggRefreshToken)
-        }
-    }
-    
-    var dggUsername: String {
-        didSet {
-            defaults.set(dggUsername, forKey: DefaultKeys.dggUsername)
+            defaults.set(syncSettings, forKey: DefaultKeys.syncSettings)
         }
     }
     
@@ -64,6 +49,73 @@ class Settings {
         }
     }
     
+    var bbdggEmotes: Bool {
+        didSet {
+            defaults.set(bbdggEmotes, forKey: DefaultKeys.bbdggEmotes)
+        }
+    }
+    
+    // DGG settings
+    
+    var dggUsername: String {
+        didSet {
+            defaults.set(dggUsername, forKey: DefaultKeys.dggUsername)
+        }
+    }
+    
+    var dggCookie: String {
+        didSet {
+            defaults.set(dggCookie, forKey: DefaultKeys.dggCookie)
+        }
+    }
+    
+    // todo
+    var showTime: Bool {
+        didSet {
+            defaults.set(showTime, forKey: DefaultKeys.showTime)
+        }
+    }
+    
+    // todo
+    var hideFlairs: Bool {
+        didSet {
+            defaults.set(hideFlairs, forKey: DefaultKeys.hideFlairs)
+        }
+    }
+    
+    // todo
+    var nickHighlights: [String] {
+        didSet {
+            do {
+                let encodedData: Data = try NSKeyedArchiver.archivedData(withRootObject: nickHighlights, requiringSecureCoding: false)
+                defaults.set(encodedData, forKey: DefaultKeys.nickHighlights)
+            } catch let error {
+                print(error)
+            }
+        }
+    }
+    
+    // todo
+    var showWhispersInChat: Bool {
+        didSet {
+            defaults.set(showWhispersInChat, forKey: DefaultKeys.showWhispersInChat)
+        }
+    }
+    
+    // todo
+    var autoCompletion: Bool {
+        didSet {
+            defaults.set(autoCompletion, forKey: DefaultKeys.autoCompletion)
+        }
+    }
+    
+    // todo
+    var hideNSFW: Bool {
+        didSet {
+            defaults.set(hideNSFW, forKey: DefaultKeys.hideNSFW)
+        }
+    }
+    
     var customHighlights: [String] {
         didSet {
             do {
@@ -85,7 +137,8 @@ class Settings {
             }
         }
     }
-    
+
+    // todo
     var userTags: [UserTag] {
         didSet {
             do {
@@ -96,7 +149,8 @@ class Settings {
             }
         }
     }
-    
+
+    // todo
     var usernameHighlights: Bool {
         didSet {
             defaults.set(usernameHighlights, forKey: DefaultKeys.usernameHighlights)
@@ -109,38 +163,37 @@ class Settings {
         }
     }
     
-    var bbdggEmotes: Bool {
-        didSet {
-            defaults.set(bbdggEmotes, forKey: DefaultKeys.bbdggEmotes)
-        }
-    }
+    var dggUserSettings: [JSON]?
     
     
     let defaults = UserDefaults.standard
     
     // Key constants to use for settings storage
     struct DefaultKeys {
-        static let loginKey = "loginKey"
         static let notifications = "notifications"
-        static let dggAccessToken = "dggAccessToken"
-        static let dggRefreshToken = "dggRefreshToken"
+        static let syncSettings = "syncSettings"
         static let dggUsername = "dggUsername"
         static let stalkHistory = "stalkHistory"
-        static let usernameHighlights = "usernameHighlights"
-        static let customHighlights = "customHighlights"
-        static let ignoredUsers = "ignoredUsers"
-        static let userTags = "userTags"
-        static let harshIgnore = "harshIgnore"
+        static let usernameHighlights = "highlight"
+        static let customHighlights = "customhighlight"
+        static let ignoredUsers = "ignorenicks"
+        static let userTags = "taggednicks"
+        static let harshIgnore = "ignorementions"
         static let lookupHistory = "lookupHistory"
         static let bbdggEmotes = "bbdggEmotes"
+        static let dggCookie = "dggCookie"
+        static let showTime = "showtime"
+        static let hideFlairs = "hideflairicons"
+        static let nickHighlights = "highlightnicks"
+        static let showWhispersInChat = "showhispersinchat"
+        static let autoCompletion = "autocompletehelper"
+        static let hideNSFW = "hidensfw"
     }
     
     // Default values
     struct DefaultSettings {
-        static let loginKey = ""
         static let notifications = false
-        static let dggAccessToken = ""
-        static let dggRefreshToken = ""
+        static let syncSettings = true
         static let dggUsername = ""
         static let stalkHistory = [StringRecord(string: "Destiny", date: Date())]
         static let usernameHighlights = true
@@ -150,6 +203,13 @@ class Settings {
         static let harshIgnore = false
         static let lookupHistory = [StringRecord]()
         static let bbdggEmotes = true
+        static let dggCookie = ""
+        static let showTime = true
+        static let hideFlairs = false
+        static let nickHighlights = [String]()
+        static let showWhispersInChat = true
+        static let autoCompletion = true
+        static let hideNSFW = false
     }
     
     init() {
@@ -166,10 +226,45 @@ class Settings {
             usernameHighlights = DefaultSettings.usernameHighlights
         }
         
-        loginKey = defaults.string(forKey: DefaultKeys.loginKey) ?? DefaultSettings.loginKey
-        dggAccessToken = defaults.string(forKey: DefaultKeys.dggAccessToken) ?? DefaultSettings.dggAccessToken
-        dggRefreshToken = defaults.string(forKey: DefaultKeys.dggRefreshToken) ?? DefaultSettings.dggRefreshToken
+        if defaults.object(forKey: DefaultKeys.syncSettings) != nil {
+            syncSettings = defaults.bool(forKey: DefaultKeys.syncSettings)
+        } else {
+            syncSettings = DefaultSettings.syncSettings
+        }
+        
+        if defaults.object(forKey: DefaultKeys.showTime) != nil {
+            showTime = defaults.bool(forKey: DefaultKeys.showTime)
+        } else {
+            showTime = DefaultSettings.showTime
+        }
+        
+        if defaults.object(forKey: DefaultKeys.hideFlairs) != nil {
+            hideFlairs = defaults.bool(forKey: DefaultKeys.hideFlairs)
+        } else {
+            hideFlairs = DefaultSettings.hideFlairs
+        }
+        
+        if defaults.object(forKey: DefaultKeys.showWhispersInChat) != nil {
+            showWhispersInChat = defaults.bool(forKey: DefaultKeys.showWhispersInChat)
+        } else {
+            showWhispersInChat = DefaultSettings.showWhispersInChat
+        }
+        
+        if defaults.object(forKey: DefaultKeys.autoCompletion) != nil {
+            autoCompletion = defaults.bool(forKey: DefaultKeys.autoCompletion)
+        } else {
+            autoCompletion = DefaultSettings.autoCompletion
+        }
+        
+        if defaults.object(forKey: DefaultKeys.hideNSFW) != nil {
+            hideNSFW = defaults.bool(forKey: DefaultKeys.hideNSFW)
+        } else {
+            hideNSFW = DefaultSettings.hideNSFW
+        }
+        
+        
         dggUsername = defaults.string(forKey: DefaultKeys.dggUsername) ?? DefaultSettings.dggUsername
+        dggCookie = defaults.string(forKey: DefaultKeys.dggCookie) ?? DefaultSettings.dggCookie
         
         let decodedStalkHistory  = defaults.data(forKey: DefaultKeys.stalkHistory)
         if let data = decodedStalkHistory {
@@ -209,6 +304,18 @@ class Settings {
             self.customHighlights = DefaultSettings.customHighlights
         }
         
+        let nickHighlights = defaults.data(forKey: DefaultKeys.nickHighlights)
+        if let data = nickHighlights {
+            do {
+                self.nickHighlights = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as! [String]
+            } catch let error {
+                print(error)
+                self.nickHighlights = DefaultSettings.nickHighlights
+            }
+        } else {
+            self.nickHighlights = DefaultSettings.nickHighlights
+        }
+        
         let ignoredUsers = defaults.data(forKey: DefaultKeys.ignoredUsers)
         if let data = ignoredUsers {
             do {
@@ -244,5 +351,89 @@ class Settings {
         } else {
             bbdggEmotes = DefaultSettings.bbdggEmotes
         }
+    }
+    
+    func reset() {
+        dggUsername = DefaultSettings.dggUsername
+        dggCookie = DefaultSettings.dggCookie
+        
+        showTime = DefaultSettings.showTime
+        hideFlairs = DefaultSettings.hideFlairs
+        usernameHighlights = DefaultSettings.usernameHighlights
+        customHighlights = DefaultSettings.customHighlights
+        nickHighlights = DefaultSettings.nickHighlights
+        userTags = DefaultSettings.userTags
+        showWhispersInChat = DefaultSettings.showWhispersInChat
+        ignoredUsers = DefaultSettings.ignoredUsers
+        autoCompletion = DefaultSettings.autoCompletion
+        hideNSFW = DefaultSettings.hideNSFW
+        harshIgnore = DefaultSettings.harshIgnore
+    }
+    
+    func parseDGGUserSettings(json: [JSON]) {
+        dggUserSettings = json
+        for setting in json {
+            switch setting.arrayValue[0].stringValue {
+            case DefaultKeys.showTime:
+                if let bool = setting[1].bool {
+                    showTime = bool
+                }
+            case DefaultKeys.hideFlairs:
+                if let bool = setting[1].bool {
+                    hideFlairs = bool
+                }
+            case DefaultKeys.usernameHighlights:
+                if let bool = setting[1].bool {
+                    usernameHighlights = bool
+                }
+            case DefaultKeys.customHighlights: customHighlights = setting[1].arrayValue.map {$0.stringValue}
+            case DefaultKeys.nickHighlights: nickHighlights = setting[1].arrayValue.map {$0.stringValue}
+            case DefaultKeys.userTags: break // todo
+            case DefaultKeys.showWhispersInChat:
+                if let bool = setting[1].bool {
+                    showWhispersInChat = bool
+                }
+            case DefaultKeys.ignoredUsers: ignoredUsers = setting[1].arrayValue.map {$0.stringValue}
+            case DefaultKeys.autoCompletion:
+                if let bool = setting[1].bool {
+                    autoCompletion = bool
+                }
+            case DefaultKeys.hideNSFW:
+                if let bool = setting[1].bool {
+                    hideNSFW = bool
+                }
+                // harshignore
+            case DefaultKeys.harshIgnore:
+                if let bool = setting[1].bool {
+                    harshIgnore = bool
+                }
+            default: break
+            }
+        }
+    }
+    
+    func getDGGSettingJSON() -> [JSON]? {
+        guard let json = dggUserSettings else {
+            return nil
+        }
+
+        for var setting in json {
+            switch setting.arrayValue[0].stringValue {
+            case DefaultKeys.showTime: setting[1].bool = showTime
+            case DefaultKeys.hideFlairs: setting[1].bool = hideFlairs
+            case DefaultKeys.usernameHighlights: setting[1].bool = usernameHighlights
+            case DefaultKeys.customHighlights: setting[1].arrayObject = customHighlights
+            case DefaultKeys.nickHighlights: setting[1].arrayObject = nickHighlights
+            case DefaultKeys.userTags: break // todo
+            case DefaultKeys.showWhispersInChat: setting[1].bool = showWhispersInChat
+            case DefaultKeys.ignoredUsers: setting[1].arrayObject = ignoredUsers
+            case DefaultKeys.autoCompletion: setting[1].bool = autoCompletion
+            case DefaultKeys.hideNSFW: setting[1].bool = hideNSFW
+            case DefaultKeys.harshIgnore:  setting[1].bool = harshIgnore
+            default: break
+            }
+        }
+        
+        return json
     }
 }

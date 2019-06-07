@@ -20,14 +20,8 @@ class DGGAPI {
     let emoteEndpoint = "https://cdn.destiny.gg/4.2.0/emotes/emotes.json"
     let bbdggEmoteEndpoint = "https://polecat.me/api/bbdgg_emotes"
     let historyEndpoint = "https://www.destiny.gg/api/chat/history"
-    let dggOauthURL = "https://www.destiny.gg/oauth/authorize"
-    let dggTokenURL = "https://www.destiny.gg/oauth/token"
-    let userInfoURL = "https://destiny.gg/api/userinfo"
-    let clientID = "3YMN8kbRgCbPWW2l2dJzoD5kzCIv8SQa"
-    let redirectURL = "gnome-gg://oauth/authorize"
-    let codeVerifier = "jjEJi7X1CNrqvmfKMQzYXfNqR647cz6DEWpLmYMtDELDqQWclDoYMUwDKqas"
-    let codeChallenge = "M2Y0N2ZiMTQxNTU3ZmY2NDIyNDI0OTc3ZDA1NTY4MWMyM2UwYTJiZGMzZWVhZGQ4MDk3NTQ0MGIxMDk1ZjIxNg=="
-    var state: String?
+    let userInfoEndpoint = "https://www.destiny.gg/api/chat/me"
+
     var backgroundSessionManager: SessionManager?
     var activeSessionManager: SessionManager?
     
@@ -103,197 +97,43 @@ class DGGAPI {
         }
     }
     
-    func getUserInfo(completionHandler: @escaping () -> Void) {
-        guard let url = getUserInfoURL() else {
-            return
-        }
-        
-        backgroundSessionManager!.request(url, method: .get).validate().responseJSON { response in
-            if response.response?.statusCode == 403 {
-                self.refreshAccessToken()
-                return
-            }
-            
+    func getUserSettings() {
+        let headers: HTTPHeaders = [
+            "Cookie": "sid=" + settings.dggCookie,
+        ]
+
+        activeSessionManager!.request(userInfoEndpoint, headers: headers).validate().responseJSON { response in
             switch response.result {
             case .success(let value):
+                print("got user settings")
                 let json = JSON(value)
-                
-                if let code = json["code"].int {
-                    if code == 403 {
-                        self.refreshAccessToken()
+                if let nick = json["nick"].string {
+                    settings.dggUsername = nick
+                    print("User nick: " + nick)
+                } else {
+                    guard let username = json["username"].string else {
                         return
                     }
+                    print("User nick: " + username)
+                    settings.dggUsername = username
                 }
                 
-                guard let nick = json["nick"].string else {
-                    self.showAuthenticationError(reason: "API did not return a nick")
-                    print(json)
-                    settings.dggUsername = ""
-                    completionHandler()
+                guard let dggSettings = json["settings"].array else {
                     return
                 }
                 
-                settings.dggUsername = nick
-                completionHandler()
-                self.showAuthenticationSuccess()
+                print("got user settings json")
                 
-                
-            case .failure:
-                self.showAuthenticationError(reason: "Error Making User Information Request")
-                completionHandler()
-            }
-        }
-        
-    }
-    
-    func refreshAccessToken() {
-        if settings.dggRefreshToken == "" {
-            settings.dggUsername = ""
-            return
-        }
-        
-        guard let url = getRefreshURL() else {
-            oauthFailed(reason: "Error Generating Refresh URL")
-            return
-        }
-        
-        backgroundSessionManager!.request(url, method: .get).validate().responseJSON { response in
-            switch response.result {
-            case .success(let value):
-                let json = JSON(value)
-                
-                guard let accessToken = json["access_token"].string else {
-                    self.oauthFailed(reason: "Access Token Not Found")
-                    return
-                }
-                
-                settings.dggAccessToken = accessToken
-                print("got dgg access token")
-                self.getUserInfo {}
-                
-                guard let refreshToken = json["refresh_token"].string else {
-                    self.oauthFailed(reason: "Refresh Token Not Found")
-                    return
-                }
-                
-                settings.dggRefreshToken = refreshToken
-                
-                
-                
-                
+                settings.parseDGGUserSettings(json: dggSettings)
             case .failure(let error):
-                self.oauthFailed(reason: "Error Getting Access Token")
-            }
-        }
-    }
-    
-    func getOauthToken(state: String, code: String, completion: @escaping () -> Void) {
-        guard state == self.state! else {
-            print("states don't match")
-            // ERROR
-            return
-        }
-        
-        guard let tokenURL = getTokenURL(code: code) else {
-            print("error making token url")
-            // ERROR
-            return
-        }
-        
-        backgroundSessionManager!.request(tokenURL, method: .get).validate().responseJSON { response in
-            if response.response?.statusCode == 403 {
-                self.refreshAccessToken()
-            }
-            
-            switch response.result {
-            case .success(let value):
-                let json = JSON(value)
-                
-                guard let accessToken = json["access_token"].string else {
-                    return
+                if response.response?.statusCode == 403 {
+                    print("cookie invalidated")
+                    settings.reset()
+                } else {
+                    print(error)
                 }
-                
-                settings.dggAccessToken = accessToken
-                dggAPI.getUserInfo(completionHandler: completion)
-                
-                guard let refreshToken = json["refresh_token"].string else {
-                    // error
-                    return
-                }
-                
-                settings.dggRefreshToken = refreshToken
-                
-                
-            case .failure(let error):
-                // error
-                return
             }
         }
-    }
-    
-    private func oauthFailed(reason: String) {
-        showAuthenticationError(reason: reason)
-    }
-    
-    func getOauthURL() -> URL? {
-        var components = URLComponents(string: dggOauthURL)
-        
-        var queries = [URLQueryItem]()
-        queries.append(URLQueryItem(name: "response_type", value: "code"))
-        queries.append(URLQueryItem(name: "client_id", value: clientID))
-        queries.append(URLQueryItem(name: "redirect_uri", value: redirectURL))
-        state = randomString(length: 30)
-        queries.append(URLQueryItem(name: "state", value: state!))
-        queries.append(URLQueryItem(name: "code_challenge", value: codeChallenge))
-        
-        
-        components?.queryItems = queries
-        return components?.url
-    }
-    
-    private func getRefreshURL() -> URL? {
-        var components = URLComponents(string: dggTokenURL)
-        
-        var queries = [URLQueryItem]()
-        queries.append(URLQueryItem(name: "grant_type", value: "refresh_token"))
-        queries.append(URLQueryItem(name: "client_id", value: clientID))
-        queries.append(URLQueryItem(name: "refresh_token", value: settings.dggRefreshToken))
-        
-        components?.queryItems = queries
-        return components?.url
-    }
-    
-    func getTokenURL(code: String) -> URL? {
-        var components = URLComponents(string: dggTokenURL)
-        
-        var queries = [URLQueryItem]()
-        queries.append(URLQueryItem(name: "grant_type", value: "authorization_code"))
-        queries.append(URLQueryItem(name: "code", value: code))
-        queries.append(URLQueryItem(name: "client_id", value: clientID))
-        queries.append(URLQueryItem(name: "redirect_uri", value: redirectURL))
-        queries.append(URLQueryItem(name: "code_verifier", value: codeVerifier))
-        
-        components?.queryItems = queries
-        return components?.url
-    }
-    
-    private func getUserInfoURL() -> URL? {
-        var components = URLComponents(string: userInfoURL)
-        
-        var queries = [URLQueryItem]()
-        guard settings.dggAccessToken != "" else {
-            return nil
-        }
-
-        queries.append(URLQueryItem(name: "token", value: settings.dggAccessToken))
-        
-        components?.queryItems = queries
-        return components?.url
-    }
-    
-    private func randomString(length: Int) -> String {
-        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        return String((0..<length).map{ _ in letters.randomElement()! })
     }
     
     private func downloadEmote(json: JSON) {

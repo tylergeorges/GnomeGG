@@ -14,17 +14,22 @@ import StoreKit
 class SettingsViewController: UIViewController {
 
     @IBOutlet weak var authWithDggButton: UIButton!
-    @IBOutlet weak var setUsernameButton: UIButton!
     @IBOutlet weak var loggedInAsLabel: UILabel!
     @IBOutlet weak var resetUsernameButton: UIButton!
     @IBOutlet weak var rateTheAppButton: UIButton!
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
     @IBOutlet weak var gnomeImageView: UIImageView!
     @IBOutlet weak var authWIthDggHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var setUsernameHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var harshIgnoreSwitch: UISwitch!
     @IBOutlet weak var chatHighlightSwitch: UISwitch!
     @IBOutlet weak var bbdggEmotesSwitch: UISwitch!
+    @IBOutlet weak var syncSettingsSwitch: UISwitch!
+    @IBOutlet weak var hideNSFW: UISwitch!
+    @IBOutlet weak var showWhispers: UISwitch!
+    @IBOutlet weak var chatSuggestions: UISwitch!
+    @IBOutlet weak var hideFlairs: UISwitch!
+    @IBOutlet weak var showTimestamps: UISwitch!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     let twitter = "https://twitter.com/tehpolecat"
     let overrustle = "https://overrustlelogs.net/"
@@ -35,27 +40,25 @@ class SettingsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         let random = Int.random(in: 0 ..< 4)
         gnomeImageView.isHidden = random != 0
-        
+        heightConstraints = authWIthDggHeightConstraint.constant
         harshIgnoreSwitch.isOn = settings.harshIgnore
         chatHighlightSwitch.isOn = settings.usernameHighlights
         bbdggEmotesSwitch.isOn = settings.bbdggEmotes
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
-        heightConstraints = setUsernameHeightConstraint.constant
-        updateUI()
+        scrollView.contentSize = CGSize(width: scrollView.contentSize.width, height: 900)
     }
     
-    func receivedOauthCode(code: String, state: String) {
-        dggAPI.getOauthToken(state: state, code: code, completion: {
-            self.updateUI()
-        })
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        updateUI()
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -63,19 +66,20 @@ class SettingsViewController: UIViewController {
     }
 
     private func updateUI() {
-        loggedInAsLabel.text = "Logged in as: " + settings.dggUsername
         if settings.dggUsername != "" {
+            loggedInAsLabel.text = "Logged in as: " + settings.dggUsername
+        } else if settings.dggCookie != "" {
+            loggedInAsLabel.text = "Logged in"
+        }
+        
+        if settings.dggCookie != "" {
             authWithDggButton.isHidden = true
-            setUsernameButton.isHidden = true
             loggedInAsLabel.isHidden = false
-            setUsernameHeightConstraint.constant = 0
             authWIthDggHeightConstraint.constant = 0
             resetUsernameButton.isHidden = false
         } else {
             authWithDggButton.isHidden = false
-            setUsernameButton.isHidden = false
             loggedInAsLabel.isHidden = true
-            setUsernameHeightConstraint.constant = heightConstraints!
             authWIthDggHeightConstraint.constant = heightConstraints!
             resetUsernameButton.isHidden = true
         }
@@ -103,36 +107,12 @@ class SettingsViewController: UIViewController {
     @IBAction func doneTapped(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
-    @IBAction func dggAuthTap(_ sender: Any) {
-        guard let url = dggAPI.getOauthURL() else { return }
-        UIApplication.shared.open(url)
-    }
 
-    @IBAction func setUsernameTap(_ sender: Any) {
-        let alert = UIAlertController(title: "Enter Your Username", message: nil, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        
-        alert.addTextField(configurationHandler: { textField in
-            textField.placeholder = "DankGnome"
-        })
-        
-        alert.addAction(UIAlertAction(title: "Save", style: .default, handler: { action in
-            
-            if let key = alert.textFields?.first?.text {
-                settings.dggUsername = key
-                self.updateUI()
-            }
-        }))
-        
-        self.present(alert, animated: true)
-    }
-
-    @IBAction func resetUsernameTap(_ sender: Any) {
-        settings.dggUsername = ""
-        settings.dggAccessToken = ""
-        settings.dggRefreshToken = ""
+    @IBAction func logoutTap(_ sender: Any) {
+        settings.reset()
         updateUI()
     }
+
     @IBAction func rateTheAppTap(_ sender: Any) {
         if #available( iOS 10.3,*){
             SKStoreReviewController.requestReview()
@@ -159,5 +139,17 @@ class SettingsViewController: UIViewController {
     }
     @IBAction func bbdggEmoteSwitch(_ sender: Any) {
         settings.bbdggEmotes = bbdggEmotesSwitch.isOn
+    }
+    @IBAction func syncSettings(_ sender: Any) {
+    }
+    @IBAction func hideNSFW(_ sender: Any) {
+    }
+    @IBAction func showWhispers(_ sender: Any) {
+    }
+    @IBAction func chatSuggestions(_ sender: Any) {
+    }
+    @IBAction func hideFlairs(_ sender: Any) {
+    }
+    @IBAction func showTime(_ sender: Any) {
     }
 }
