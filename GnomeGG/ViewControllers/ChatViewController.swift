@@ -170,8 +170,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         if authenticatedWebsocket {
             let cookieTemplate = "sid=%@"
             request.setValue(String(format: cookieTemplate, settings.dggCookie), forHTTPHeaderField: "Cookie")
-//            let cookieTemplate = "authtoken=%@"
-//            request.setValue(String(format: cookieTemplate, settings.loginKey), forHTTPHeaderField: "Cookie")
         }
         
         if let websocket = websocket {
@@ -474,8 +472,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if (text == "\n") {
-            sendButton.setImage(UIImage(named: "send"), for: .normal)
-            textView.resignFirstResponder()
+//            sendButton.setImage(UIImage(named: "send"), for: .normal)
+//            textView.resignFirstResponder()
+            sendNewMessage()
             return false
         }
         return true

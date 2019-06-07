@@ -97,15 +97,36 @@ class DGGAPI {
         }
     }
     
+    func checkForNewCookies() {
+        for cookie in HTTPCookieStorage.shared.cookies! {
+            if cookie.domain == ".www.destiny.gg"  {
+                if cookie.name == "sid" {
+                    if cookie.value != settings.dggCookie {
+                        print("New session cookie found")
+                        settings.dggCookie = cookie.value
+                    }
+                }
+                
+                if cookie.name == "rememberme" {
+                    if cookie.value != settings.dggRememberCookie {
+                        print("New rememberme cookie found")
+                        settings.dggRememberCookie = cookie.value
+                    }
+                }
+            }
+        }
+    }
+    
     func getUserSettings() {
         let headers: HTTPHeaders = [
-            "Cookie": "sid=" + settings.dggCookie,
+            "Cookie": getCookieString(),
         ]
 
         activeSessionManager!.request(userInfoEndpoint, headers: headers).validate().responseJSON { response in
             switch response.result {
             case .success(let value):
                 print("got user settings")
+                self.checkForNewCookies()
                 let json = JSON(value)
                 if let nick = json["nick"].string {
                     settings.dggUsername = nick
@@ -222,10 +243,15 @@ class DGGAPI {
         URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
     }
     
-    private func showAuthenticationError(reason: String) {
-        let banner = NotificationBanner(title: "Authorization Error", subtitle: reason, style: .danger)
-        banner.show()
+    private func getCookieString() -> String {
+        var output = "sid=" + settings.dggCookie
+        if settings.dggRememberCookie != "" {
+            output += "; rememberme=" + settings.dggRememberCookie
+        }
+        
+        return output
     }
+    
     
     private func showAuthenticationSuccess() {
 //        let banner = NotificationBanner(title: "Authentication Succeful", subtitle: "Authenticated as " + settings.dggUsername, style: .success)

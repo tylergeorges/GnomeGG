@@ -69,6 +69,12 @@ class Settings {
         }
     }
     
+    var dggRememberCookie: String {
+        didSet {
+            defaults.set(dggRememberCookie, forKey: DefaultKeys.dggRememberCookie)
+        }
+    }
+    
     // todo
     var showTime: Bool {
         didSet {
@@ -182,6 +188,7 @@ class Settings {
         static let lookupHistory = "lookupHistory"
         static let bbdggEmotes = "bbdggEmotes"
         static let dggCookie = "dggCookie"
+        static let dggRememberCookie = "dggRememberCookie"
         static let showTime = "showtime"
         static let hideFlairs = "hideflairicons"
         static let nickHighlights = "highlightnicks"
@@ -204,6 +211,7 @@ class Settings {
         static let lookupHistory = [StringRecord]()
         static let bbdggEmotes = true
         static let dggCookie = ""
+        static let dggRememberCookie = ""
         static let showTime = true
         static let hideFlairs = false
         static let nickHighlights = [String]()
@@ -265,6 +273,7 @@ class Settings {
         
         dggUsername = defaults.string(forKey: DefaultKeys.dggUsername) ?? DefaultSettings.dggUsername
         dggCookie = defaults.string(forKey: DefaultKeys.dggCookie) ?? DefaultSettings.dggCookie
+        dggRememberCookie = defaults.string(forKey: DefaultKeys.dggRememberCookie) ?? DefaultSettings.dggRememberCookie
         
         let decodedStalkHistory  = defaults.data(forKey: DefaultKeys.stalkHistory)
         if let data = decodedStalkHistory {

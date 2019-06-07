@@ -207,6 +207,72 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="bkW-PT-cOb" userLabel="auth view">
+                                <rect key="frame" x="157" y="143.5" width="100" height="520"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vet-BV-c1v" userLabel="Twitch">
+                                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="Vet-BV-c1v" secondAttribute="height" multiplier="1:1" id="0ro-YL-m1d"/>
+                                        </constraints>
+                                        <state key="normal" image="twitch"/>
+                                        <connections>
+                                            <action selector="twitchTap:" destination="JnD-9P-Gch" eventType="touchUpInside" id="fFc-rf-WGJ"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Td5-QU-zLE" userLabel="Google">
+                                        <rect key="frame" x="0.0" y="105" width="100" height="100"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="Td5-QU-zLE" secondAttribute="height" multiplier="1:1" id="Qu2-Rf-Uyp"/>
+                                        </constraints>
+                                        <state key="normal" image="google"/>
+                                        <connections>
+                                            <action selector="googleTap:" destination="JnD-9P-Gch" eventType="touchUpInside" id="QIo-WB-e9b"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KdP-sY-xVc" userLabel="Twitter">
+                                        <rect key="frame" x="0.0" y="210" width="100" height="100"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="KdP-sY-xVc" secondAttribute="height" multiplier="1:1" id="Z4e-6T-5kn"/>
+                                        </constraints>
+                                        <state key="normal" image="twitter"/>
+                                        <connections>
+                                            <action selector="twitterTap:" destination="JnD-9P-Gch" eventType="touchUpInside" id="0vk-Gk-Bwx"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7hv-PP-cRj" userLabel="Reddit">
+                                        <rect key="frame" x="0.0" y="315" width="100" height="100"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="7hv-PP-cRj" secondAttribute="height" multiplier="1:1" id="xbm-5g-Utr"/>
+                                        </constraints>
+                                        <state key="normal" image="reddit"/>
+                                        <connections>
+                                            <action selector="redditTap:" destination="JnD-9P-Gch" eventType="touchUpInside" id="Wzb-x9-PiT"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q6G-CX-NOs" userLabel="Discord">
+                                        <rect key="frame" x="0.0" y="420" width="100" height="100"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="Q6G-CX-NOs" secondAttribute="height" multiplier="1:1" id="Eaq-aO-MIT"/>
+                                        </constraints>
+                                        <state key="normal" image="discord"/>
+                                        <connections>
+                                            <action selector="discordTap:" destination="JnD-9P-Gch" eventType="touchUpInside" id="Z5H-xc-0Eq"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="PIf-rG-VcF"/>
+                                    <constraint firstItem="Vet-BV-c1v" firstAttribute="leading" secondItem="bkW-PT-cOb" secondAttribute="leading" id="SYD-1N-SR1"/>
+                                    <constraint firstItem="Vet-BV-c1v" firstAttribute="top" secondItem="bkW-PT-cOb" secondAttribute="top" id="cj5-DQ-q54"/>
+                                </constraints>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chose Sign-In Method" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jHQ-3J-nd5">
+                                <rect key="frame" x="121" y="93" width="172" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cookie" translatesAutoresizingMaskIntoConstraints="NO" id="43V-Ac-s8z">
                                 <rect key="frame" x="143" y="384" width="128" height="128"/>
                                 <constraints>
@@ -214,12 +280,36 @@
                                     <constraint firstAttribute="width" constant="128" id="jIO-Dq-ymr"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stealing Cookies" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YLB-fH-Z6I">
-                                <rect key="frame" x="143" y="517" width="128" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Eating Cookies" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YLB-fH-Z6I">
+                                <rect key="frame" x="150" y="517" width="114" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1xD-GW-QRg" userLabel="RememberView">
+                                <rect key="frame" x="107" y="673.5" width="200" height="50"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remember Me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lUa-BR-9kC">
+                                        <rect key="frame" x="0.0" y="15" width="112" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6hM-Ft-h2F">
+                                        <rect key="frame" x="151" y="9.5" width="51" height="31"/>
+                                    </switch>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="0cf-yG-cpJ"/>
+                                    <constraint firstAttribute="width" constant="200" id="USB-vK-MUi"/>
+                                    <constraint firstItem="6hM-Ft-h2F" firstAttribute="centerY" secondItem="1xD-GW-QRg" secondAttribute="centerY" id="iNI-8N-R5A"/>
+                                    <constraint firstItem="6hM-Ft-h2F" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="lUa-BR-9kC" secondAttribute="trailing" constant="8" symbolic="YES" id="oIl-Wm-Fd8"/>
+                                    <constraint firstAttribute="trailing" secondItem="6hM-Ft-h2F" secondAttribute="trailing" id="pSr-7z-WHN"/>
+                                    <constraint firstItem="lUa-BR-9kC" firstAttribute="leading" secondItem="1xD-GW-QRg" secondAttribute="leading" id="vt0-xu-7b8"/>
+                                    <constraint firstItem="lUa-BR-9kC" firstAttribute="centerY" secondItem="1xD-GW-QRg" secondAttribute="centerY" id="zBx-q6-Hwg"/>
+                                </constraints>
+                            </view>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bco-Aa-3HC">
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -237,16 +327,28 @@
                             <constraint firstItem="bco-Aa-3HC" firstAttribute="top" secondItem="Eeb-7i-3Rx" secondAttribute="bottom" id="AAu-dt-WQH"/>
                             <constraint firstItem="BCl-RA-xM0" firstAttribute="bottom" secondItem="bco-Aa-3HC" secondAttribute="bottom" id="B8e-Ql-NZ6"/>
                             <constraint firstItem="bco-Aa-3HC" firstAttribute="leading" secondItem="BCl-RA-xM0" secondAttribute="leading" id="Iyo-Lr-m2p"/>
+                            <constraint firstItem="1xD-GW-QRg" firstAttribute="top" secondItem="bkW-PT-cOb" secondAttribute="bottom" constant="10" id="JHS-Yy-osO"/>
+                            <constraint firstItem="jHQ-3J-nd5" firstAttribute="top" secondItem="Eeb-7i-3Rx" secondAttribute="bottom" constant="5" id="Tpa-NW-ww5"/>
                             <constraint firstItem="YLB-fH-Z6I" firstAttribute="top" secondItem="43V-Ac-s8z" secondAttribute="bottom" constant="5" id="Wfd-dn-ZTo"/>
+                            <constraint firstItem="bkW-PT-cOb" firstAttribute="top" secondItem="jHQ-3J-nd5" secondAttribute="bottom" constant="30" id="fAR-oj-wUF"/>
                             <constraint firstItem="YLB-fH-Z6I" firstAttribute="centerX" secondItem="MS5-wi-X6H" secondAttribute="centerX" id="fcN-pF-YAD"/>
+                            <constraint firstItem="bkW-PT-cOb" firstAttribute="centerX" secondItem="MS5-wi-X6H" secondAttribute="centerX" id="iHQ-iD-Uwr"/>
+                            <constraint firstItem="1xD-GW-QRg" firstAttribute="centerX" secondItem="MS5-wi-X6H" secondAttribute="centerX" id="kTd-Y2-58n"/>
                             <constraint firstItem="BCl-RA-xM0" firstAttribute="trailing" secondItem="bco-Aa-3HC" secondAttribute="trailing" id="qkE-fE-JDZ"/>
                             <constraint firstItem="Eeb-7i-3Rx" firstAttribute="trailing" secondItem="BCl-RA-xM0" secondAttribute="trailing" id="uJt-Ma-Cn9"/>
+                            <constraint firstItem="jHQ-3J-nd5" firstAttribute="centerX" secondItem="MS5-wi-X6H" secondAttribute="centerX" id="yi4-iR-cZJ"/>
                             <constraint firstItem="Eeb-7i-3Rx" firstAttribute="top" secondItem="BCl-RA-xM0" secondAttribute="top" id="zbS-FZ-axR"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="BCl-RA-xM0"/>
                     </view>
                     <connections>
+                        <outlet property="authStackView" destination="bkW-PT-cOb" id="ubZ-MU-mFP"/>
+                        <outlet property="choseSignInLabel" destination="jHQ-3J-nd5" id="f9b-lS-SW7"/>
+                        <outlet property="cookieImage" destination="43V-Ac-s8z" id="S2h-Wz-6Zz"/>
+                        <outlet property="cookieLabel" destination="YLB-fH-Z6I" id="8rZ-6z-R0k"/>
                         <outlet property="loginWebview" destination="bco-Aa-3HC" id="T6G-aE-vew"/>
+                        <outlet property="rememberMeSwitch" destination="6hM-Ft-h2F" id="7M0-Uv-JN3"/>
+                        <outlet property="rememberMeView" destination="1xD-GW-QRg" id="R4C-Av-2xk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qxu-RH-jkX" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1708,11 +1810,16 @@
     <resources>
         <image name="cookie" width="50" height="50"/>
         <image name="dggIcon" width="30" height="30"/>
+        <image name="discord" width="240" height="240"/>
         <image name="gnomeiswatching" width="91.5" height="67.5"/>
+        <image name="google" width="240" height="240"/>
         <image name="mentions" width="30" height="30"/>
+        <image name="reddit" width="240" height="240"/>
         <image name="send" width="30" height="30"/>
         <image name="settings" width="30" height="30"/>
         <image name="tools" width="30" height="30"/>
+        <image name="twitch" width="240" height="240"/>
+        <image name="twitter" width="240" height="240"/>
         <image name="uparrow" width="90" height="90"/>
         <image name="yee" width="91.5" height="67.5"/>
     </resources>
