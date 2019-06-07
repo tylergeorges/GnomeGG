@@ -24,7 +24,6 @@ class LoginViewController: UIViewController, WKNavigationDelegate {
     @IBOutlet weak var rememberMeView: UIView!
     @IBOutlet weak var cookieImage: UIImageView!
     
-    var tempCookie = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +36,7 @@ class LoginViewController: UIViewController, WKNavigationDelegate {
         cookieImage.isHidden = true
 
         loginWebview.navigationDelegate = self
+        loginWebview.customUserAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"
     }
     
     func webView(_ webView: WKWebView, decidePolicyFor: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
