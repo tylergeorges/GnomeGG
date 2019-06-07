@@ -194,6 +194,10 @@ class MentionsViewController: UIViewController, UITableViewDelegate, UITableView
         // it's over for chatcels
         let cell = tableView.dequeueReusableCell(withIdentifier: "chatCell", for: indexPath) as! ChatTableViewCell
         cell.selectionStyle = .none
+        guard renderedMessages.count > indexPath.row else {
+            return cell
+        }
+
         cell.renderMessage(message: renderedMessages[indexPath.row], messageEnum: messages[indexPath.row], isLog: true)
         
         if !loadingMentions && !outOfMentions && lastIndex < indexPath.row && (indexPath.row + 10) > renderedMessages.count {
