@@ -389,7 +389,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             return
         }
         
-        if text.count == 0 {
+        if text.count == 0 && chatInputTextView.isFirstResponder {
             sendButton.setImage(UIImage(named: "cancel"), for: .normal)
         } else {
             sendButton.setImage(UIImage(named: "send"), for: .normal)
@@ -474,7 +474,13 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         if (text == "\n") {
 //            sendButton.setImage(UIImage(named: "send"), for: .normal)
 //            textView.resignFirstResponder()
-            sendNewMessage()
+            if textView.text.count == 0 {
+                textView.resignFirstResponder()
+                sendButton.setImage(UIImage(named: "send"), for: .normal)
+            } else {
+                sendNewMessage()
+            }
+            
             return false
         }
         return true
@@ -650,6 +656,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     private func sendNewMessage() {
         defer {
             chatInputTextView.text = ""
+            if chatInputTextView.isFirstResponder {
+                sendButton.setImage(UIImage(named: "cancel"), for: .normal)
+            }
         }
         
         guard let message = chatInputTextView.text else {
@@ -666,7 +675,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         for command in chatCommands where words.first?.lowercased() == command {
             if command == "/ignore" {
                 if words.count == 1 {
-                    print("2")
                     newMessage(message: .InternalMessage(data: "Ignored users: " + settings.ignoredUsers.joined(separator: ", ")))
                     return
                 } else if words.count > 1 {
@@ -715,8 +723,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         // send the message
         let messageTemplate = "MSG {\"data\":\"%@\"}"
         websocket?.write(string: String(format: messageTemplate, trimmedMessage))
-        
-        print("send message " + trimmedMessage)
     }
     
     @objc
@@ -735,9 +741,13 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     @IBAction func sendTap(_ sender: Any) {
-        chatInputTextView.resignFirstResponder()
+        if chatInputTextView.text.count == 0 {
+            chatInputTextView.resignFirstResponder()
+            sendButton.setImage(UIImage(named: "send"), for: .normal)
+        }
         suggestionsScrollView.isHidden = true
         suggestionsHeightConstraints.constant = 0
+        sendNewMessage()
     }
 }
 
