@@ -365,6 +365,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     private func userJoined(user: String) {
+        for u in users where u.nick.lowercased() == user.lowercased() {
+            return
+        }
         users.append(User(nick: user, features: [String]()))
     }
     
