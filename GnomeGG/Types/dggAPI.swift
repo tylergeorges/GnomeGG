@@ -16,11 +16,12 @@ class DGGAPI {
     var flairs = [Flair]()
     var emotes = [Emote]()
     
-    let flairEndpoint = "https://cdn.destiny.gg/4.2.0/flairs/flairs.json"
-    let emoteEndpoint = "https://cdn.destiny.gg/4.2.0/emotes/emotes.json"
-    let bbdggEmoteEndpoint = "https://polecat.me/api/bbdgg_emotes"
-    let historyEndpoint = "https://www.destiny.gg/api/chat/history"
-    let userInfoEndpoint = "https://www.destiny.gg/api/chat/me"
+    private let flairEndpoint = "https://cdn.destiny.gg/4.2.0/flairs/flairs.json"
+    private let emoteEndpoint = "https://cdn.destiny.gg/4.2.0/emotes/emotes.json"
+    private let bbdggEmoteEndpoint = "https://polecat.me/api/bbdgg_emotes"
+    private let historyEndpoint = "https://www.destiny.gg/api/chat/history"
+    private let userInfoEndpoint = "https://www.destiny.gg/api/chat/me"
+    private let logOutEndpoint = "https://www.destiny.gg/logout"
 
     var backgroundSessionManager: SessionManager?
     var activeSessionManager: SessionManager?
@@ -155,6 +156,14 @@ class DGGAPI {
                 }
             }
         }
+    }
+    
+    func logOut() {
+        let headers: HTTPHeaders = [
+            "Cookie": getCookieString(),
+        ]
+        
+        backgroundSessionManager!.request(logOutEndpoint, headers: headers).validate().response { response in}
     }
     
     private func downloadEmote(json: JSON) {

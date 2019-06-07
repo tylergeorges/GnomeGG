@@ -363,6 +363,7 @@ class Settings {
     }
     
     func reset() {
+        dggAPI.logOut()
         dggUsername = DefaultSettings.dggUsername
         dggCookie = DefaultSettings.dggCookie
         
