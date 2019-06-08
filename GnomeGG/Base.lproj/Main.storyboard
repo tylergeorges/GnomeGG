@@ -551,6 +551,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="mentionsButton" destination="NBG-gS-RBP" id="gdn-4P-sxA"/>
                         <outlet property="yeeImageView" destination="LKZ-2S-Gte" id="aKQ-bG-j7x"/>
                     </connections>
                 </viewController>

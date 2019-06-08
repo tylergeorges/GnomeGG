@@ -10,6 +10,8 @@ import UIKit
 
 class ToolsViewController: UIViewController {
     
+    @IBOutlet weak var mentionsButton: UIButton!
+
     let twitter = "https://twitter.com/modalsevenths/"
     let twitch = "https://www.twitch.tv/destiny"
     let youtube = "https://www.youtube.com/user/Destiny"
@@ -28,6 +30,8 @@ class ToolsViewController: UIViewController {
         
         let random = Int.random(in: 0 ..< 20)
         yeeImageView.isHidden = random != 0
+        
+        mentionsButton.isEnabled = settings.dggUsername != ""
     }
 
     

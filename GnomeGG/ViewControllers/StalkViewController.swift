@@ -36,7 +36,6 @@ class StalkViewController: LogViewController {
             return
         }
         
-        print("getting messages " + String(offset))
         Alamofire.request(url, method: .get).validate().responseJSON { response in
             switch response.result {
             case .success(let value):

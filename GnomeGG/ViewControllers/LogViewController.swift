@@ -88,8 +88,12 @@ class LogViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         logLabel.isHidden = false
         logImageView.isHidden = false
         loadingDynamicData = false
-        
+
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(self.logBackoff), execute: {
+            guard self.controllerIsActive else {
+                return
+            }
+
             self.logBackoff = self.logBackoff * 2
             self.loadInitialMessages()
         })
