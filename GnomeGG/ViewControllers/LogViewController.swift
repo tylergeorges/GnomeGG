@@ -16,6 +16,17 @@ class LogViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     var loadingText = "Loading Logs"
     var errorText = "Error Loading Logs"
     
+    var offset = 0
+    let count = 100
+    var loadingDynamicData = false
+    var outOfData = false
+    
+    var lastIndex = -1
+    
+    private let refreshControl = UIRefreshControl()
+    
+    var isDynamic = false
+    
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var logImageView: UIImageView!
@@ -25,81 +36,68 @@ class LogViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     var renderedMessages = [NSMutableAttributedString]()
     var messages = [DGGMessage]()
     
-    var overrustleURL: String?
-    
-    var isReversed = false
-    
     var isLog = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if isDynamic {
+            refreshController()
+        }
 
         tableView.dataSource = self
         tableView.delegate = self
         
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
+
         loadInitialMessages()
     }
-    
+
+    @objc
     func loadInitialMessages() {
         nvActivityIndicatorView.startAnimating()
+        
         tableView.isHidden = true
         logImageView.isHidden = false
         logLabel.text = loadingText
         logLabel.isHidden = false
-        
-        dggAPI.getUserLogs(for: overrustleURL!, completionHandler: { messages in
-            self.nvActivityIndicatorView.stopAnimating()
-            guard var messages = messages else {
-                self.loadFailed()
-                return
-            }
-            
-            if self.isReversed {
-                messages = messages.reversed()
-            }
-            
-            DispatchQueue.global(qos: .utility).async {
-                for message in messages {
-                    guard let parsedMessage = DGGParser.parseOverrustleLogLine(line: message) else {
-                        print("error parsing message")
-                        continue
-                    }
-                    
-                    self.renderedMessages.append(renderMessage(message: parsedMessage, isLog: self.isLog))
-                    self.messages.append(parsedMessage)
-                    
-                    if self.messages.count % 100 == 0 {
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                            self.tableView.isHidden = false
-                            self.logLabel.isHidden = true
-                            self.logImageView.isHidden = true
-                        }
-                    }
-                }
-                
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                    self.tableView.isHidden = false
-                    self.logLabel.isHidden = true
-                    self.logImageView.isHidden = true
-                }
-            }
-        })
+    }
+    
+    func loadMoreData() {
+        nvActivityIndicatorView.startAnimating()
+        loadingDynamicData = true
     }
     
     func loadFailed() {
+        nvActivityIndicatorView.stopAnimating()
         logLabel.text = errorText
         tableView.isHidden = true
         logLabel.isHidden = false
         logImageView.isHidden = false
+        loadingDynamicData = false
         
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(self.logBackoff), execute: {
             self.logBackoff = self.logBackoff * 2
             self.loadInitialMessages()
         })
+    }
+    
+    func doneLoading() {
+        nvActivityIndicatorView.stopAnimating()
+        tableView.reloadData()
+        tableView.isHidden = false
+        logLabel.isHidden = true
+        logImageView.isHidden = true
+        loadingDynamicData = false
+        refreshControl.endRefreshing()
+        
+        if messages.count == 0 {
+            tableView.isHidden = true
+            logLabel.text = "No Messages To Load"
+            logLabel.isHidden = false
+            logImageView.isHidden = false
+        }
     }
     
     // MARK: - TableView
@@ -112,7 +110,25 @@ class LogViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         cell.selectionStyle = .none
         cell.renderMessage(message: renderedMessages[indexPath.row], messageEnum: messages[indexPath.row], isLog: isLog)
         
+        if !loadingDynamicData && !outOfData && lastIndex < indexPath.row && (indexPath.row + 10) > renderedMessages.count {
+            loadMoreData()
+        }
+        
+        lastIndex = indexPath.row
+    
         return cell
+    }
+    
+    
+    private func refreshController() {
+        refreshControl.tintColor = UIColor(red:1, green:1, blue:1, alpha:1.0)
+        if #available(iOS 10.0, *) {
+            tableView?.refreshControl = refreshControl
+        } else {
+            tableView?.addSubview(refreshControl)
+        }
+        
+        refreshControl.addTarget(self, action: #selector(loadInitialMessages), for: .valueChanged)
     }
 
 }

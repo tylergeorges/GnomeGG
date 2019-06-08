@@ -135,7 +135,7 @@ class LogListViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier {
             if identifier == "userLogSegue" {
-                let destVC = segue.destination as! LogViewController
+                let destVC = segue.destination as! OverrustleLogViewController
                 destVC.overrustleURL = list[selectedIndex].urlComponent
             }
         }

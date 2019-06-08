@@ -22,6 +22,7 @@
 		8D696E4D22AB652B000FFF63 /* LogListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D696E4C22AB652B000FFF63 /* LogListViewController.swift */; };
 		8D696E4F22AB6668000FFF63 /* LogListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D696E4E22AB6668000FFF63 /* LogListTableViewCell.swift */; };
 		8D696E5122AB7804000FFF63 /* LogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D696E5022AB7804000FFF63 /* LogViewController.swift */; };
+		8D696E5322ABAE11000FFF63 /* OverrustleLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D696E5222ABAE11000FFF63 /* OverrustleLogViewController.swift */; };
 		8D7BAC4922A23E0800A5E1E6 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4822A23E0800A5E1E6 /* Settings.swift */; };
 		8D7BAC4B22A25C0100A5E1E6 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4A22A25C0100A5E1E6 /* SettingsViewController.swift */; };
 		8D7BAC4F22A3A4A000A5E1E6 /* MentionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4E22A3A4A000A5E1E6 /* MentionsViewController.swift */; };
@@ -66,6 +67,7 @@
 		8D696E4C22AB652B000FFF63 /* LogListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogListViewController.swift; sourceTree = "<group>"; };
 		8D696E4E22AB6668000FFF63 /* LogListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogListTableViewCell.swift; sourceTree = "<group>"; };
 		8D696E5022AB7804000FFF63 /* LogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogViewController.swift; sourceTree = "<group>"; };
+		8D696E5222ABAE11000FFF63 /* OverrustleLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverrustleLogViewController.swift; sourceTree = "<group>"; };
 		8D7BAC4822A23E0800A5E1E6 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		8D7BAC4A22A25C0100A5E1E6 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		8D7BAC4E22A3A4A000A5E1E6 /* MentionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MentionsViewController.swift; sourceTree = "<group>"; };
@@ -134,7 +136,6 @@
 				8DCB087122A78749007C37AD /* SearchViewController.swift */,
 				8D7BAC5122A458CE00A5E1E6 /* StalkListViewController.swift */,
 				8DCB086F22A78484007C37AD /* SearchListViewController.swift */,
-				8D7BAC5922A4C68A00A5E1E6 /* StalkViewController.swift */,
 				8D7BAC5F22A4DCE000A5E1E6 /* EmoteListViewController.swift */,
 				8D7BAC6122A4DCE900A5E1E6 /* FlairListViewController.swift */,
 				8D7BAC6322A4E71100A5E1E6 /* ToolsViewController.swift */,
@@ -144,6 +145,8 @@
 				8D696E4A22AB3D5B000FFF63 /* MessageViewController.swift */,
 				8D696E4C22AB652B000FFF63 /* LogListViewController.swift */,
 				8D696E5022AB7804000FFF63 /* LogViewController.swift */,
+				8D696E5222ABAE11000FFF63 /* OverrustleLogViewController.swift */,
+				8D7BAC5922A4C68A00A5E1E6 /* StalkViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 				8D696E4722AB16B6000FFF63 /* MessageListingTableViewCell.swift in Sources */,
 				8D7BAC4F22A3A4A000A5E1E6 /* MentionsViewController.swift in Sources */,
 				8DCB087222A78749007C37AD /* SearchViewController.swift in Sources */,
+				8D696E5322ABAE11000FFF63 /* OverrustleLogViewController.swift in Sources */,
 				8DEA1A0222A0D4F700ECB238 /* ChatTableViewCell.swift in Sources */,
 				8D7BAC5222A458CE00A5E1E6 /* StalkListViewController.swift in Sources */,
 				8D696E4B22AB3D5B000FFF63 /* MessageViewController.swift in Sources */,

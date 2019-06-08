@@ -11,64 +11,40 @@ import Alamofire
 import SwiftyJSON
 import NVActivityIndicatorView
 
-class StalkViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
-    @IBOutlet weak var stalkTableView: UITableView!
-    @IBOutlet weak var nvActivityIndicatorView: NVActivityIndicatorView!
-    @IBOutlet weak var noMessagesLabel: UILabel!
-    
-    var messages = [DGGMessage]()
-    var renderedMessages = [NSMutableAttributedString]()
-    var offset = 0
-    let count = 100
-    var loadingStalks = false
-    var outOfStalks = false
-    var lastIndex = -1
+class StalkViewController: LogViewController {
     var stalkedUser: String?
     
     let stalkURL = "https://polecat.me/api/stalk/%@"
     
-    private let refreshControl = UIRefreshControl()
-    
     override func viewDidLoad() {
+        isDynamic = true
         super.viewDidLoad()
-        noMessagesLabel.isHidden = true
-        stalkTableView.dataSource = self
-        stalkTableView.delegate = self
-        
-        refreshController()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        loadInitialStalks()
-    }
     
+    override func loadMoreData() {
+        guard !outOfData && !loadingDynamicData else {
+            return
+        }
+        
+        super.loadMoreData()
+        getMessages()
+    }
+
     private func getMessages() {
         guard let url = getStalkURL() else {
             return
         }
         
+        print("getting messages " + String(offset))
         Alamofire.request(url, method: .get).validate().responseJSON { response in
-            self.loadingStalks = false
-            self.refreshControl.endRefreshing()
             switch response.result {
             case .success(let value):
                 let json = JSON(value)
                 self.offset += self.count
                 
                 if json.arrayValue.count < self.count {
-                    self.outOfStalks = true
-                    if self.renderedMessages.count == 0 {
-                        self.noMessagesLabel.isHidden = false
-                        self.stalkTableView.isHidden = true
-                    }
-                }
-                
-                if json.arrayValue.count != 0 {
-                    self.noMessagesLabel.isHidden = true
-                    self.stalkTableView.isHidden = false
+                    self.outOfData = true
                 }
                 
                 for stalk in json.arrayValue.reversed() {
@@ -89,13 +65,12 @@ class StalkViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     self.renderedMessages.append(renderMessage(message: message, isLog: true))
                 }
                 
-                self.stalkTableView.reloadData()
-                
-                self.nvActivityIndicatorView.stopAnimating()
+                self.doneLoading()
                 
                 
             case .failure(let error):
                 print(error)
+                self.loadFailed()
                 return
             }
         }
@@ -104,17 +79,17 @@ class StalkViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     
     @objc
-    private func loadInitialStalks() {
-        guard !loadingStalks else {
+    override func loadInitialMessages() {
+        guard !loadingDynamicData else {
             return
         }
         
-        nvActivityIndicatorView.startAnimating()
+        super.loadInitialMessages()
+
         messages = [DGGMessage]()
         renderedMessages = [NSMutableAttributedString]()
         offset = 0
-        outOfStalks = false
-        loadingStalks = false
+        outOfData = false
         getMessages()
     }
     
@@ -131,41 +106,5 @@ class StalkViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         components?.queryItems = queries
         return components?.url
-    }
-        
-    
-    private func refreshController() {
-        refreshControl.tintColor = UIColor(red:1, green:1, blue:1, alpha:1.0)
-        if #available(iOS 10.0, *) {
-            stalkTableView?.refreshControl = refreshControl
-        } else {
-            stalkTableView?.addSubview(refreshControl)
-        }
-        
-        refreshControl.addTarget(self, action: #selector(loadInitialStalks), for: .valueChanged)
-    }
-    
-    // MARK: - TableView
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return renderedMessages.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // it's over for chatcels
-        let cell = tableView.dequeueReusableCell(withIdentifier: "chatCell", for: indexPath) as! ChatTableViewCell
-        cell.selectionStyle = .none
-        cell.renderMessage(message: renderedMessages[indexPath.row], messageEnum: messages[indexPath.row], isLog: true)
-        
-        if !loadingStalks && !outOfStalks && lastIndex < indexPath.row && (indexPath.row + 10) > renderedMessages.count {
-            getMessages()
-        }
-        
-        lastIndex = indexPath.row
-        
-        return cell
     }
 }

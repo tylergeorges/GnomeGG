@@ -930,10 +930,10 @@
             </objects>
             <point key="canvasLocation" x="3265" y="1854"/>
         </scene>
-        <!--Log View Controller-->
+        <!--Overrustle Log View Controller-->
         <scene sceneID="eXN-nv-5nS">
             <objects>
-                <viewController id="2Sa-Zo-1cQ" customClass="LogViewController" customModule="GnomeGG" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="2Sa-Zo-1cQ" customClass="OverrustleLogViewController" customModule="GnomeGG" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="rdH-EI-93h">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1037,11 +1037,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="log" translatesAutoresizingMaskIntoConstraints="NO" id="lKv-Na-FzA">
+                                <rect key="frame" x="157" y="354" width="100" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="Nuf-Hw-L9n"/>
+                                    <constraint firstAttribute="width" constant="100" id="mOB-dQ-gVY"/>
+                                    <constraint firstAttribute="height" constant="100" id="n6Q-Mf-2Lm"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="qLs-8f-fN4"/>
+                                </constraints>
+                            </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NtG-C4-C1h">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="chatCell" rowHeight="110" id="W8x-1S-xKu" customClass="ChatTableViewCell" customModule="GnomeGG" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="logCell" rowHeight="110" id="W8x-1S-xKu" customClass="ChatTableViewCell" customModule="GnomeGG" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="110"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="W8x-1S-xKu" id="bEl-CW-r49">
@@ -1093,7 +1102,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Messages Found For User" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EJf-WM-ZUg">
-                                <rect key="frame" x="93.5" y="393.5" width="227" height="21"/>
+                                <rect key="frame" x="93.5" y="474" width="227" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -1101,9 +1110,11 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="lKv-Na-FzA" firstAttribute="centerY" secondItem="dxj-L0-J6t" secondAttribute="centerY" id="7u7-8u-pIE"/>
                             <constraint firstItem="Rjo-tF-RpE" firstAttribute="centerY" secondItem="dxj-L0-J6t" secondAttribute="centerY" id="BCB-16-KOH"/>
                             <constraint firstItem="Rjo-tF-RpE" firstAttribute="centerX" secondItem="dxj-L0-J6t" secondAttribute="centerX" id="H6H-O6-Dkt"/>
-                            <constraint firstItem="EJf-WM-ZUg" firstAttribute="centerY" secondItem="dxj-L0-J6t" secondAttribute="centerY" id="LXQ-7K-sui"/>
+                            <constraint firstItem="lKv-Na-FzA" firstAttribute="centerX" secondItem="dxj-L0-J6t" secondAttribute="centerX" id="Ida-Sy-j5c"/>
+                            <constraint firstItem="EJf-WM-ZUg" firstAttribute="top" secondItem="lKv-Na-FzA" secondAttribute="bottom" constant="20" id="Opv-x5-lzK"/>
                             <constraint firstItem="NtG-C4-C1h" firstAttribute="leading" secondItem="RH2-3J-Pg5" secondAttribute="leading" id="Wzt-pa-Cbt"/>
                             <constraint firstItem="NtG-C4-C1h" firstAttribute="top" secondItem="RH2-3J-Pg5" secondAttribute="top" id="cyQ-yv-BuC"/>
                             <constraint firstItem="RH2-3J-Pg5" firstAttribute="trailing" secondItem="NtG-C4-C1h" secondAttribute="trailing" id="ebz-8J-sQx"/>
@@ -1113,9 +1124,10 @@
                         <viewLayoutGuide key="safeArea" id="RH2-3J-Pg5"/>
                     </view>
                     <connections>
-                        <outlet property="noMessagesLabel" destination="EJf-WM-ZUg" id="4OQ-Vf-3Q8"/>
-                        <outlet property="nvActivityIndicatorView" destination="Rjo-tF-RpE" id="gY7-w4-9hS"/>
-                        <outlet property="stalkTableView" destination="NtG-C4-C1h" id="VFv-aW-pDi"/>
+                        <outlet property="logImageView" destination="lKv-Na-FzA" id="LYG-k8-pha"/>
+                        <outlet property="logLabel" destination="EJf-WM-ZUg" id="Xt8-A8-C1r"/>
+                        <outlet property="nvActivityIndicatorView" destination="Rjo-tF-RpE" id="z3u-2j-gDi"/>
+                        <outlet property="tableView" destination="NtG-C4-C1h" id="CmT-nG-bX5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YL8-kY-aho" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2350,6 +2362,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="co9-zQ-f7J"/>
-        <segue reference="FgN-R2-avK"/>
+        <segue reference="czj-oe-qmq"/>
     </inferredMetricsTieBreakers>
 </document>
