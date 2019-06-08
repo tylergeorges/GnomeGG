@@ -49,7 +49,7 @@ class SearchListViewController: UIViewController, UITableViewDelegate, UITableVi
             return
         }
         
-        if identifier == "searchKeyword" {
+        if identifier == "keywordSegue" {
             let destVC = segue.destination as! SearchViewController
             destVC.searchTerm = searchKeyword
         }
@@ -63,7 +63,7 @@ class SearchListViewController: UIViewController, UITableViewDelegate, UITableVi
             settings.lookupHistory[i].date = Date()
         }
         
-        self.performSegue(withIdentifier: "searchKeyword", sender: self)
+        self.performSegue(withIdentifier: "keywordSegue", sender: self)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -120,7 +120,7 @@ class SearchListViewController: UIViewController, UITableViewDelegate, UITableVi
                 }
                 
                 self.searchKeyword = keyword
-                self.performSegue(withIdentifier: "searchKeyword", sender: nil)
+                self.performSegue(withIdentifier: "keywordSegue", sender: nil)
             }
         }))
         

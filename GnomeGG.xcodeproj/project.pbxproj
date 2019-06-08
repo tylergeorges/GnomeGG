@@ -27,7 +27,6 @@
 		8D696E5322ABAE11000FFF63 /* OverrustleLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D696E5222ABAE11000FFF63 /* OverrustleLogViewController.swift */; };
 		8D7BAC4922A23E0800A5E1E6 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4822A23E0800A5E1E6 /* Settings.swift */; };
 		8D7BAC4B22A25C0100A5E1E6 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4A22A25C0100A5E1E6 /* SettingsViewController.swift */; };
-		8D7BAC4F22A3A4A000A5E1E6 /* MentionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4E22A3A4A000A5E1E6 /* MentionsViewController.swift */; };
 		8D7BAC5222A458CE00A5E1E6 /* StalkListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC5122A458CE00A5E1E6 /* StalkListViewController.swift */; };
 		8D7BAC5422A4670500A5E1E6 /* StringRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC5322A4670500A5E1E6 /* StringRecord.swift */; };
 		8D7BAC5622A46C1700A5E1E6 /* stringRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC5522A46C1700A5E1E6 /* stringRecordTableViewCell.swift */; };
@@ -74,7 +73,6 @@
 		8D696E5222ABAE11000FFF63 /* OverrustleLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverrustleLogViewController.swift; sourceTree = "<group>"; };
 		8D7BAC4822A23E0800A5E1E6 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		8D7BAC4A22A25C0100A5E1E6 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		8D7BAC4E22A3A4A000A5E1E6 /* MentionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MentionsViewController.swift; sourceTree = "<group>"; };
 		8D7BAC5122A458CE00A5E1E6 /* StalkListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StalkListViewController.swift; sourceTree = "<group>"; };
 		8D7BAC5322A4670500A5E1E6 /* StringRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringRecord.swift; sourceTree = "<group>"; };
 		8D7BAC5522A46C1700A5E1E6 /* stringRecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = stringRecordTableViewCell.swift; sourceTree = "<group>"; };
@@ -136,8 +134,6 @@
 			children = (
 				8DEA19EE22A0C67500ECB238 /* ChatViewController.swift */,
 				8D7BAC4A22A25C0100A5E1E6 /* SettingsViewController.swift */,
-				8D7BAC4E22A3A4A000A5E1E6 /* MentionsViewController.swift */,
-				8DCB087122A78749007C37AD /* SearchViewController.swift */,
 				8D7BAC5122A458CE00A5E1E6 /* StalkListViewController.swift */,
 				8DCB086F22A78484007C37AD /* SearchListViewController.swift */,
 				8D7BAC5F22A4DCE000A5E1E6 /* EmoteListViewController.swift */,
@@ -151,6 +147,7 @@
 				8D696E5022AB7804000FFF63 /* LogViewController.swift */,
 				8D696E5222ABAE11000FFF63 /* OverrustleLogViewController.swift */,
 				8D7BAC5922A4C68A00A5E1E6 /* StalkViewController.swift */,
+				8DCB087122A78749007C37AD /* SearchViewController.swift */,
 				8D5F446022AC589500CB413D /* UserTagListViewController.swift */,
 			);
 			path = ViewControllers;
@@ -383,7 +380,6 @@
 				8D7BAC4922A23E0800A5E1E6 /* Settings.swift in Sources */,
 				8D7BAC5E22A4DC6000A5E1E6 /* FlairTableViewCell.swift in Sources */,
 				8D696E4722AB16B6000FFF63 /* MessageListingTableViewCell.swift in Sources */,
-				8D7BAC4F22A3A4A000A5E1E6 /* MentionsViewController.swift in Sources */,
 				8DCB087222A78749007C37AD /* SearchViewController.swift in Sources */,
 				8D696E5322ABAE11000FFF63 /* OverrustleLogViewController.swift in Sources */,
 				8DEA1A0222A0D4F700ECB238 /* ChatTableViewCell.swift in Sources */,
@@ -559,7 +555,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8CM57Q439Z;
 				INFOPLIST_FILE = GnomeGG/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.polecat.GnomeGG;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -575,7 +574,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8CM57Q439Z;
 				INFOPLIST_FILE = GnomeGG/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.polecat.GnomeGG;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

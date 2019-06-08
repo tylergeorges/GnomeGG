@@ -73,9 +73,9 @@ class MessageListViewController: UIViewController, UITableViewDelegate, UITableV
                 }
                 
                 if unreads > 0 {
-                    self.tabBarController?.tabBar.items?[3].badgeValue = String(unreads)
+                    self.tabBarController?.tabBar.items?[0].badgeValue = String(unreads)
                 } else {
-                    self.tabBarController?.tabBar.items?[3].badgeValue = nil
+                    self.tabBarController?.tabBar.items?[0].badgeValue = nil
                 }
             } else {
                 self.statusLabel.isHidden = false

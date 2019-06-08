@@ -11,121 +11,52 @@ import Alamofire
 import SwiftyJSON
 import NVActivityIndicatorView
 
-class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
-    var messages = [DGGMessage]()
-    var renderedMessages = [NSMutableAttributedString]()
-    
-    var offset = 0
-    let count = 100
-    var loadingMentions = false
-    var outOfMentions = false
-    var lastIndex = -1
+class SearchViewController: LogViewController {
     
     let mentionsBaseURL = "https://polecat.me/api/mentions/%@"
-    
-    
-    @IBOutlet weak var nvActivityIndicator: NVActivityIndicatorView!
-    @IBOutlet weak var mentionsTableView: UITableView!
-    @IBOutlet weak var noMentionsLabel: UILabel!
-
-    private let refreshControl = UIRefreshControl()
     
     var searchTerm: String?
     
     override func viewDidLoad() {
+        isDynamic = true
         super.viewDidLoad()
-        
-        mentionsTableView.delegate = self
-        mentionsTableView.dataSource = self
-        refreshController()
-        noMentionsLabel.isHidden = true
-        // Do any additional setup after loading the view.
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        mentionsTableView.estimatedRowHeight = 200
-        mentionsTableView.rowHeight = UITableView.automaticDimension
-        
-        loadInitialMentions()
-    }
-    
-    @objc
-    private func loadInitialMentions() {
-        print("load mentions")
-        guard !loadingMentions else {
+    override func loadMoreData() {
+        guard !outOfData && !loadingDynamicData && !searchBar.isFirstResponder else {
             return
         }
         
-        nvActivityIndicator.startAnimating()
-        messages = [DGGMessage]()
-        renderedMessages = [NSMutableAttributedString]()
-        offset = 0
-        outOfMentions = false
-        loadingMentions = false
-        loadMentions()
+        super.loadMoreData()
+        getMessages()
     }
     
-    private func refreshController() {
-        refreshControl.tintColor = UIColor(red:1, green:1, blue:1, alpha:1.0)
-        //        refreshControl.attributedTitle = NSAttributedString(string: "Fetching Listings ...")
-        if #available(iOS 10.0, *) {
-            mentionsTableView?.refreshControl = refreshControl
-        } else {
-            mentionsTableView?.addSubview(refreshControl)
-        }
-        
-        refreshControl.addTarget(self, action: #selector(loadInitialMentions), for: .valueChanged)
-    }
-    
-    private func loadMentions() {
-        guard !loadingMentions && !outOfMentions else {
-            return
-        }
-        
-        loadingMentions = true
+    private func getMessages() {
         guard let url = getMentionsURL() else {
-            loadingMentions = false
             return
         }
         
+        print("getting messages " + String(offset))
         Alamofire.request(url, method: .get).validate().responseJSON { response in
-            self.loadingMentions = false
-            self.refreshControl.endRefreshing()
             switch response.result {
             case .success(let value):
                 let json = JSON(value)
                 self.offset += self.count
                 
                 if json.arrayValue.count < self.count {
-                    self.outOfMentions = true
-                    if self.renderedMessages.count == 0 {
-                        self.noMentionsLabel.isHidden = false
-                        self.mentionsTableView.isHidden = true
-                    }
+                    self.outOfData = true
                 }
                 
-                if json.arrayValue.count != 0 {
-                    self.noMentionsLabel.isHidden = true
-                    self.mentionsTableView.isHidden = false
-                }
-                
-                for mention in json.arrayValue.reversed() {
-                    guard let date = mention["date"].int else {
+                for stalk in json.arrayValue.reversed() {
+                    guard let date = stalk["date"].int else {
                         continue
                     }
                     
-                    guard let nick = mention["nick"].string else {
+                    guard let nick = stalk["nick"].string else {
                         continue
                     }
                     
-                    guard let text = mention["text"].string else {
+                    guard let text = stalk["text"].string else {
                         continue
                     }
                     
@@ -134,22 +65,34 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     self.renderedMessages.append(renderMessage(message: message, isLog: true))
                 }
                 
-                self.mentionsTableView.reloadData()
-                
-                self.nvActivityIndicator.stopAnimating()
+                self.doneLoading()
                 
                 
             case .failure(let error):
                 print(error)
+                self.loadFailed()
                 return
             }
         }
     }
     
-    private func getMentionsURL() -> URL? {
-        guard let search = searchTerm else {
-            return nil
+    @objc
+    override func loadInitialMessages() {
+        guard !loadingDynamicData else {
+            return
         }
+        
+        super.loadInitialMessages()
+        
+        messages = [DGGMessage]()
+        renderedMessages = [NSMutableAttributedString]()
+        offset = 0
+        outOfData = false
+        getMessages()
+    }
+    
+    private func getMentionsURL() -> URL? {
+        let search = searchTerm ?? settings.dggUsername
         
         var components = URLComponents(string: String(format: mentionsBaseURL, search))
         
@@ -159,37 +102,6 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         components?.queryItems = queries
         return components?.url
-    }
-    
-    private func scrollToIndex(index: Int) {
-        DispatchQueue.main.async {
-            let indexPath = IndexPath(row: index, section: 0)
-            self.mentionsTableView.scrollToRow(at: indexPath, at: .top, animated: false)
-        }
-    }
-    
-    // MARK: - TableView
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return renderedMessages.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // it's over for chatcels
-        let cell = tableView.dequeueReusableCell(withIdentifier: "chatCell", for: indexPath) as! ChatTableViewCell
-        cell.selectionStyle = .none
-        cell.renderMessage(message: renderedMessages[indexPath.row],messageEnum: messages[indexPath.row], isLog: true)
-        
-        if !loadingMentions && !outOfMentions && lastIndex < indexPath.row && (indexPath.row + 10) > renderedMessages.count {
-            loadMentions()
-        }
-        
-        lastIndex = indexPath.row
-        
-        return cell
     }
     
 }

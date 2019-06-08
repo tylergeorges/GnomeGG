@@ -24,7 +24,7 @@ class CustomTabBarController: UITabBarController {
             return
         }
         
-        guard selectedIndex != 3 else {
+        guard selectedIndex != 0 else {
             return
         }
         
@@ -42,9 +42,9 @@ class CustomTabBarController: UITabBarController {
             }
             
             if unreads > 0 {
-                self.tabBar.items?[3].badgeValue = String(unreads)
+                self.tabBar.items?[0].badgeValue = String(unreads)
             } else {
-                self.tabBar.items?[3].badgeValue = nil
+                self.tabBar.items?[0].badgeValue = nil
             }
             
         })
