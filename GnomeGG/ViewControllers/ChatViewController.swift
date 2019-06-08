@@ -205,6 +205,14 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                     }
                 }
             }
+            
+            if settings.hideNSFW && data.lowercased().contains("nsfw") || data.lowercased().contains("nsfl") {
+                return
+            }
+        case .PrivateMessage:
+            guard settings.showWhispersInChat else {
+                return
+            }
         default: break
         }
         
@@ -626,6 +634,10 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     private func generateSuggestions(text: String, firstWord: Bool = false) -> [Suggestion] {
         var suggestions = [Suggestion]()
+        
+        guard settings.autoCompletion else {
+            return suggestions
+        }
         
         let matchText = text.lowercased()
         

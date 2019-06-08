@@ -35,6 +35,7 @@ class StringSettingViewController: UIViewController, UITableViewDelegate, UITabl
             switch setting! {
             case .Highlights: settings.customHighlights.remove(at: indexPath.row)
             case .Ignores: settings.ignoredUsers.remove(at: indexPath.row)
+            case .NickHighlights: settings.nickHighlights.remove(at: indexPath.row)
             }
             tableView.reloadData()
         }
@@ -48,6 +49,7 @@ class StringSettingViewController: UIViewController, UITableViewDelegate, UITabl
         switch setting! {
         case .Highlights: return settings.customHighlights.count
         case .Ignores: return settings.ignoredUsers.count
+        case .NickHighlights: return settings.nickHighlights.count
         }
     }
     
@@ -58,6 +60,7 @@ class StringSettingViewController: UIViewController, UITableViewDelegate, UITabl
         switch setting! {
         case .Highlights: cell.string.text = settings.customHighlights[indexPath.row]
         case .Ignores: cell.string.text = settings.ignoredUsers[indexPath.row]
+        case .NickHighlights: cell.string.text = settings.nickHighlights[indexPath.row]
         }
 
         return cell
@@ -69,6 +72,7 @@ class StringSettingViewController: UIViewController, UITableViewDelegate, UITabl
         switch setting! {
         case .Highlights: title = "Enter a Keyword"
         case .Ignores: title = "Enter a Username"
+        case .NickHighlights: title = "Enter a Username"
         }
 
         let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
@@ -93,6 +97,11 @@ class StringSettingViewController: UIViewController, UITableViewDelegate, UITabl
                         return
                     }
                     settings.ignoredUsers.append(word)
+                case .NickHighlights:
+                    for string in settings.nickHighlights where word.lowercased() == string.lowercased() {
+                        return
+                    }
+                    settings.nickHighlights.append(word)
                 }
                 
                 
@@ -116,4 +125,5 @@ class StringSettingViewController: UIViewController, UITableViewDelegate, UITabl
 enum SettingType {
     case Highlights
     case Ignores
+    case NickHighlights
 }

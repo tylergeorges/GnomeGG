@@ -43,6 +43,10 @@ class ChatTableViewCell: UITableViewCell {
                     }
                 }
                 
+                for highlight in settings.nickHighlights where highlight.lowercased() == nick.lowercased() {
+                    backgroundColor = highlightBackgroundColor
+                }
+                
                 tagColorView.backgroundColor = UIColor.black
                 for userTag in settings.userTags where nick.lowercased() == userTag.nick.lowercased() {
                     tagColorView.backgroundColor = userTag.getColor()

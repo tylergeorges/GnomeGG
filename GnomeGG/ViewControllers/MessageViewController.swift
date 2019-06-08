@@ -357,6 +357,10 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
     private func generateSuggestions(text: String, firstWord: Bool = false) -> [Suggestion] {
         var suggestions = [Suggestion]()
         
+        guard settings.autoCompletion else {
+            return suggestions
+        }
+        
         let matchText = text.lowercased()
         
         for emote in dggAPI.emotes {

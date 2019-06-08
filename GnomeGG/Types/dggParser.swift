@@ -361,8 +361,10 @@ private func renderUserMessage(nick: String, features: [String], date: Date, dat
     
     var hasFlairs = [Flair]()
     
-    for flair in dggAPI.flairs where features.contains(flair.name) {
-        hasFlairs.append(flair)
+    if !settings.hideFlairs {
+        for flair in dggAPI.flairs where features.contains(flair.name) {
+            hasFlairs.append(flair)
+        }
     }
     
     var topPriority = 999
@@ -581,6 +583,10 @@ private func renderChatErrorMessage(message: String) -> NSMutableAttributedStrin
 }
 
 private func formatTimestamp(timestamp: Date) -> NSMutableAttributedString {
+    guard settings.showTime else {
+        return NSMutableAttributedString(string: "")
+    }
+
     let dateFormatter = DateFormatter()
     if Calendar.current.isDateInToday(timestamp) {
         dateFormatter.dateFormat = "HH:mm"

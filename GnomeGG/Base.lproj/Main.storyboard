@@ -1210,7 +1210,7 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="alE-UK-SgS">
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="alE-UK-SgS">
                                                 <rect key="frame" x="246" y="1.5" width="51" height="31"/>
                                                 <connections>
                                                     <action selector="bbdggEmoteSwitch:" destination="Dms-a9-1G2" eventType="valueChanged" id="zeU-xv-T4I"/>
@@ -1239,7 +1239,7 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aFM-j8-CYj">
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aFM-j8-CYj">
                                                 <rect key="frame" x="246" y="1.5" width="51" height="31"/>
                                                 <connections>
                                                     <action selector="bbdggEmoteSwitch:" destination="Dms-a9-1G2" eventType="valueChanged" id="bFM-Z5-cmQ"/>
@@ -1295,7 +1295,7 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dY4-6h-5NL">
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dY4-6h-5NL">
                                                 <rect key="frame" x="246" y="1.5" width="51" height="31"/>
                                                 <connections>
                                                     <action selector="bbdggEmoteSwitch:" destination="Dms-a9-1G2" eventType="valueChanged" id="0ew-KB-o9M"/>
@@ -1324,7 +1324,7 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q05-QA-4cs">
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q05-QA-4cs">
                                                 <rect key="frame" x="246" y="1.5" width="51" height="31"/>
                                                 <connections>
                                                     <action selector="bbdggEmoteSwitch:" destination="Dms-a9-1G2" eventType="valueChanged" id="Du7-db-xaI"/>
@@ -1353,7 +1353,7 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="h4v-Sf-rmu">
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="h4v-Sf-rmu">
                                                 <rect key="frame" x="246" y="1.5" width="51" height="31"/>
                                                 <connections>
                                                     <action selector="bbdggEmoteSwitch:" destination="Dms-a9-1G2" eventType="valueChanged" id="tZQ-gP-Y4s"/>
@@ -1387,6 +1387,9 @@
                                         <state key="normal" title="Manage Nick Highlights">
                                             <color key="titleColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <connections>
+                                            <segue destination="u4i-fh-PUV" kind="presentation" identifier="manageNickHighlights" id="mBG-na-BgC"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0he-Sg-pfD">
                                         <rect key="frame" x="152" y="572" width="110" height="30"/>
@@ -2493,7 +2496,7 @@
         <image name="yee" width="91.5" height="67.5"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="co9-zQ-f7J"/>
+        <segue reference="mBG-na-BgC"/>
         <segue reference="czj-oe-qmq"/>
     </inferredMetricsTieBreakers>
 </document>

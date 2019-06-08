@@ -46,6 +46,11 @@ class SettingsViewController: UIViewController {
         harshIgnoreSwitch.isOn = settings.harshIgnore
         chatHighlightSwitch.isOn = settings.usernameHighlights
         bbdggEmotesSwitch.isOn = settings.bbdggEmotes
+        hideNSFW.isOn = settings.hideNSFW
+        showWhispers.isOn = settings.showWhispersInChat
+        chatSuggestions.isOn = settings.autoCompletion
+        hideFlairs.isOn = settings.hideFlairs
+        showTimestamps.isOn = settings.showTime
         
     }
     
@@ -102,6 +107,11 @@ class SettingsViewController: UIViewController {
             let destvc = segue.destination as! StringSettingViewController
             destvc.setting = .Highlights
         }
+        
+        if identifier == "manageNickHighlights" {
+            let destvc = segue.destination as! StringSettingViewController
+            destvc.setting = .NickHighlights
+        }
     }
     
     @IBAction func doneTapped(_ sender: Any) {
@@ -143,13 +153,18 @@ class SettingsViewController: UIViewController {
     @IBAction func syncSettings(_ sender: Any) {
     }
     @IBAction func hideNSFW(_ sender: Any) {
+        settings.hideNSFW = hideNSFW.isOn
     }
     @IBAction func showWhispers(_ sender: Any) {
+        settings.showWhispersInChat = showWhispers.isOn
     }
     @IBAction func chatSuggestions(_ sender: Any) {
+        settings.autoCompletion = chatSuggestions.isOn
     }
     @IBAction func hideFlairs(_ sender: Any) {
+        settings.hideFlairs = hideFlairs.isOn
     }
     @IBAction func showTime(_ sender: Any) {
+        settings.showTime = showTimestamps.isOn
     }
 }

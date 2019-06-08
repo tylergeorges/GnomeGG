@@ -75,21 +75,18 @@ class Settings {
         }
     }
     
-    // todo
     var showTime: Bool {
         didSet {
             defaults.set(showTime, forKey: DefaultKeys.showTime)
         }
     }
     
-    // todo
     var hideFlairs: Bool {
         didSet {
             defaults.set(hideFlairs, forKey: DefaultKeys.hideFlairs)
         }
     }
     
-    // todo
     var nickHighlights: [String] {
         didSet {
             do {
@@ -100,22 +97,19 @@ class Settings {
             }
         }
     }
-    
-    // todo
+
     var showWhispersInChat: Bool {
         didSet {
             defaults.set(showWhispersInChat, forKey: DefaultKeys.showWhispersInChat)
         }
     }
     
-    // todo
     var autoCompletion: Bool {
         didSet {
             defaults.set(autoCompletion, forKey: DefaultKeys.autoCompletion)
         }
     }
     
-    // todo
     var hideNSFW: Bool {
         didSet {
             defaults.set(hideNSFW, forKey: DefaultKeys.hideNSFW)
@@ -144,7 +138,6 @@ class Settings {
         }
     }
 
-    // todo
     var userTags: [UserTag] {
         didSet {
             do {
@@ -156,7 +149,6 @@ class Settings {
         }
     }
 
-    // todo
     var usernameHighlights: Bool {
         didSet {
             defaults.set(usernameHighlights, forKey: DefaultKeys.usernameHighlights)
