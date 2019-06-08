@@ -162,7 +162,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     private func connectToWebsocket() {
         print("connectToWebsocket()")
-        self.newMessage(message: .Connecting)
         var request = URLRequest(url: URL(string: dggWebsocketURL)!)
         request.timeoutInterval = 5
         authenticatedWebsocket = settings.dggCookie != ""
@@ -189,6 +188,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             websocket.delegate = self
             dontRecover = false
             print("calling connect")
+            self.newMessage(message: .Connecting)
             websocket.connect()
         }
     }

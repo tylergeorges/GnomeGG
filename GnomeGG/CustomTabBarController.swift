@@ -14,13 +14,12 @@ class CustomTabBarController: UITabBarController {
         super.viewDidLoad()
         selectedIndex = 1
         
-        Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(getUnreads), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: 5*60, target: self, selector: #selector(getUnreads), userInfo: nil, repeats: true)
         Timer.scheduledTimer(timeInterval: 10*60, target: self, selector: #selector(ping), userInfo: nil, repeats: true)
     }
     
     @objc
     private func getUnreads() {
-        print("checking for new messages")
         guard settings.dggCookie != "" else {
             return
         }
@@ -28,6 +27,8 @@ class CustomTabBarController: UITabBarController {
         guard selectedIndex != 3 else {
             return
         }
+        
+        print("checking for new messages")
         
         dggAPI.getMessages(completionHandler: {messages in
             var unreads = 0

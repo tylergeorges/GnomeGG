@@ -20,6 +20,10 @@ class MessageListViewController: UIViewController, UITableViewDelegate, UITableV
     
     var messageListings = [MessageListing]()
     
+    var selectedIndex: Int!
+    
+    var messageListBackoff = 100
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -75,6 +79,12 @@ class MessageListViewController: UIViewController, UITableViewDelegate, UITableV
                 self.statusLabel.isHidden = false
                 self.statusLabel.text = "No Messages Found"
                 self.messageImageView.isHidden = false
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(self.messageListBackoff), execute: {
+                    
+                    self.messageListBackoff = self.messageListBackoff * 2
+                    self.loadMessages()
+                })
             }
         })
     }
@@ -91,15 +101,15 @@ class MessageListViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "messageSegue" {
+            let destVC = segue.destination as! MessageViewController
+            destVC.DMedUser = messageListings[selectedIndex].user
+        }
     }
-    */
     
     // MARK: - TableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -114,4 +124,8 @@ class MessageListViewController: UIViewController, UITableViewDelegate, UITableV
         return cell
     }
 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedIndex = indexPath.row
+        performSegue(withIdentifier: "messageSegue", sender: self)
+    }
 }

@@ -24,7 +24,7 @@ class EmoteTableViewCell: UITableViewCell {
     
     func renderEmote(emote: Emote) {
         prefixLabel.text = emote.prefix
-        sourceLabel.text = "DestinyGG"
+        sourceLabel.text = emote.bbdgg ? "BBDestinyGG" : "DestinyGG"
         
         let emoteAttachement = NSTextAttachment()
         emoteAttachement.image = emote.image

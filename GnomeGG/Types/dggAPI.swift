@@ -24,6 +24,8 @@ class DGGAPI {
     private let logOutEndpoint = "https://www.destiny.gg/logout"
     private let streamEndpoint = "https://www.destiny.gg/api/info/stream"
     private let messagesEndpoint = "https://www.destiny.gg/api/messages/inbox"
+    private let userMessageEndpoint = "https://www.destiny.gg/api/messages/usr/%@/inbox"
+    private let messageOpenEndpoint = "https://www.destiny.gg/api/messages/msg/%@/open"
     private let pingEndpoint = "https://www.destiny.gg/ping"
 
     var backgroundSessionManager: SessionManager?
@@ -179,7 +181,11 @@ class DGGAPI {
     }
     
     func getMessages(completionHandler: @escaping  ([MessageListing]?) -> Void) {
-        backgroundSessionManager!.request(messagesEndpoint, method: .get).validate().responseJSON { response in
+        let headers: HTTPHeaders = [
+            "Cookie": getCookieString(),
+        ]
+        
+        backgroundSessionManager!.request(messagesEndpoint, method: .get, headers: headers).validate().responseJSON { response in
             switch response.result {
             case .success(let value):
                 let json = JSON(value)
@@ -229,6 +235,64 @@ class DGGAPI {
                 print(error)
                 completionHandler(nil)
             }
+        }
+    }
+    
+    func getUserMessages(user: String, completionHandler: @escaping  ([PrivateMessage]?) -> Void) {
+        let headers: HTTPHeaders = [
+            "Cookie": getCookieString(),
+        ]
+
+        let url = String(format: userMessageEndpoint, user)
+        activeSessionManager!.request(url, method: .get, headers: headers).validate().responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                let json = JSON(value)
+                var messages = [PrivateMessage]()
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+                dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                
+                for entry in json.arrayValue {
+                    guard let timestamp = entry["timestamp"].string else {
+                        continue
+                    }
+                    
+                    guard let date = dateFormatter.date(from: timestamp) else {
+                        print("error parsing date stamp")
+                        continue
+                    }
+                    
+                    guard let from = entry["from"].string else {
+                        continue
+                    }
+                    
+                    guard let to = entry["to"].string else {
+                        continue
+                    }
+                    
+                    guard let message = entry["message"].string else {
+                        continue
+                    }
+                    
+                    messages.append(PrivateMessage(message: message, timestamp: date, from: from, to: to))
+                }
+                completionHandler(messages)
+            case .failure(let error):
+                print(error)
+                completionHandler(nil)
+            }
+        }
+    }
+    
+    func markMessageAsOpen(id: Int) {
+        let headers: HTTPHeaders = [
+            "Cookie": getCookieString(),
+        ]
+        
+        let url = String(format: messageOpenEndpoint, String(id))
+        backgroundSessionManager!.request(url, method: .post, headers: headers).validate().response { response in
+            print("Open " + String(response.response?.statusCode ?? 999))
         }
     }
     
@@ -365,4 +429,11 @@ public struct MessageListing {
     let unread: Int
     let read: Int
     let message: String
+}
+
+public struct PrivateMessage {
+    let message: String
+    let timestamp: Date
+    let from: String
+    let to: String
 }
