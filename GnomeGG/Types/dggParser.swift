@@ -11,6 +11,7 @@ import SwiftyJSON
 
 let chatFontSize: CGFloat = 14
 let dggMessageColor = "b9b9b9"
+let dggBackgroundColor = "080808"
 
 class DGGParser {
     static let customCute = ["Polecat", "PolarBearFur"]

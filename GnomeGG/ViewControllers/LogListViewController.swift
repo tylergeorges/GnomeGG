@@ -9,12 +9,13 @@
 import UIKit
 import NVActivityIndicatorView
 
-class LogListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class LogListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var nvActivityIndicator: NVActivityIndicatorView!
     @IBOutlet weak var loadingLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var searchBar: UISearchBar!
     
     var logListBackoff = 100
     
@@ -23,12 +24,15 @@ class LogListViewController: UIViewController, UITableViewDelegate, UITableViewD
     var activeURL: String?
     
     var list = [LogListing]()
+    var filteredList = [LogListing]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        colorSearchbar()
         tableView.dataSource = self
         tableView.delegate = self
+        searchBar.delegate = self
         tableView.rowHeight = 50
         
         tableView.isHidden = true
@@ -53,6 +57,7 @@ class LogListViewController: UIViewController, UITableViewDelegate, UITableViewD
                     self.loadingLabel.isHidden = false
                     self.imageView.isHidden = false
                     self.list = messages
+                    self.filteredList = messages
                     self.tableView.reloadData()
                 } else {
                     self.loadingLabel.text = "Error Getting Logs"
@@ -72,6 +77,7 @@ class LogListViewController: UIViewController, UITableViewDelegate, UITableViewD
                     self.loadingLabel.isHidden = false
                     self.imageView.isHidden = false
                     self.list = messages
+                    self.filteredList = messages
                     self.tableView.reloadData()
                 } else {
                     self.loadingLabel.text = "Error Getting Logs"
@@ -90,6 +96,7 @@ class LogListViewController: UIViewController, UITableViewDelegate, UITableViewD
                     self.loadingLabel.isHidden = false
                     self.imageView.isHidden = false
                     self.list = messages
+                    self.filteredList = messages
                     self.tableView.reloadData()
                 } else {
                     self.loadingLabel.text = "Error Getting Logs"
@@ -104,13 +111,13 @@ class LogListViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     // MARK: - TableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return list.count
+        return filteredList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "logListingCell", for: indexPath) as! LogListTableViewCell
         cell.selectionStyle = .none
-        cell.renderListing(listing: list[indexPath.row])
+        cell.renderListing(listing: filteredList[indexPath.row])
         
         return cell
     }
@@ -130,18 +137,72 @@ class LogListViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
+    // MARK: - SearchBar
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        self.searchBar.showsCancelButton = true
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        self.searchBar.showsCancelButton = false
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+        searchBar.text = ""
+        doneSearching()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        guard searchText != "" else {
+            doneSearching()
+            return
+        }
+        
+        let search = searchText.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        var found = [LogListing]()
+        for listing in list {
+            if listing.title.lowercased().contains(search) {
+                found.append(listing)
+            }
+        }
+        
+        filteredList = found
+        tableView.reloadData()
+    }
+    
+    private func doneSearching() {
+        filteredList = list
+        tableView.reloadData()
+        searchBar.resignFirstResponder()
+    }
+    
      // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier {
             if identifier == "userLogSegue" {
                 let destVC = segue.destination as! OverrustleLogViewController
-                destVC.overrustleURL = list[selectedIndex].urlComponent
+                destVC.overrustleURL = filteredList[selectedIndex].urlComponent
             }
         }
     }
-
-
+    
+    // MARK: - Private
+    private func colorSearchbar() {
+        searchBar.setImage(UIImage(named: "search"), for: .search, state: .normal)
+        for subView in searchBar.subviews
+        {
+            for subView1 in subView.subviews
+            {
+                
+                if subView1 is UITextField {
+                    subView1.backgroundColor = UIColor.gray
+                }
+            }
+            
+        }
+    }
 }
 
 enum ViewType {

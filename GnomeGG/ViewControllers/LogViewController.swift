@@ -9,7 +9,7 @@
 import UIKit
 import NVActivityIndicatorView
 
-class LogViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class LogViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
     var logBackoff = 100
     
@@ -26,8 +26,9 @@ class LogViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     private let refreshControl = UIRefreshControl()
     
     var isDynamic = false
-    
-    
+    var controllerIsActive = true
+
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var logImageView: UIImageView!
     @IBOutlet weak var logLabel: UILabel!
@@ -35,6 +36,9 @@ class LogViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     var renderedMessages = [NSMutableAttributedString]()
     var messages = [DGGMessage]()
+    
+    var filteredMessages = [DGGMessage]()
+    var filteredRenderedMessages = [NSMutableAttributedString]()
     
     var isLog = true
 
@@ -44,14 +48,22 @@ class LogViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         if isDynamic {
             refreshController()
         }
-
+        
+        colorSearchbar()
         tableView.dataSource = self
         tableView.delegate = self
+        searchBar.delegate = self
         
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
 
         loadInitialMessages()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        controllerIsActive = false
     }
 
     @objc
@@ -85,6 +97,7 @@ class LogViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func doneLoading() {
         nvActivityIndicatorView.stopAnimating()
+        updateData()
         tableView.reloadData()
         tableView.isHidden = false
         logLabel.isHidden = true
@@ -100,15 +113,76 @@ class LogViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         }
     }
     
+    func doneSearching() {
+        filteredRenderedMessages = renderedMessages
+        filteredMessages = messages
+        searchBar.resignFirstResponder()
+        tableView.reloadData()
+    }
+    
+    func updateData() {
+        guard !searchBar.isFirstResponder else {
+            return
+        }
+        
+        filteredRenderedMessages = renderedMessages
+        filteredMessages = messages
+    }
+    
+    // MARK: - SearchBar
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        self.searchBar.showsCancelButton = true
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        self.searchBar.showsCancelButton = false
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+        searchBar.text = ""
+        doneSearching()
+        tableView.reloadData()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let searchText = searchBar.text?.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() else {
+            doneSearching()
+            return
+        }
+        
+        guard searchText != "" else {
+            doneSearching()
+            return
+        }
+
+        filteredRenderedMessages = [NSMutableAttributedString]()
+        filteredMessages = [DGGMessage]()
+
+        for (i, message) in messages.enumerated()  {
+            switch message {
+            case .UserMessage(_, _, _,let data):
+                if data.lowercased().contains(searchText) {
+                    filteredRenderedMessages.append(renderedMessages[i])
+                    filteredMessages.append(message)
+                }
+            default: break
+            }
+        
+        }
+        
+        tableView.reloadData()
+    }
+    
     // MARK: - TableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return renderedMessages.count
+        return filteredMessages.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "logCell", for: indexPath) as! ChatTableViewCell
         cell.selectionStyle = .none
-        cell.renderMessage(message: renderedMessages[indexPath.row], messageEnum: messages[indexPath.row], isLog: isLog)
+        cell.renderMessage(message: filteredRenderedMessages[indexPath.row], messageEnum: filteredMessages[indexPath.row], isLog: isLog)
         
         if !loadingDynamicData && !outOfData && lastIndex < indexPath.row && (indexPath.row + 10) > renderedMessages.count {
             loadMoreData()
@@ -129,6 +203,21 @@ class LogViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         }
         
         refreshControl.addTarget(self, action: #selector(loadInitialMessages), for: .valueChanged)
+    }
+    
+    private func colorSearchbar() {
+        searchBar.setImage(UIImage(named: "search"), for: .search, state: .normal)
+        for subView in searchBar.subviews
+        {
+            for subView1 in subView.subviews
+            {
+                if let textField = subView1 as? UITextField {
+                    textField.backgroundColor = UIColor.gray
+                    textField.placeholder = "Press Search Button to Search"
+                    textField.textColor = UIColor.white
+                }
+            }
+        }
     }
 
 }

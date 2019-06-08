@@ -27,6 +27,10 @@ class OverrustleLogViewController: LogViewController {
                 return
             }
             
+            guard self.controllerIsActive else {
+                return
+            }
+
             DispatchQueue.global(qos: .utility).async {
                 for message in messages {
                     guard let parsedMessage = DGGParser.parseOverrustleLogLine(line: message) else {
@@ -34,11 +38,17 @@ class OverrustleLogViewController: LogViewController {
                         continue
                     }
                     
+                    guard self.controllerIsActive else {
+                        return
+                    }
+                    
                     self.renderedMessages.append(renderMessage(message: parsedMessage, isLog: self.isLog))
                     self.messages.append(parsedMessage)
                     
                     if self.messages.count % 100 == 0 {
                         DispatchQueue.main.async {
+                            print("adding more messages")
+                            print(String(self.messages.count) + " out of " + String(messages.count))
                             self.doneLoading()
                         }
                     }
