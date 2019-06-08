@@ -9,6 +9,7 @@ PODS:
   - NVActivityIndicatorView/Presenter (4.6.1)
   - SnapKit (4.2.0)
   - Starscream (3.0.6)
+  - SwiftSoup (1.7.4)
   - SwiftyJSON (4.2.0)
 
 DEPENDENCIES:
@@ -16,6 +17,7 @@ DEPENDENCIES:
   - NotificationBannerSwift
   - NVActivityIndicatorView
   - Starscream (~> 3.0.2)
+  - SwiftSoup
   - SwiftyJSON (~> 4.0)
 
 SPEC CHECKSUMS:
@@ -25,8 +27,9 @@ SPEC CHECKSUMS:
   NVActivityIndicatorView: 4ca19fccc84595a78957336a086d00a49be6ce61
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
+  SwiftSoup: 92f5b348c131aed8af04f4326db1579ab19fa08c
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
 
-PODFILE CHECKSUM: b57c0b53530870b83a3b6a265b26399b54a4c581
+PODFILE CHECKSUM: 8bdc1a8e1800922e571de1496d5801c08c5f337b
 
 COCOAPODS: 1.4.0

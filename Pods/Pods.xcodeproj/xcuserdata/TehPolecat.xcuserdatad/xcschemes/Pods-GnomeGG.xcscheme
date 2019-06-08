@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "04AD8AE46DE46241FD403B066EBA22E0"
+               BlueprintIdentifier = "ED8EC6B568EB5D31EF9E24030F611A89"
                BuildableName = "Pods_GnomeGG.framework"
                BlueprintName = "Pods-GnomeGG"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "04AD8AE46DE46241FD403B066EBA22E0"
+            BlueprintIdentifier = "ED8EC6B568EB5D31EF9E24030F611A89"
             BuildableName = "Pods_GnomeGG.framework"
             BlueprintName = "Pods-GnomeGG"
             ReferencedContainer = "container:Pods.xcodeproj">

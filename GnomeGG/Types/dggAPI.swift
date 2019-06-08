@@ -11,6 +11,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import NotificationBannerSwift
+import SwiftSoup
 
 class DGGAPI {
     var flairs = [Flair]()
@@ -27,6 +28,10 @@ class DGGAPI {
     private let userMessageEndpoint = "https://www.destiny.gg/api/messages/usr/%@/inbox"
     private let messageOpenEndpoint = "https://www.destiny.gg/api/messages/msg/%@/open"
     private let pingEndpoint = "https://www.destiny.gg/ping"
+    private let overrustleBaseEndpoint = "https://overrustlelogs.net/"
+    private let overrustleMonthsEndpoint = "https://overrustlelogs.net/Destinygg%20chatlog/"
+    
+    
 
     var backgroundSessionManager: SessionManager?
     var activeSessionManager: SessionManager?
@@ -296,6 +301,37 @@ class DGGAPI {
         }
     }
     
+    func getMonthLogs(completionHandler: @escaping ([LogListing]?) -> Void) {
+        getOverrustleLogs(url: overrustleMonthsEndpoint, completionHandler: completionHandler)
+    }
+    
+    func getDaysLogs(for monthURL: String, completionHandler: @escaping ([LogListing]?) -> Void) {
+        let url = overrustleBaseEndpoint + monthURL
+        getOverrustleLogs(url: url, completionHandler: completionHandler)
+    }
+    
+    func getUserListLogs(for userURL: String, completionHandler: @escaping ([LogListing]?) -> Void) {
+        let url = overrustleBaseEndpoint + userURL
+        getOverrustleLogs(url: url, completionHandler: completionHandler)
+    }
+    
+    func getUserLogs(for userURL: String, completionHandler: @escaping ([String]?) -> Void) {
+        let url = overrustleBaseEndpoint + userURL.replacingOccurrences(of: " ", with: "%20") + ".txt"
+        backgroundSessionManager!.request(url).responseString { response in
+            guard let text = response.result.value else {
+                completionHandler(nil)
+                return
+            }
+            
+            let lines = text.split(separator: ("\n"))
+            var strings = [String]()
+            for line in lines {
+                strings.append(String(line))
+            }
+            completionHandler(strings)
+        }
+    }
+    
     private func downloadEmote(json: JSON) {
         guard let imageInfo = json["image"].array else {
             return
@@ -391,6 +427,46 @@ class DGGAPI {
         return output
     }
     
+    private func getOverrustleLogs(url: String, completionHandler: @escaping ([LogListing]?) -> Void) {
+        let escapedURL = url.replacingOccurrences(of: " ", with: "%20")
+        Alamofire.request(escapedURL).responseString { response in
+            guard let html = response.result.value else {
+                completionHandler(nil)
+                return
+            }
+            
+            do {
+                let doc: Document = try SwiftSoup.parse(html)
+                let list: Element = try doc.select(".list-group").first()!
+                
+                var listings = [LogListing]()
+                for item in list.children() {
+                    let title = try item.text()
+                    let url = try item.attr("href")
+                    let classes = try item.select("i").first()!.className()
+                    var isFolder = false
+                    if classes.contains("fa-folder") {
+                        isFolder = true
+                    } else if classes.contains("fa-file") {
+                        isFolder = false
+                    } else {
+                        print("Unknown item parsed")
+                        continue
+                    }
+                    listings.append(LogListing(isFolder: isFolder, title: title, urlComponent: url))
+                }
+                
+                completionHandler(listings)
+            } catch Exception.Error(_, let message) {
+                print(message)
+                completionHandler(nil)
+            } catch {
+                print("error")
+                completionHandler(nil)
+            }
+        }
+    }
+    
     
     private func showAuthenticationSuccess() {
 //        let banner = NotificationBanner(title: "Authentication Succeful", subtitle: "Authenticated as " + settings.dggUsername, style: .success)
@@ -436,4 +512,10 @@ public struct PrivateMessage {
     let timestamp: Date
     let from: String
     let to: String
+}
+
+public struct LogListing{
+    let isFolder: Bool
+    let title: String
+    let urlComponent: String
 }

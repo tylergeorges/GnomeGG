@@ -267,6 +267,26 @@ class DGGParser {
     static func styleText(message: String) -> NSMutableAttributedString {
         return styleMessage(message: message, regularMessage: false, isLog: true)
     }
+    
+    static func parseOverrustleLogLine(line: String) -> DGGMessage? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss 'UTC'"
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        
+        let words = line.split(separator: " ")
+        guard words.count > 4 else {
+            return nil
+        }
+
+        let timestamp = words[0..<3].joined(separator: " ").replacingOccurrences(of: "[", with: "").replacingOccurrences(of: "]", with: "")
+        let nick = words[3].replacingOccurrences(of: ":", with: "")
+        let message = words[4...].joined(separator: " ")
+        guard let parsedStamp = dateFormatter.date(from: timestamp) else {
+            return nil
+        }
+
+        return.UserMessage(nick: nick, features: [], timestamp: parsedStamp, data: message)
+    }
 }
 
 public enum DGGMessage {
@@ -612,18 +632,18 @@ private func styleMessage(message: String, regularMessage: Bool = true, isLog: B
             if wordString.isValidURL {
                 let urlString = NSMutableAttributedString(string: wordString)
                 urlString.addAttribute(.link, value: wordString, range: NSRange(location: 0, length: urlString.length))
-                
+
                 urlString.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "02C2FF"), range: NSRange(location: 0, length: urlString.length))
                 if (hasNSFW || hasSpoiler) && !hasNSFL {
                     urlString.addAttribute(.underlineColor, value: hexColorStringToUIColor(hex: "FF0000"), range: NSRange(location: 0, length: urlString.length))
                     urlString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.union(NSUnderlineStyle.patternDot).rawValue, range: NSRange(location: 0, length: urlString.length))
                 }
-                
+
                 if hasNSFL {
                     urlString.addAttribute(.underlineColor, value: hexColorStringToUIColor(hex: "FFF000"), range: NSRange(location: 0, length: urlString.length))
                     urlString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.union(NSUnderlineStyle.patternDot).rawValue, range: NSRange(location: 0, length: urlString.length))
                 }
-                
+
                 styledMessage.append(urlString)
             } else {
                 let plainMessage = NSMutableAttributedString(string: wordString)
@@ -632,7 +652,7 @@ private func styleMessage(message: String, regularMessage: Bool = true, isLog: B
                 plainMessage.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: color), range: NSRange(location: 0, length: plainMessage.length))
                 styledMessage.append(plainMessage)
             }
-            
+        
         }
         
         if i + 1 != words.count {

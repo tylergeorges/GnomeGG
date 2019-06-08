@@ -11,5 +11,6 @@ target 'GnomeGG' do
   pod 'SwiftyJSON', '~> 4.0'
   pod 'NVActivityIndicatorView'
   pod 'NotificationBannerSwift'
+  pod 'SwiftSoup'
 
 end

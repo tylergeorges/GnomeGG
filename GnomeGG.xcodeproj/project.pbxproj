@@ -19,6 +19,9 @@
 		8D696E4522AB15EB000FFF63 /* MessageListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D696E4422AB15EB000FFF63 /* MessageListViewController.swift */; };
 		8D696E4722AB16B6000FFF63 /* MessageListingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D696E4622AB16B6000FFF63 /* MessageListingTableViewCell.swift */; };
 		8D696E4B22AB3D5B000FFF63 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D696E4A22AB3D5B000FFF63 /* MessageViewController.swift */; };
+		8D696E4D22AB652B000FFF63 /* LogListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D696E4C22AB652B000FFF63 /* LogListViewController.swift */; };
+		8D696E4F22AB6668000FFF63 /* LogListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D696E4E22AB6668000FFF63 /* LogListTableViewCell.swift */; };
+		8D696E5122AB7804000FFF63 /* LogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D696E5022AB7804000FFF63 /* LogViewController.swift */; };
 		8D7BAC4922A23E0800A5E1E6 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4822A23E0800A5E1E6 /* Settings.swift */; };
 		8D7BAC4B22A25C0100A5E1E6 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4A22A25C0100A5E1E6 /* SettingsViewController.swift */; };
 		8D7BAC4F22A3A4A000A5E1E6 /* MentionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7BAC4E22A3A4A000A5E1E6 /* MentionsViewController.swift */; };
@@ -60,6 +63,9 @@
 		8D696E4422AB15EB000FFF63 /* MessageListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageListViewController.swift; sourceTree = "<group>"; };
 		8D696E4622AB16B6000FFF63 /* MessageListingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageListingTableViewCell.swift; sourceTree = "<group>"; };
 		8D696E4A22AB3D5B000FFF63 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
+		8D696E4C22AB652B000FFF63 /* LogListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogListViewController.swift; sourceTree = "<group>"; };
+		8D696E4E22AB6668000FFF63 /* LogListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogListTableViewCell.swift; sourceTree = "<group>"; };
+		8D696E5022AB7804000FFF63 /* LogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogViewController.swift; sourceTree = "<group>"; };
 		8D7BAC4822A23E0800A5E1E6 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		8D7BAC4A22A25C0100A5E1E6 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		8D7BAC4E22A3A4A000A5E1E6 /* MentionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MentionsViewController.swift; sourceTree = "<group>"; };
@@ -136,6 +142,8 @@
 				8D448ACA22A996CB006EF687 /* LoginViewController.swift */,
 				8D696E4422AB15EB000FFF63 /* MessageListViewController.swift */,
 				8D696E4A22AB3D5B000FFF63 /* MessageViewController.swift */,
+				8D696E4C22AB652B000FFF63 /* LogListViewController.swift */,
+				8D696E5022AB7804000FFF63 /* LogViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -187,6 +195,7 @@
 				8D7BAC5D22A4DC6000A5E1E6 /* FlairTableViewCell.swift */,
 				8D075A4E22A630B60024D028 /* StringSettingTableViewCell.swift */,
 				8D696E4622AB16B6000FFF63 /* MessageListingTableViewCell.swift */,
+				8D696E4E22AB6668000FFF63 /* LogListTableViewCell.swift */,
 			);
 			path = TableCells;
 			sourceTree = "<group>";
@@ -311,6 +320,7 @@
 				"${BUILT_PRODUCTS_DIR}/NotificationBannerSwift/NotificationBannerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftSoup/SwiftSoup.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -321,6 +331,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NotificationBannerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftSoup.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -366,12 +377,15 @@
 				8D7BAC5222A458CE00A5E1E6 /* StalkListViewController.swift in Sources */,
 				8D696E4B22AB3D5B000FFF63 /* MessageViewController.swift in Sources */,
 				8D075A4B22A60BFD0024D028 /* UserTag.swift in Sources */,
+				8D696E4D22AB652B000FFF63 /* LogListViewController.swift in Sources */,
 				8D7BAC5822A472E900A5E1E6 /* CustomTabBarController.swift in Sources */,
 				8D2A838422A760FD00DF96D5 /* PaddingLabel.swift in Sources */,
 				8DEA1A0522A0DDCA00ECB238 /* dggParser.swift in Sources */,
 				8D7BAC6022A4DCE000A5E1E6 /* EmoteListViewController.swift in Sources */,
 				8D448ACB22A996CB006EF687 /* LoginViewController.swift in Sources */,
+				8D696E5122AB7804000FFF63 /* LogViewController.swift in Sources */,
 				8D696E4522AB15EB000FFF63 /* MessageListViewController.swift in Sources */,
+				8D696E4F22AB6668000FFF63 /* LogListTableViewCell.swift in Sources */,
 				8D075A4D22A630830024D028 /* StringSettingViewController.swift in Sources */,
 				8DEA19ED22A0C67500ECB238 /* AppDelegate.swift in Sources */,
 				8DCB087022A78484007C37AD /* SearchListViewController.swift in Sources */,
