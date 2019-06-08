@@ -31,7 +31,6 @@ class DGGAPI {
     private let overrustleBaseEndpoint = "https://overrustlelogs.net/"
     private let overrustleMonthsEndpoint = "https://overrustlelogs.net/Destinygg%20chatlog/"
     
-    
 
     var backgroundSessionManager: SessionManager?
     var activeSessionManager: SessionManager?

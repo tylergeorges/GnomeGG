@@ -11,6 +11,7 @@ import UIKit
 class ChatTableViewCell: UITableViewCell {
 
     @IBOutlet weak var messageTextView: UITextView!
+    @IBOutlet weak var tagColorView: UIView!
     
     let defaultBackgroundColor = UIColor.black
     let highlightBackgroundColor = hexColorStringToUIColor(hex: "06263e")
@@ -29,7 +30,7 @@ class ChatTableViewCell: UITableViewCell {
 
         if !isLog {
             switch messageEnum {
-            case let .UserMessage(_, _, _, data):
+            case let .UserMessage(nick, _, _, data):
                 if settings.usernameHighlights && settings.dggUsername != "" {
                     if containsWord(string: data, keyword: settings.dggUsername) {
                         backgroundColor = highlightBackgroundColor
@@ -40,6 +41,11 @@ class ChatTableViewCell: UITableViewCell {
                     if containsWord(string: data, keyword: keyword) {
                         backgroundColor = highlightBackgroundColor
                     }
+                }
+                
+                tagColorView.backgroundColor = UIColor.black
+                for userTag in settings.userTags where nick.lowercased() == userTag.nick.lowercased() {
+                    tagColorView.backgroundColor = userTag.getColor()
                 }
             case .Broadcast: backgroundColor = broadcastBackgroundColor
             case .PrivateMessage: backgroundColor = broadcastBackgroundColor

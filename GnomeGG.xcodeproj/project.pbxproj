@@ -16,6 +16,8 @@
 		8D2A838422A760FD00DF96D5 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2A838322A760FD00DF96D5 /* PaddingLabel.swift */; };
 		8D448ACB22A996CB006EF687 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D448ACA22A996CB006EF687 /* LoginViewController.swift */; };
 		8D448ACD22A9C16C006EF687 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D448ACC22A9C16C006EF687 /* WebKit.framework */; };
+		8D5F446122AC589500CB413D /* UserTagListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D5F446022AC589500CB413D /* UserTagListViewController.swift */; };
+		8D5F446322AC59ED00CB413D /* UserTagTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D5F446222AC59ED00CB413D /* UserTagTableViewCell.swift */; };
 		8D696E4522AB15EB000FFF63 /* MessageListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D696E4422AB15EB000FFF63 /* MessageListViewController.swift */; };
 		8D696E4722AB16B6000FFF63 /* MessageListingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D696E4622AB16B6000FFF63 /* MessageListingTableViewCell.swift */; };
 		8D696E4B22AB3D5B000FFF63 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D696E4A22AB3D5B000FFF63 /* MessageViewController.swift */; };
@@ -61,6 +63,8 @@
 		8D2A838322A760FD00DF96D5 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		8D448ACA22A996CB006EF687 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		8D448ACC22A9C16C006EF687 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		8D5F446022AC589500CB413D /* UserTagListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTagListViewController.swift; sourceTree = "<group>"; };
+		8D5F446222AC59ED00CB413D /* UserTagTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTagTableViewCell.swift; sourceTree = "<group>"; };
 		8D696E4422AB15EB000FFF63 /* MessageListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageListViewController.swift; sourceTree = "<group>"; };
 		8D696E4622AB16B6000FFF63 /* MessageListingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageListingTableViewCell.swift; sourceTree = "<group>"; };
 		8D696E4A22AB3D5B000FFF63 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
@@ -147,6 +151,7 @@
 				8D696E5022AB7804000FFF63 /* LogViewController.swift */,
 				8D696E5222ABAE11000FFF63 /* OverrustleLogViewController.swift */,
 				8D7BAC5922A4C68A00A5E1E6 /* StalkViewController.swift */,
+				8D5F446022AC589500CB413D /* UserTagListViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -199,6 +204,7 @@
 				8D075A4E22A630B60024D028 /* StringSettingTableViewCell.swift */,
 				8D696E4622AB16B6000FFF63 /* MessageListingTableViewCell.swift */,
 				8D696E4E22AB6668000FFF63 /* LogListTableViewCell.swift */,
+				8D5F446222AC59ED00CB413D /* UserTagTableViewCell.swift */,
 			);
 			path = TableCells;
 			sourceTree = "<group>";
@@ -318,6 +324,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-GnomeGG/Pods-GnomeGG-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
 				"${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
 				"${BUILT_PRODUCTS_DIR}/NotificationBannerSwift/NotificationBannerSwift.framework",
@@ -329,6 +336,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MarqueeLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NotificationBannerSwift.framework",
@@ -369,6 +377,7 @@
 			files = (
 				8D7BAC6622A4F79600A5E1E6 /* CustomNavigationViewController.swift in Sources */,
 				8D7BAC6222A4DCE900A5E1E6 /* FlairListViewController.swift in Sources */,
+				8D5F446122AC589500CB413D /* UserTagListViewController.swift in Sources */,
 				8D7BAC5422A4670500A5E1E6 /* StringRecord.swift in Sources */,
 				8D7BAC5C22A4DC5200A5E1E6 /* EmoteTableViewCell.swift in Sources */,
 				8D7BAC4922A23E0800A5E1E6 /* Settings.swift in Sources */,
@@ -389,6 +398,7 @@
 				8D448ACB22A996CB006EF687 /* LoginViewController.swift in Sources */,
 				8D696E5122AB7804000FFF63 /* LogViewController.swift in Sources */,
 				8D696E4522AB15EB000FFF63 /* MessageListViewController.swift in Sources */,
+				8D5F446322AC59ED00CB413D /* UserTagTableViewCell.swift in Sources */,
 				8D696E4F22AB6668000FFF63 /* LogListTableViewCell.swift in Sources */,
 				8D075A4D22A630830024D028 /* StringSettingViewController.swift in Sources */,
 				8DEA19ED22A0C67500ECB238 /* AppDelegate.swift in Sources */,
@@ -549,10 +559,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8CM57Q439Z;
 				INFOPLIST_FILE = GnomeGG/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.polecat.GnomeGG;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -568,10 +575,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8CM57Q439Z;
 				INFOPLIST_FILE = GnomeGG/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.polecat.GnomeGG;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

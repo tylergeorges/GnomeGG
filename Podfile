@@ -12,5 +12,6 @@ target 'GnomeGG' do
   pod 'NVActivityIndicatorView'
   pod 'NotificationBannerSwift'
   pod 'SwiftSoup'
-
+  pod 'DropDown'
+  
 end

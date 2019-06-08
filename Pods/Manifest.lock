@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (4.8.1)
+  - DropDown (2.3.12)
   - MarqueeLabel/Swift (3.2.0)
   - NotificationBannerSwift (2.0.1):
     - MarqueeLabel/Swift (~> 3.2.0)
@@ -14,6 +15,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - DropDown
   - NotificationBannerSwift
   - NVActivityIndicatorView
   - Starscream (~> 3.0.2)
@@ -22,6 +24,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
+  DropDown: 0bcc278799ec11a3d34ce1aac9367fbbaf5423d9
   MarqueeLabel: 440a502b91a9179bd98f9fff00ba1150650a1c0e
   NotificationBannerSwift: 007774aa590cc9680647b92b2f217bef5c00c32c
   NVActivityIndicatorView: 4ca19fccc84595a78957336a086d00a49be6ce61
@@ -30,6 +33,6 @@ SPEC CHECKSUMS:
   SwiftSoup: 92f5b348c131aed8af04f4326db1579ab19fa08c
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
 
-PODFILE CHECKSUM: 8bdc1a8e1800922e571de1496d5801c08c5f337b
+PODFILE CHECKSUM: 0f1c869a86f57264b4c214683de4c9378d4b2bda
 
 COCOAPODS: 1.4.0

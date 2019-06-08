@@ -398,7 +398,7 @@ class Settings {
                 }
             case DefaultKeys.customHighlights: customHighlights = setting[1].arrayValue.map {$0.stringValue}
             case DefaultKeys.nickHighlights: nickHighlights = setting[1].arrayValue.map {$0.stringValue}
-            case DefaultKeys.userTags: break // todo
+            case DefaultKeys.userTags: userTags = parseUserTags(blob: setting[1])
             case DefaultKeys.showWhispersInChat:
                 if let bool = setting[1].bool {
                     showWhispersInChat = bool
@@ -412,7 +412,6 @@ class Settings {
                 if let bool = setting[1].bool {
                     hideNSFW = bool
                 }
-                // harshignore
             case DefaultKeys.harshIgnore:
                 if let bool = setting[1].bool {
                     harshIgnore = bool
@@ -434,7 +433,7 @@ class Settings {
             case DefaultKeys.usernameHighlights: setting[1].bool = usernameHighlights
             case DefaultKeys.customHighlights: setting[1].arrayObject = customHighlights
             case DefaultKeys.nickHighlights: setting[1].arrayObject = nickHighlights
-            case DefaultKeys.userTags: break // todo
+            case DefaultKeys.userTags: setting[1] = userTagsToJSON()
             case DefaultKeys.showWhispersInChat: setting[1].bool = showWhispersInChat
             case DefaultKeys.ignoredUsers: setting[1].arrayObject = ignoredUsers
             case DefaultKeys.autoCompletion: setting[1].bool = autoCompletion
@@ -445,5 +444,32 @@ class Settings {
         }
         
         return json
+    }
+    
+    private func parseUserTags(blob: JSON) -> [UserTag] {
+        var userTags = [UserTag]()
+        
+        for tag in blob.arrayValue {
+            let tagArr = tag.arrayValue
+            guard tagArr.count == 2 else {
+                continue
+            }
+            
+            userTags.append(UserTag(nick: tagArr[0].stringValue, color: tagArr[1].stringValue.lowercased()))
+        }
+        
+        return userTags
+    }
+    
+    private func userTagsToJSON() -> JSON {
+        var jsonArray = [[String]]()
+        for tag in userTags {
+            var tagArray = [String]()
+            tagArray.append(tag.nick)
+            tagArray.append(tag.color)
+            jsonArray.append(tagArray)
+        }
+        
+        return JSON(arrayLiteral: jsonArray)
     }
 }
