@@ -10,8 +10,6 @@
 // TODO:
 // CHAT
 // cap number of stored messages so the app doesn't explode eventually
-// message sending
-// special handling for commands maybe?
 // user tagging
 // TOOLS
 // -logs

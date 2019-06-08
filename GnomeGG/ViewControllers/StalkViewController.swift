@@ -23,7 +23,7 @@ class StalkViewController: LogViewController {
     
     
     override func loadMoreData() {
-        guard !outOfData && !loadingDynamicData else {
+        guard !outOfData && !loadingDynamicData && !searchBar.isFirstResponder else {
             return
         }
         
