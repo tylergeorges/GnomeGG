@@ -30,6 +30,7 @@ class DGGAPI {
     private let pingEndpoint = "https://www.destiny.gg/ping"
     private let overrustleBaseEndpoint = "https://overrustlelogs.net/"
     private let overrustleMonthsEndpoint = "https://overrustlelogs.net/Destinygg%20chatlog/"
+    private let streamStatusEndpoint = "https://www.destiny.gg/api/info/stream"
     
 
     var backgroundSessionManager: SessionManager?
@@ -113,6 +114,33 @@ class DGGAPI {
         ]
         backgroundSessionManager?.request(pingEndpoint, headers: headers).validate().response { response in
             print("Ping " + String(response.response?.statusCode ?? 999))
+        }
+    }
+    
+    func getStreamStatus(completionHandler: @escaping  (StreamStatus?) -> Void) {
+        backgroundSessionManager!.request(streamStatusEndpoint).validate().responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                let json = JSON(value)
+                guard let live = json["live"].bool else {
+                    completionHandler(nil)
+                    return
+                }
+                
+                if let host = json["host"]["name"].string {
+                    completionHandler(.Hosting(stream: host))
+                    return
+                }
+                
+                if live {
+                    completionHandler(.Live)
+                } else {
+                    completionHandler(.Offline)
+                }
+            case .failure(let error):
+                print(error)
+                completionHandler(nil)
+            }
         }
     }
     
@@ -471,6 +499,12 @@ class DGGAPI {
 //        let banner = NotificationBanner(title: "Authentication Succeful", subtitle: "Authenticated as " + settings.dggUsername, style: .success)
 //        banner.show()
     }
+}
+
+enum StreamStatus {
+    case Live
+    case Offline
+    case Hosting(stream: String)
 }
 
 struct Flair {

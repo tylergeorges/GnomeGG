@@ -51,6 +51,7 @@ class SettingsViewController: UIViewController {
         chatSuggestions.isOn = settings.autoCompletion
         hideFlairs.isOn = settings.hideFlairs
         showTimestamps.isOn = settings.showTime
+        syncSettingsSwitch.isOn = settings.syncSettings
         
     }
     
@@ -151,6 +152,7 @@ class SettingsViewController: UIViewController {
         settings.bbdggEmotes = bbdggEmotesSwitch.isOn
     }
     @IBAction func syncSettings(_ sender: Any) {
+        settings.syncSettings = syncSettingsSwitch.isOn
     }
     @IBAction func hideNSFW(_ sender: Any) {
         settings.hideNSFW = hideNSFW.isOn

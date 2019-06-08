@@ -27,6 +27,9 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                                 <color key="tintColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="barTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </textAttributes>
                                 <items>
                                     <navigationItem id="tfG-Kh-4Up">
                                         <barButtonItem key="leftBarButtonItem" image="settings" id="Aze-fa-cqC">
@@ -2384,6 +2387,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="J19-KJ-FdK"/>
         <segue reference="mBG-na-BgC"/>
-        <segue reference="FgN-R2-avK"/>
+        <segue reference="czj-oe-qmq"/>
     </inferredMetricsTieBreakers>
 </document>

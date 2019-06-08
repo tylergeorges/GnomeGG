@@ -85,6 +85,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         print("getting bbdgg emotes")
         dggAPI.getBBDGGEmoteList()
         
+        Timer.scheduledTimer(timeInterval: 5*60, target: self, selector: #selector(getStreamStatus), userInfo: nil, repeats: true)
+        getStreamStatus()
         
         chatInputTextView.delegate = self
         
@@ -749,6 +751,22 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.view.frame.origin.y = -(keyboardSize.height - tabBarController!.tabBar.frame.height)
             }
         }
+    }
+    
+    @objc
+    private func getStreamStatus() {
+        dggAPI.getStreamStatus(completionHandler: { status in
+            guard let status = status else {
+                self.navigationBar.topItem?.title = ""
+                return
+            }
+            
+            switch status {
+            case .Live: self.navigationBar.topItem?.title = "Stream Live"
+            case .Offline: self.navigationBar.topItem?.title = "Stream Offline"
+            case .Hosting(let stream): self.navigationBar.topItem?.title = "Hosting: " + stream
+            }
+        })
     }
 
     @IBAction func sendTap(_ sender: Any) {
