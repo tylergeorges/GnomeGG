@@ -43,6 +43,8 @@ class MessageListViewController: UIViewController, UITableViewDelegate, UITableV
             return
         }
         
+        messageListBackoff = 100
+        
         loadMessages()
     }
     

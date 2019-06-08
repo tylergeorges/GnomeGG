@@ -305,7 +305,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         let components = text.components(separatedBy: " ")
         let type = components[0]
         let rest = components[1...].joined(separator: " ")
-        
         switch type {
         case "MSG":
             if let message = DGGParser.parseUserMessage(message: rest) {

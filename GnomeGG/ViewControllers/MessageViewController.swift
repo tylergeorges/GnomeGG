@@ -10,7 +10,7 @@ import UIKit
 import Starscream
 import NVActivityIndicatorView
 
-class MessageViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, WebSocketDelegate, UITextViewDelegate {
+class MessageViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate {
     
     var messages = [DGGMessage]()
     var renderedMessages = [NSMutableAttributedString]()
@@ -75,12 +75,34 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
             
             if let websocket = websocket {
-                websocket.delegate = self
+                websocket.onText = { (text: String) in
+                    let components = text.components(separatedBy: " ")
+                    let type = components[0]
+                    let rest = components[1...].joined(separator: " ")
+                    switch type {
+                    case "PRIVMSG":
+                        if let message = DGGParser.parsePrivateMessage(message: rest) {
+                            switch message {
+                            case .PrivateMessage: break
+                            default: return
+                            }
+                            self.newMessage(message: message)
+                        }
+                    default: break
+                    }
+                }
             }
         })
         
         chatTableView.delegate = self
         chatTableView.dataSource = self
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        websocket?.onText = nil
         
     }
     
@@ -121,34 +143,6 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
         default: return
         }
-    }
-    
-    // MARK: - Websocket Delegate
-    func websocketDidConnect(socket: WebSocketClient) {
-    }
-    
-    func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
-    }
-    
-    func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
-        let components = text.components(separatedBy: " ")
-        let type = components[0]
-        let rest = components[1...].joined(separator: " ")
-        switch type {
-        case "PRIVMSG":
-            if let message = DGGParser.parsePrivateMessage(message: rest) {
-                switch message {
-                case .PrivateMessage: break
-                default: return
-                }
-                newMessage(message: message)
-            }
-        default: break
-        }
-    }
-    
-    func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
-        print("got some data: \(data.count)")
     }
     
     // MARK: - Textview
