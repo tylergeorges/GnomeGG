@@ -11,6 +11,7 @@
 import UIKit
 import Starscream
 import NVActivityIndicatorView
+import MKToolTip
 
 var users = [User]()
 var websocket: WebSocket?
@@ -45,6 +46,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     var activeSuggestions = [Suggestion]()
     var lastComboableEmote: Emote?
     
+    
+    @IBOutlet weak var settingsButton: UIBarButtonItem!
     @IBOutlet weak var chatTableView: UITableView!
     @IBOutlet weak var scrollDownLabel: UILabel!
     @IBOutlet weak var nvActivityIndicatorView: NVActivityIndicatorView!
@@ -132,8 +135,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         chatTableView.rowHeight = UITableView.automaticDimension
         updateUI()
 
-        print("Connected?")
-        print(websocket?.isConnected)
 
         if settings.dggCookie != "" {
             if !authenticatedWebsocket && !(websocket?.isConnected ?? true) || settings.dggCookie != (connectionCookie ?? "") {
@@ -177,7 +178,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             websocket.delegate = self
             dontRecover = false
             print("calling connect")
-            self.newMessage(message: .Connecting)
+//            self.newMessage(message: .Connecting)
             websocket.connect()
         }
     }
@@ -274,10 +275,19 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         websocketBackoff = 100
         connectionCookie = settings.dggCookie
         updateUI()
+        
+        if settings.firstLaunch && settings.dggCookie == "" {
+            settings.firstLaunch = false
+            let preference = ToolTipPreferences()
+            preference.drawing.bubble.color = .white
+            preference.drawing.arrow.tipCornerRadius = 0
+            preference.drawing.message.color = .black
+            
+            settingsButton.showToolTip(identifier: "identifier", title: nil, message: "Sign-in to chat!", button: nil, arrowPosition: .top, preferences: preference, delegate: nil)
+        }
     }
     
     func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
-        print("websocket is disconnected: \(error?.localizedDescription)")
         updateUI()
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(self.websocketBackoff), execute: {
             print("reconnecting")

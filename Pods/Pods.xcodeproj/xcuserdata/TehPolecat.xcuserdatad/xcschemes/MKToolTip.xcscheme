@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5168099F2EBFC99A707C03C9EADE01A5"
-               BuildableName = "DropDown.framework"
-               BlueprintName = "DropDown"
+               BlueprintIdentifier = "0AA0E39307E99CE0344FD9F477E4ACF5"
+               BuildableName = "MKToolTip.framework"
+               BlueprintName = "MKToolTip"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5168099F2EBFC99A707C03C9EADE01A5"
-            BuildableName = "DropDown.framework"
-            BlueprintName = "DropDown"
+            BlueprintIdentifier = "0AA0E39307E99CE0344FD9F477E4ACF5"
+            BuildableName = "MKToolTip.framework"
+            BlueprintName = "MKToolTip"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

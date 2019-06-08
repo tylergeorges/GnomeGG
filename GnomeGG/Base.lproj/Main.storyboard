@@ -195,6 +195,7 @@
                         <outlet property="nvActivityIndicatorView" destination="dnL-hW-IbR" id="fWF-2J-7cc"/>
                         <outlet property="scrollDownLabel" destination="7yj-Qg-yNc" id="LhS-Ug-J5s"/>
                         <outlet property="sendButton" destination="eeM-94-9T8" id="5YQ-1K-OWp"/>
+                        <outlet property="settingsButton" destination="Aze-fa-cqC" id="nua-OV-QUH"/>
                         <outlet property="suggestionsHeightConstraints" destination="6Ke-Ii-hfZ" id="UiX-tm-W0c"/>
                         <outlet property="suggestionsScrollView" destination="San-2H-cDx" id="7tf-kP-lfU"/>
                         <outlet property="suggestionsStackView" destination="ezr-Nf-DP2" id="cGv-1T-IFe"/>
@@ -423,7 +424,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Destiny Social Media Links" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AVa-vE-TK4">
-                                <rect key="frame" x="91" y="451" width="232" height="24"/>
+                                <rect key="frame" x="91" y="447" width="232" height="24"/>
                                 <color key="tintColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -436,10 +437,12 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kQ4-My-oU2">
-                                <rect key="frame" x="100" y="485" width="214" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kQ4-My-oU2">
+                                <rect key="frame" x="81" y="481" width="252" height="34"/>
                                 <color key="tintColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Twitter (Destiny's Good Friend)"/>
+                                <state key="normal" title="Twitter (Destiny's Good Friend)">
+                                    <color key="titleColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="twitterTap:" destination="NhI-yz-AvZ" eventType="touchUpInside" id="44S-4s-l6c"/>
                                 </connections>
@@ -549,6 +552,7 @@
                     <navigationItem key="navigationItem" title="Tools" id="FsY-Vl-7T8">
                         <barButtonItem key="leftBarButtonItem" image="settings" id="kM1-ab-kBY">
                             <connections>
+                                <action selector="settingButton:" destination="TVB-ds-UYj" id="cGa-i5-8iS"/>
                                 <segue destination="Dms-a9-1G2" kind="presentation" id="FgN-R2-avK"/>
                             </connections>
                         </barButtonItem>
@@ -559,6 +563,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gdb-hU-LQG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="TVB-ds-UYj" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="516" y="1090"/>
         </scene>

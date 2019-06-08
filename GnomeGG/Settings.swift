@@ -20,6 +20,12 @@ class Settings {
         }
     }
     
+    var firstLaunch: Bool {
+        didSet {
+            defaults.set(firstLaunch, forKey: DefaultKeys.firstLaunch)
+        }
+    }
+    
     // todo
     var syncSettings: Bool {
         didSet {
@@ -187,6 +193,7 @@ class Settings {
         static let showWhispersInChat = "showhispersinchat"
         static let autoCompletion = "autocompletehelper"
         static let hideNSFW = "hidensfw"
+        static let firstLaunch = "firstLaunch"
     }
     
     // Default values
@@ -210,6 +217,7 @@ class Settings {
         static let showWhispersInChat = true
         static let autoCompletion = true
         static let hideNSFW = false
+        static let firstLaunch = true
     }
     
     init() {
@@ -218,6 +226,12 @@ class Settings {
             notifications = defaults.bool(forKey: DefaultKeys.notifications)
         } else {
             notifications = DefaultSettings.notifications
+        }
+        
+        if defaults.object(forKey: DefaultKeys.firstLaunch) != nil {
+            firstLaunch = defaults.bool(forKey: DefaultKeys.firstLaunch)
+        } else {
+            firstLaunch = DefaultSettings.firstLaunch
         }
         
         if defaults.object(forKey: DefaultKeys.usernameHighlights) != nil {
