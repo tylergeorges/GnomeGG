@@ -7,17 +7,6 @@
 //
 
 
-// TODO:
-// CHAT
-// cap number of stored messages so the app doesn't explode eventually
-// user tagging
-// TOOLS
-// -logs
-// SETTINGS
-// VV why dis message not work???
-// "MSG {\"nick\":\"hotdoglover86\",\"features\":[\"subscriber\",\"flair9\",\"flair13\"],\"timestamp\":1559537867279,\"data\":\"Abathur\\nHmmStiny\\nShekels\\nAMAZIN\\nDANKMEMES\\nAYYYLMAO\\nHmmStiny\\nCheekerZ\\nNOBULLY\\nSlugstiny\\nDEATH\\nBlade\\nLOVE\\nDAFUK\\nNappa\\nOverRustle\\nMLADY\\nDANKMEMES\\nWEEWOO\\nPICNIC\\nShekels\\nGODSTINY\\nAYAYA\\nSNAP\\nAngelThump\\nFrankerZ\\nSOTRIGGERED\\nKappaRoss\\nBlubstiny\\nGameOfThrows\\nAbathur\\nHhhehhehe\\nDravewin\\nAbathur\\nHmmStiny\\nShekels\\nAMAZIN\\nDANKMEMES\\nAYYYLMAO\\nHmmStiny\\nCheekerZ\\nNOBULLY\\nSlugstiny\\nDEATH\\nBlade\\nLOVE\\nDAFUK\\nNappa\\nOverRustle\\nMLADY\\nDANKMEMES\\nWEEWOO\\nPICNIC\\nShekels\\nGODSTINY\\nAYAYA\\nSNAP\\nAngelThump\\nFrankerZ\\nSOTRIGGERED\"}"
-// UNBAN {"nick":"Bot","features":["protected","bot"],"timestamp":1559850166179,"data":"kosidus"}
-// UNMUTE {"nick":"Bot","features":["protected","bot"],"timestamp":1559850479566,"data":"Tassadar"}
 
 import UIKit
 import Starscream
@@ -336,6 +325,14 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         case "BAN":
             if let message = DGGParser.parseBanMessage(message: rest) {
+                newMessage(message: message)
+            }
+        case "UNMUTE":
+            if let message = DGGParser.parseUnmuteMessage(message: rest) {
+                newMessage(message: message)
+            }
+        case "UNBAN":
+            if let message = DGGParser.parseUnbanMessage(message: rest) {
                 newMessage(message: message)
             }
         case "QUIT":

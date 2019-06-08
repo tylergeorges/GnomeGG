@@ -191,6 +191,70 @@ class DGGParser {
         }
     }
     
+    static func parseUnmuteMessage(message: String) -> DGGMessage? {
+        if let dataFromString = message.data(using: .utf8, allowLossyConversion: false) {
+            do {
+                let json = try JSON(data: dataFromString)
+                
+                guard let nick = json["nick"].string else {
+                    return nil
+                }
+                
+                let features = json["features"].arrayValue.map {$0.stringValue}
+                
+                guard let unixTimestamp = json["timestamp"].double else {
+                    return nil
+                }
+                
+                let timestamp = Date(timeIntervalSince1970: unixTimestamp / 1000)
+                
+                guard let target = json["data"].string else {
+                    return nil
+                }
+                
+                return .Unmute(nick: nick, features: features, timestamp: timestamp, target: target)
+                
+            } catch {
+                print("Error parsing message")
+                return nil
+            }
+        } else {
+            return nil
+        }
+    }
+    
+    static func parseUnbanMessage(message: String) -> DGGMessage? {
+        if let dataFromString = message.data(using: .utf8, allowLossyConversion: false) {
+            do {
+                let json = try JSON(data: dataFromString)
+                
+                guard let nick = json["nick"].string else {
+                    return nil
+                }
+                
+                let features = json["features"].arrayValue.map {$0.stringValue}
+                
+                guard let unixTimestamp = json["timestamp"].double else {
+                    return nil
+                }
+                
+                let timestamp = Date(timeIntervalSince1970: unixTimestamp / 1000)
+                
+                guard let target = json["data"].string else {
+                    return nil
+                }
+                
+                return .Unban(nick: nick, features: features, timestamp: timestamp, target: target)
+                
+            } catch {
+                print("Error parsing message")
+                return nil
+            }
+        } else {
+            return nil
+        }
+    }
+    
     static func parseDoorMessage(message: String) -> String? {
         if let dataFromString = message.data(using: .utf8, allowLossyConversion: false) {
             do {
@@ -299,6 +363,8 @@ public enum DGGMessage {
     case Connecting
     case Mute(nick: String, features: [String], timestamp: Date, target: String)
     case Ban(nick: String, features: [String], timestamp: Date, target: String)
+    case Unmute(nick: String, features: [String], timestamp: Date, target: String)
+    case Unban(nick: String, features: [String], timestamp: Date, target: String)
     case InternalMessage(data: String)
     case ChatErrorMessage(data: String)
     case PrivateMessage(timestamp: Date, nick: String, data: String, id: Int)
@@ -344,6 +410,10 @@ public func renderMessage(message: DGGMessage, isLog: Bool = false) -> NSMutable
         return renderMute(timestamp: timestamp, banner: nick, target: target)
     case let .Ban(nick, _, timestamp, target):
         return renderBan(timestamp: timestamp, banner: nick, target: target)
+    case let .Unmute(nick, _, timestamp, target):
+        return renderUnmute(timestamp: timestamp, banner: nick, target: target)
+    case let .Unban(nick, _, timestamp, target):
+        return renderUnban(timestamp: timestamp, banner: nick, target: target)
     case let .InternalMessage(data):
         return renderInternalMessage(message: data)
     case let .ChatErrorMessage(data):
@@ -533,6 +603,38 @@ private func renderMute(timestamp: Date, banner: String, target: String) -> NSMu
     fullMessage.append(customFlair(image: UIImage(named: "warningbadge")!, width: 16, height: 16))
     fullMessage.append(spacer)
     let template = "%@ muted by %@"
+    let message = NSMutableAttributedString(string: String(format: template, target, banner))
+    message.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "FFFFFFF"), range: NSRange(location: 0, length: message.length))
+    fullMessage.append(message)
+    
+    
+    return fullMessage
+}
+
+private func renderUnmute(timestamp: Date, banner: String, target: String) -> NSMutableAttributedString {
+    let spacer = NSAttributedString(string: " ")
+    let fullMessage = NSMutableAttributedString(string: "")
+    fullMessage.append(formatTimestamp(timestamp: timestamp))
+    fullMessage.append(spacer)
+    fullMessage.append(customFlair(image: UIImage(named: "infobadge")!, width: 16, height: 16))
+    fullMessage.append(spacer)
+    let template = "%@ unmuted by %@"
+    let message = NSMutableAttributedString(string: String(format: template, target, banner))
+    message.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "FFFFFFF"), range: NSRange(location: 0, length: message.length))
+    fullMessage.append(message)
+    
+    
+    return fullMessage
+}
+
+private func renderUnban(timestamp: Date, banner: String, target: String) -> NSMutableAttributedString {
+    let spacer = NSAttributedString(string: " ")
+    let fullMessage = NSMutableAttributedString(string: "")
+    fullMessage.append(formatTimestamp(timestamp: timestamp))
+    fullMessage.append(spacer)
+    fullMessage.append(customFlair(image: UIImage(named: "infobadge")!, width: 16, height: 16))
+    fullMessage.append(spacer)
+    let template = "%@ unbanned by %@"
     let message = NSMutableAttributedString(string: String(format: template, target, banner))
     message.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "FFFFFFF"), range: NSRange(location: 0, length: message.length))
     fullMessage.append(message)
