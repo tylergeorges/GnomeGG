@@ -73,9 +73,19 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         print("getting flairs")
         dggAPI.getFlairList()
         print("getting emotes")
-        dggAPI.getEmoteList()
+        dggAPI.getEmoteList(completionHandler: {
+            for (i, message) in self.messages.enumerated() {
+                self.renderedMessages[i] = renderMessage(message: message)
+            }
+            self.chatTableView.reloadData()
+        })
         print("getting bbdgg emotes")
-        dggAPI.getBBDGGEmoteList()
+        dggAPI.getBBDGGEmoteList(completionHandler: {
+            for (i, message) in self.messages.enumerated() {
+                self.renderedMessages[i] = renderMessage(message: message)
+            }
+            self.chatTableView.reloadData()
+        })
         
         Timer.scheduledTimer(timeInterval: 5*60, target: self, selector: #selector(getStreamStatus), userInfo: nil, repeats: true)
         getStreamStatus()
@@ -85,17 +95,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-
-
-        // TODO get user info on load
-//        if settings.dggUsername == "" && settings.dggAccessToken != "" {
-//            dggAPI.getUserInfo(completionHandler: {
-//                if settings.dggUsername != "" {
-//                    print("Logged in as: " + settings.dggUsername)
-//                    //                self.title = "Logged in as: " + settings.dggUsername
-//                }
-//            })
-//        }
 
         print("getting user settings")
         if settings.dggCookie != "" {

@@ -40,7 +40,6 @@ class LoginViewController: UIViewController, WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, decidePolicyFor: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
-
         if (decidePolicyFor.request.url!.absoluteString.starts(with: authURL)) {
             decisionHandler(.cancel)
 
@@ -80,7 +79,7 @@ class LoginViewController: UIViewController, WKNavigationDelegate {
                 }
                 
                 self.cookieLabel.text = "Getting Your Information"
-                dggAPI.getUserSettings()
+                dggAPI.getUserSettings(initalSync: true)
                 self.dismiss(animated: true, completion: nil)
             }
         } else {
@@ -98,15 +97,24 @@ class LoginViewController: UIViewController, WKNavigationDelegate {
         if rememberMeSwitch.isOn {
             parameters["rememberme"] = "on"
         }
-
-        Alamofire.request(loginURL, method: .post, parameters: parameters).validate().response { response in
-            self.loginWebview.isHidden = false
-            self.loginWebview.load(URLRequest(url: response.response!.url!))
-        }
-    }
+        
+        let alert = UIAlertController(title: "Cookies", message: "The Sign-in Process Reads and Stores Cookies. Do you agree to the use of cookies?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {action in
+            self.dismiss(animated: true, completion: nil)
+        }))
     
-    @IBAction func cancelTap(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
+            Alamofire.request(self.loginURL, method: .post, parameters: parameters).validate().response { response in
+                self.loginWebview.isHidden = false
+                self.loginWebview.load(URLRequest(url: response.response!.url!))
+            }
+        }))
+        
+        self.present(alert, animated: true)
+    }
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
     @IBAction func twitchTap(_ sender: Any) {
@@ -123,6 +131,9 @@ class LoginViewController: UIViewController, WKNavigationDelegate {
     }
     @IBAction func discordTap(_ sender: Any) {
         logIn(with: "discord")
+    }
+    @IBAction func cancelTap(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
     }
     
 }

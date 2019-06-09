@@ -221,17 +221,17 @@
                                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="xcC-Zz-Qsj">
                                             <color key="tintColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
-                                                <action selector="cancelTap:" destination="JnD-9P-Gch" id="mnM-yD-q4a"/>
+                                                <action selector="cancelTap:" destination="JnD-9P-Gch" id="NEf-eo-sI8"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="bkW-PT-cOb" userLabel="auth view">
-                                <rect key="frame" x="157" y="143.5" width="100" height="520"/>
+                                <rect key="frame" x="169" y="123.5" width="76" height="400"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vet-BV-c1v" userLabel="Twitch">
-                                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="76" height="76"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Vet-BV-c1v" secondAttribute="height" multiplier="1:1" id="0ro-YL-m1d"/>
                                         </constraints>
@@ -241,7 +241,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Td5-QU-zLE" userLabel="Google">
-                                        <rect key="frame" x="0.0" y="105" width="100" height="100"/>
+                                        <rect key="frame" x="0.0" y="81" width="76" height="76"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Td5-QU-zLE" secondAttribute="height" multiplier="1:1" id="Qu2-Rf-Uyp"/>
                                         </constraints>
@@ -251,7 +251,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KdP-sY-xVc" userLabel="Twitter">
-                                        <rect key="frame" x="0.0" y="210" width="100" height="100"/>
+                                        <rect key="frame" x="0.0" y="162" width="76" height="76"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="KdP-sY-xVc" secondAttribute="height" multiplier="1:1" id="Z4e-6T-5kn"/>
                                         </constraints>
@@ -261,7 +261,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7hv-PP-cRj" userLabel="Reddit">
-                                        <rect key="frame" x="0.0" y="315" width="100" height="100"/>
+                                        <rect key="frame" x="0.0" y="243" width="76" height="76"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="7hv-PP-cRj" secondAttribute="height" multiplier="1:1" id="xbm-5g-Utr"/>
                                         </constraints>
@@ -271,9 +271,9 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q6G-CX-NOs" userLabel="Discord">
-                                        <rect key="frame" x="0.0" y="420" width="100" height="100"/>
+                                        <rect key="frame" x="0.0" y="324" width="76" height="76"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" secondItem="Q6G-CX-NOs" secondAttribute="height" multiplier="1:1" id="Eaq-aO-MIT"/>
+                                            <constraint firstAttribute="width" secondItem="Q6G-CX-NOs" secondAttribute="height" multiplier="1:1" id="RYd-qW-HJN"/>
                                         </constraints>
                                         <state key="normal" image="discord"/>
                                         <connections>
@@ -282,7 +282,8 @@
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="PIf-rG-VcF"/>
+                                    <constraint firstAttribute="height" constant="400" id="8iJ-pg-dkp"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="100" id="PIf-rG-VcF"/>
                                     <constraint firstItem="Vet-BV-c1v" firstAttribute="leading" secondItem="bkW-PT-cOb" secondAttribute="leading" id="SYD-1N-SR1"/>
                                     <constraint firstItem="Vet-BV-c1v" firstAttribute="top" secondItem="bkW-PT-cOb" secondAttribute="top" id="cj5-DQ-q54"/>
                                 </constraints>
@@ -307,7 +308,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1xD-GW-QRg" userLabel="RememberView">
-                                <rect key="frame" x="107" y="673.5" width="200" height="50"/>
+                                <rect key="frame" x="107" y="533.5" width="200" height="50"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remember Me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lUa-BR-9kC">
                                         <rect key="frame" x="0.0" y="15" width="112" height="20.5"/>
@@ -350,7 +351,7 @@
                             <constraint firstItem="1xD-GW-QRg" firstAttribute="top" secondItem="bkW-PT-cOb" secondAttribute="bottom" constant="10" id="JHS-Yy-osO"/>
                             <constraint firstItem="jHQ-3J-nd5" firstAttribute="top" secondItem="Eeb-7i-3Rx" secondAttribute="bottom" constant="5" id="Tpa-NW-ww5"/>
                             <constraint firstItem="YLB-fH-Z6I" firstAttribute="top" secondItem="43V-Ac-s8z" secondAttribute="bottom" constant="5" id="Wfd-dn-ZTo"/>
-                            <constraint firstItem="bkW-PT-cOb" firstAttribute="top" secondItem="jHQ-3J-nd5" secondAttribute="bottom" constant="30" id="fAR-oj-wUF"/>
+                            <constraint firstItem="bkW-PT-cOb" firstAttribute="top" secondItem="jHQ-3J-nd5" secondAttribute="bottom" constant="10" id="fAR-oj-wUF"/>
                             <constraint firstItem="YLB-fH-Z6I" firstAttribute="centerX" secondItem="MS5-wi-X6H" secondAttribute="centerX" id="fcN-pF-YAD"/>
                             <constraint firstItem="bkW-PT-cOb" firstAttribute="centerX" secondItem="MS5-wi-X6H" secondAttribute="centerX" id="iHQ-iD-Uwr"/>
                             <constraint firstItem="1xD-GW-QRg" firstAttribute="centerX" secondItem="MS5-wi-X6H" secondAttribute="centerX" id="kTd-Y2-58n"/>
@@ -383,110 +384,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xTA-MH-ant">
-                                <rect key="frame" x="187" y="132" width="40" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="Logs">
-                                    <color key="titleColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <segue destination="e8h-ja-FBf" kind="show" id="R2W-qz-Hni"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y4O-f1-5Mb">
-                                <rect key="frame" x="141.5" y="176" width="131" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="Keyword Search">
-                                    <color key="titleColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <segue destination="X5p-w7-3sa" kind="show" id="rPx-O7-HC1"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qu9-uC-1fu">
-                                <rect key="frame" x="164" y="220" width="86" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="Emote List">
-                                    <color key="titleColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <segue destination="F3e-kE-u24" kind="show" id="4kb-OK-M2W"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vmN-Er-j0f">
-                                <rect key="frame" x="173" y="264" width="68" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="Flair List">
-                                    <color key="titleColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <segue destination="9bx-T0-poe" kind="show" id="SS4-t3-nEJ"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Destiny Social Media Links" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AVa-vE-TK4">
-                                <rect key="frame" x="91" y="447" width="232" height="24"/>
-                                <color key="tintColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DestinyGG Tools" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Of-d5-kEx">
-                                <rect key="frame" x="134.5" y="10" width="145" height="24"/>
-                                <color key="tintColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kQ4-My-oU2">
-                                <rect key="frame" x="81" y="481" width="252" height="34"/>
-                                <color key="tintColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Twitter (Destiny's Good Friend)">
-                                    <color key="titleColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="twitterTap:" destination="NhI-yz-AvZ" eventType="touchUpInside" id="44S-4s-l6c"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eCa-bS-B1S">
-                                <rect key="frame" x="184" y="525" width="46" height="30"/>
-                                <color key="tintColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Twitch"/>
-                                <connections>
-                                    <action selector="twitchTap:" destination="NhI-yz-AvZ" eventType="touchUpInside" id="0qv-xO-R0I"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3GY-yB-0W2">
-                                <rect key="frame" x="178.5" y="565" width="57" height="30"/>
-                                <color key="tintColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Youtube"/>
-                                <connections>
-                                    <action selector="youtubeTap:" destination="NhI-yz-AvZ" eventType="touchUpInside" id="mY2-bW-4oU"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jKC-8C-wcN">
-                                <rect key="frame" x="184.5" y="605" width="45" height="30"/>
-                                <color key="tintColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Reddit"/>
-                                <connections>
-                                    <action selector="redditTap:" destination="NhI-yz-AvZ" eventType="touchUpInside" id="NKD-qn-Mqu"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p8A-k3-EBV">
-                                <rect key="frame" x="180.5" y="645" width="53" height="30"/>
-                                <color key="tintColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Discord"/>
-                                <connections>
-                                    <action selector="discordTap:" destination="NhI-yz-AvZ" eventType="touchUpInside" id="4vO-DY-pHH"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wLf-ki-Owc">
-                                <rect key="frame" x="172.5" y="685" width="69" height="30"/>
-                                <color key="tintColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Instagram"/>
-                                <connections>
-                                    <action selector="instagramTap:" destination="NhI-yz-AvZ" eventType="touchUpInside" id="ibc-Bf-RMH"/>
-                                </connections>
-                            </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="yee" translatesAutoresizingMaskIntoConstraints="NO" id="LKZ-2S-Gte">
                                 <rect key="frame" x="0.0" y="672" width="83" height="53"/>
                                 <constraints>
@@ -494,58 +391,191 @@
                                     <constraint firstAttribute="width" constant="83" id="wma-SS-su8"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NBG-gS-RBP">
-                                <rect key="frame" x="169.5" y="44" width="75" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <color key="tintColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Mentions"/>
-                                <connections>
-                                    <segue destination="JJG-dX-QBT" kind="show" identifier="" id="J19-KJ-FdK"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S0c-rP-tad">
-                                <rect key="frame" x="186.5" y="88" width="41" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="Stalk">
-                                    <color key="titleColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <segue destination="CYG-c9-81O" kind="show" id="F57-3m-Yjm"/>
-                                </connections>
-                            </button>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D9v-9v-XV0">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DestinyGG Tools" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Of-d5-kEx">
+                                        <rect key="frame" x="134.5" y="10" width="145" height="24"/>
+                                        <color key="tintColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NBG-gS-RBP">
+                                        <rect key="frame" x="169.5" y="44" width="75" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <color key="tintColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Mentions"/>
+                                        <connections>
+                                            <segue destination="JJG-dX-QBT" kind="show" identifier="" id="J19-KJ-FdK"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S0c-rP-tad">
+                                        <rect key="frame" x="186.5" y="88" width="41" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <state key="normal" title="Stalk">
+                                            <color key="titleColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="CYG-c9-81O" kind="show" id="F57-3m-Yjm"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xTA-MH-ant">
+                                        <rect key="frame" x="187" y="132" width="40" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <state key="normal" title="Logs">
+                                            <color key="titleColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="e8h-ja-FBf" kind="show" id="R2W-qz-Hni"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y4O-f1-5Mb">
+                                        <rect key="frame" x="141.5" y="176" width="131" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <state key="normal" title="Keyword Search">
+                                            <color key="titleColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="X5p-w7-3sa" kind="show" id="rPx-O7-HC1"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qu9-uC-1fu">
+                                        <rect key="frame" x="164" y="220" width="86" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <state key="normal" title="Emote List">
+                                            <color key="titleColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="F3e-kE-u24" kind="show" id="4kb-OK-M2W"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vmN-Er-j0f">
+                                        <rect key="frame" x="173" y="264" width="68" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <state key="normal" title="Flair List">
+                                            <color key="titleColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="9bx-T0-poe" kind="show" id="SS4-t3-nEJ"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kQ4-My-oU2">
+                                        <rect key="frame" x="81" y="372" width="252" height="34"/>
+                                        <color key="tintColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Twitter (Destiny's Good Friend)">
+                                            <color key="titleColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="twitterTap:" destination="NhI-yz-AvZ" eventType="touchUpInside" id="44S-4s-l6c"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eCa-bS-B1S">
+                                        <rect key="frame" x="180" y="416" width="54" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <color key="tintColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Twitch">
+                                            <color key="titleColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="twitchTap:" destination="NhI-yz-AvZ" eventType="touchUpInside" id="0qv-xO-R0I"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3GY-yB-0W2">
+                                        <rect key="frame" x="173.5" y="460" width="67" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <color key="tintColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Youtube">
+                                            <color key="titleColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="youtubeTap:" destination="NhI-yz-AvZ" eventType="touchUpInside" id="mY2-bW-4oU"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jKC-8C-wcN">
+                                        <rect key="frame" x="180.5" y="504" width="53" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <color key="tintColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Reddit">
+                                            <color key="titleColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="redditTap:" destination="NhI-yz-AvZ" eventType="touchUpInside" id="NKD-qn-Mqu"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p8A-k3-EBV">
+                                        <rect key="frame" x="175.5" y="548" width="63" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <color key="tintColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Discord">
+                                            <color key="titleColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="discordTap:" destination="NhI-yz-AvZ" eventType="touchUpInside" id="4vO-DY-pHH"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wLf-ki-Owc">
+                                        <rect key="frame" x="166.5" y="592" width="81" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <color key="tintColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Instagram">
+                                            <color key="titleColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="instagramTap:" destination="NhI-yz-AvZ" eventType="touchUpInside" id="ibc-Bf-RMH"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Destiny Social Media Links" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AVa-vE-TK4">
+                                        <rect key="frame" x="91" y="338" width="232" height="24"/>
+                                        <color key="tintColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="p8A-k3-EBV" firstAttribute="centerX" secondItem="D9v-9v-XV0" secondAttribute="centerX" id="0LV-Bg-3Pg"/>
+                                    <constraint firstItem="jKC-8C-wcN" firstAttribute="centerX" secondItem="D9v-9v-XV0" secondAttribute="centerX" id="1A9-Ai-HN6"/>
+                                    <constraint firstItem="p8A-k3-EBV" firstAttribute="top" secondItem="jKC-8C-wcN" secondAttribute="bottom" constant="10" id="2Jg-gn-GSM"/>
+                                    <constraint firstItem="AVa-vE-TK4" firstAttribute="top" secondItem="vmN-Er-j0f" secondAttribute="bottom" constant="40" id="2LY-S6-XIG"/>
+                                    <constraint firstItem="S0c-rP-tad" firstAttribute="top" secondItem="NBG-gS-RBP" secondAttribute="bottom" constant="10" id="2gs-iy-Gy4"/>
+                                    <constraint firstItem="Y4O-f1-5Mb" firstAttribute="top" secondItem="xTA-MH-ant" secondAttribute="bottom" constant="10" id="63j-X6-0x1"/>
+                                    <constraint firstItem="5Of-d5-kEx" firstAttribute="centerX" secondItem="D9v-9v-XV0" secondAttribute="centerX" id="6Tb-B0-A1j"/>
+                                    <constraint firstItem="vmN-Er-j0f" firstAttribute="centerX" secondItem="D9v-9v-XV0" secondAttribute="centerX" id="7wg-jA-1uq"/>
+                                    <constraint firstItem="wLf-ki-Owc" firstAttribute="top" secondItem="p8A-k3-EBV" secondAttribute="bottom" constant="10" id="8eW-Ss-KSj"/>
+                                    <constraint firstItem="kQ4-My-oU2" firstAttribute="centerX" secondItem="D9v-9v-XV0" secondAttribute="centerX" id="ABT-vI-t5l"/>
+                                    <constraint firstItem="vmN-Er-j0f" firstAttribute="top" secondItem="qu9-uC-1fu" secondAttribute="bottom" constant="10" id="C4W-zd-4D7"/>
+                                    <constraint firstItem="eCa-bS-B1S" firstAttribute="centerX" secondItem="D9v-9v-XV0" secondAttribute="centerX" id="D5g-wj-9Jz"/>
+                                    <constraint firstItem="5Of-d5-kEx" firstAttribute="leading" secondItem="D9v-9v-XV0" secondAttribute="leading" constant="134.5" placeholder="YES" id="LQI-rW-hxn"/>
+                                    <constraint firstItem="AVa-vE-TK4" firstAttribute="centerX" secondItem="D9v-9v-XV0" secondAttribute="centerX" id="MmO-jr-zRJ"/>
+                                    <constraint firstItem="wLf-ki-Owc" firstAttribute="centerX" secondItem="D9v-9v-XV0" secondAttribute="centerX" id="NqX-Um-E7i"/>
+                                    <constraint firstItem="S0c-rP-tad" firstAttribute="centerX" secondItem="D9v-9v-XV0" secondAttribute="centerX" id="OJ1-gE-8bN"/>
+                                    <constraint firstItem="qu9-uC-1fu" firstAttribute="centerX" secondItem="D9v-9v-XV0" secondAttribute="centerX" id="Tcg-b6-2nR"/>
+                                    <constraint firstItem="NBG-gS-RBP" firstAttribute="top" secondItem="5Of-d5-kEx" secondAttribute="bottom" constant="10" id="Vft-wH-nV6"/>
+                                    <constraint firstItem="kQ4-My-oU2" firstAttribute="top" secondItem="AVa-vE-TK4" secondAttribute="bottom" constant="10" id="XIy-0r-sv9"/>
+                                    <constraint firstItem="eCa-bS-B1S" firstAttribute="top" secondItem="kQ4-My-oU2" secondAttribute="bottom" constant="10" id="ZpO-KR-6wE"/>
+                                    <constraint firstAttribute="bottom" secondItem="wLf-ki-Owc" secondAttribute="bottom" constant="10" id="Zui-tw-ATJ"/>
+                                    <constraint firstAttribute="trailing" secondItem="5Of-d5-kEx" secondAttribute="trailing" constant="139.5" placeholder="YES" id="bZd-7U-Xyw"/>
+                                    <constraint firstItem="xTA-MH-ant" firstAttribute="centerX" secondItem="D9v-9v-XV0" secondAttribute="centerX" id="jd7-23-InC"/>
+                                    <constraint firstItem="3GY-yB-0W2" firstAttribute="top" secondItem="eCa-bS-B1S" secondAttribute="bottom" constant="10" id="mr4-W1-ZYo"/>
+                                    <constraint firstItem="Y4O-f1-5Mb" firstAttribute="centerX" secondItem="D9v-9v-XV0" secondAttribute="centerX" id="p08-ND-VBa"/>
+                                    <constraint firstItem="5Of-d5-kEx" firstAttribute="top" secondItem="D9v-9v-XV0" secondAttribute="top" constant="10" id="rrQ-UU-5OV"/>
+                                    <constraint firstItem="3GY-yB-0W2" firstAttribute="centerX" secondItem="D9v-9v-XV0" secondAttribute="centerX" id="sOi-Zs-ELH"/>
+                                    <constraint firstItem="NBG-gS-RBP" firstAttribute="centerX" secondItem="D9v-9v-XV0" secondAttribute="centerX" id="t0l-83-iqs"/>
+                                    <constraint firstItem="xTA-MH-ant" firstAttribute="top" secondItem="S0c-rP-tad" secondAttribute="bottom" constant="10" id="u0x-xL-clG"/>
+                                    <constraint firstItem="jKC-8C-wcN" firstAttribute="top" secondItem="3GY-yB-0W2" secondAttribute="bottom" constant="10" id="urn-J1-uJY"/>
+                                    <constraint firstItem="qu9-uC-1fu" firstAttribute="top" secondItem="Y4O-f1-5Mb" secondAttribute="bottom" constant="10" id="vSC-jI-fPI"/>
+                                </constraints>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="xTA-MH-ant" firstAttribute="centerX" secondItem="Af8-dl-ZSZ" secondAttribute="centerX" id="1St-Ca-lYc"/>
-                            <constraint firstItem="S0c-rP-tad" firstAttribute="top" secondItem="NBG-gS-RBP" secondAttribute="bottom" constant="10" id="9Jo-3K-gw2"/>
-                            <constraint firstItem="eCa-bS-B1S" firstAttribute="centerX" secondItem="Af8-dl-ZSZ" secondAttribute="centerX" id="9RU-6Y-Bzz"/>
-                            <constraint firstItem="xTA-MH-ant" firstAttribute="top" secondItem="S0c-rP-tad" secondAttribute="bottom" constant="10" id="B3L-Le-NXZ"/>
-                            <constraint firstItem="jKC-8C-wcN" firstAttribute="centerX" secondItem="Af8-dl-ZSZ" secondAttribute="centerX" id="El6-BO-dK4"/>
-                            <constraint firstItem="vmN-Er-j0f" firstAttribute="centerX" secondItem="Af8-dl-ZSZ" secondAttribute="centerX" id="FhJ-PP-buC"/>
-                            <constraint firstItem="5Of-d5-kEx" firstAttribute="top" secondItem="1Ap-r7-ZX5" secondAttribute="top" constant="10" id="HXp-wq-3Vi"/>
-                            <constraint firstItem="1Ap-r7-ZX5" firstAttribute="bottom" secondItem="wLf-ki-Owc" secondAttribute="bottom" constant="10" id="HkR-qT-481"/>
-                            <constraint firstItem="eCa-bS-B1S" firstAttribute="top" secondItem="kQ4-My-oU2" secondAttribute="bottom" constant="10" id="JiN-G6-5JP"/>
+                            <constraint firstItem="D9v-9v-XV0" firstAttribute="leading" secondItem="Af8-dl-ZSZ" secondAttribute="leading" id="AOy-kU-wku"/>
                             <constraint firstItem="LKZ-2S-Gte" firstAttribute="leading" secondItem="1Ap-r7-ZX5" secondAttribute="leading" id="OBN-xa-k9h"/>
                             <constraint firstItem="LKZ-2S-Gte" firstAttribute="bottom" secondItem="1Ap-r7-ZX5" secondAttribute="bottom" id="OG7-0k-MfQ"/>
-                            <constraint firstItem="S0c-rP-tad" firstAttribute="centerX" secondItem="Af8-dl-ZSZ" secondAttribute="centerX" id="V9R-WN-Gxe"/>
-                            <constraint firstItem="kQ4-My-oU2" firstAttribute="top" secondItem="AVa-vE-TK4" secondAttribute="bottom" constant="10" id="Y8Y-By-cIq"/>
-                            <constraint firstItem="NBG-gS-RBP" firstAttribute="centerX" secondItem="Af8-dl-ZSZ" secondAttribute="centerX" id="aVS-r9-giU"/>
-                            <constraint firstItem="wLf-ki-Owc" firstAttribute="centerX" secondItem="Af8-dl-ZSZ" secondAttribute="centerX" id="bb6-H0-APO"/>
-                            <constraint firstItem="p8A-k3-EBV" firstAttribute="centerX" secondItem="Af8-dl-ZSZ" secondAttribute="centerX" id="cC4-0l-HlX"/>
-                            <constraint firstItem="qu9-uC-1fu" firstAttribute="centerX" secondItem="Af8-dl-ZSZ" secondAttribute="centerX" id="cVN-JX-uPz"/>
-                            <constraint firstItem="3GY-yB-0W2" firstAttribute="top" secondItem="eCa-bS-B1S" secondAttribute="bottom" constant="10" id="dU2-vW-wAg"/>
-                            <constraint firstItem="p8A-k3-EBV" firstAttribute="top" secondItem="jKC-8C-wcN" secondAttribute="bottom" constant="10" id="edL-sU-SbZ"/>
-                            <constraint firstItem="3GY-yB-0W2" firstAttribute="centerX" secondItem="Af8-dl-ZSZ" secondAttribute="centerX" id="ewa-eR-dhK"/>
-                            <constraint firstItem="Y4O-f1-5Mb" firstAttribute="top" secondItem="xTA-MH-ant" secondAttribute="bottom" constant="10" id="gBw-XI-yqQ"/>
-                            <constraint firstItem="jKC-8C-wcN" firstAttribute="top" secondItem="3GY-yB-0W2" secondAttribute="bottom" constant="10" id="gCL-Gj-OhH"/>
-                            <constraint firstItem="NBG-gS-RBP" firstAttribute="top" secondItem="5Of-d5-kEx" secondAttribute="bottom" constant="10" id="h1X-Hb-ugF"/>
-                            <constraint firstItem="5Of-d5-kEx" firstAttribute="centerX" secondItem="Af8-dl-ZSZ" secondAttribute="centerX" id="igl-wP-YCg"/>
-                            <constraint firstItem="kQ4-My-oU2" firstAttribute="centerX" secondItem="Af8-dl-ZSZ" secondAttribute="centerX" id="pNY-mD-ldO"/>
-                            <constraint firstItem="Y4O-f1-5Mb" firstAttribute="centerX" secondItem="Af8-dl-ZSZ" secondAttribute="centerX" id="uum-oP-HdT"/>
-                            <constraint firstItem="qu9-uC-1fu" firstAttribute="top" secondItem="Y4O-f1-5Mb" secondAttribute="bottom" constant="10" id="v1u-hc-7xW"/>
-                            <constraint firstItem="vmN-Er-j0f" firstAttribute="top" secondItem="qu9-uC-1fu" secondAttribute="bottom" constant="10" id="wrM-ch-Xa9"/>
-                            <constraint firstItem="AVa-vE-TK4" firstAttribute="centerX" secondItem="Af8-dl-ZSZ" secondAttribute="centerX" id="y0t-5H-8jf"/>
-                            <constraint firstItem="wLf-ki-Owc" firstAttribute="top" secondItem="p8A-k3-EBV" secondAttribute="bottom" constant="10" id="ybw-iy-elh"/>
+                            <constraint firstAttribute="bottom" secondItem="D9v-9v-XV0" secondAttribute="bottom" id="SfD-LM-tcS"/>
+                            <constraint firstItem="D9v-9v-XV0" firstAttribute="top" secondItem="Af8-dl-ZSZ" secondAttribute="top" id="gSu-27-toO"/>
+                            <constraint firstAttribute="trailing" secondItem="D9v-9v-XV0" secondAttribute="trailing" id="mcN-2V-oxg"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="1Ap-r7-ZX5"/>
                     </view>
@@ -565,7 +595,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gdb-hU-LQG" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="TVB-ds-UYj" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="516" y="1090"/>
+            <point key="canvasLocation" x="515.94202898550725" y="1089.5089285714284"/>
         </scene>
         <!--Stalk List-->
         <scene sceneID="9vP-0M-Csu">
@@ -704,7 +734,7 @@
                                                 <constraint firstItem="51e-Yd-P74" firstAttribute="centerY" secondItem="jem-yC-ux0" secondAttribute="centerY" id="tZs-Vn-II4"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.031372549020000001" green="0.031372549020000001" blue="0.031372549020000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="emoteLabel" destination="SBP-Ns-9dh" id="3jG-Xv-0RX"/>
                                             <outlet property="prefixLabel" destination="e1R-Qk-D1s" id="R3X-O9-7h3"/>
@@ -878,7 +908,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="110"/>
                                                     <attributedString key="attributedText">
                                                         <fragment>
-                                                            <mutableString key="content">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                                                            <string key="content">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                             <attributes>
                                                                 <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                 <font key="NSFont" size="14" name="Roboto-Regular"/>
@@ -1046,7 +1076,7 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Lb8-zg-o9i">
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Lb8-zg-o9i">
                                                 <rect key="frame" x="246" y="1.5" width="51" height="31"/>
                                                 <connections>
                                                     <action selector="bbdggEmoteSwitch:" destination="Dms-a9-1G2" eventType="valueChanged" id="mlb-ve-GO7"/>
@@ -1275,7 +1305,7 @@
                                             <segue destination="u4i-fh-PUV" kind="presentation" identifier="manageHighlights" id="tvd-il-KWG"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r72-iH-igy">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r72-iH-igy">
                                         <rect key="frame" x="125.5" y="537" width="163" height="30"/>
                                         <state key="normal" title="Manage Nick Highlights">
                                             <color key="titleColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1359,11 +1389,21 @@
                                             <action selector="chatButtonTap:" destination="Dms-a9-1G2" eventType="touchUpInside" id="mD2-zA-JQb"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AHc-CF-LWg">
+                                        <rect key="frame" x="159.5" y="928" width="95" height="30"/>
+                                        <state key="normal" title="Privacy Policy">
+                                            <color key="titleColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="privacyPolicyTap:" destination="Dms-a9-1G2" eventType="touchUpInside" id="Dqy-BI-DLx"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="rxc-lI-h9q" secondAttribute="trailing" constant="153.5" placeholder="YES" id="1nR-ey-sKx"/>
                                     <constraint firstItem="vIs-Ab-HuM" firstAttribute="centerX" secondItem="peK-dY-Sob" secondAttribute="centerX" id="22r-BN-YAK"/>
+                                    <constraint firstItem="AHc-CF-LWg" firstAttribute="top" secondItem="UBA-9D-l3O" secondAttribute="bottom" constant="10" id="33I-oi-HdI"/>
                                     <constraint firstItem="QEX-MN-Kij" firstAttribute="centerX" secondItem="peK-dY-Sob" secondAttribute="centerX" id="3q3-FT-yGy"/>
                                     <constraint firstItem="ClD-lt-cXg" firstAttribute="top" secondItem="MlE-xh-QLi" secondAttribute="bottom" constant="10" id="5WE-qX-prA"/>
                                     <constraint firstItem="lu5-wi-ViS" firstAttribute="centerX" secondItem="peK-dY-Sob" secondAttribute="centerX" id="6HS-Sd-doj"/>
@@ -1410,6 +1450,7 @@
                                     <constraint firstItem="lu5-wi-ViS" firstAttribute="top" secondItem="WSS-5X-T6Q" secondAttribute="bottom" constant="10" id="orv-dq-Qrc"/>
                                     <constraint firstItem="Y3a-XU-wsk" firstAttribute="top" secondItem="O3k-dw-8SE" secondAttribute="bottom" constant="5" id="pVO-rz-YyW"/>
                                     <constraint firstItem="WSS-5X-T6Q" firstAttribute="centerX" secondItem="peK-dY-Sob" secondAttribute="centerX" id="s1Y-jY-OYf"/>
+                                    <constraint firstItem="AHc-CF-LWg" firstAttribute="centerX" secondItem="peK-dY-Sob" secondAttribute="centerX" id="x0b-fU-kAa"/>
                                     <constraint firstItem="nWI-zK-O3A" firstAttribute="top" secondItem="6YL-hd-jKU" secondAttribute="bottom" constant="10" id="yS5-YM-YU7"/>
                                 </constraints>
                             </scrollView>
@@ -1488,7 +1529,7 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="U0O-s6-jPX">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="U0O-s6-jPX">
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
@@ -1496,7 +1537,7 @@
                                         <rect key="frame" x="0.0" y="28" width="414" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Ksk-T8-gd1" id="oPM-1n-xfl">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JNo-OO-v9j">
@@ -1537,7 +1578,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2a7-gI-gLX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2594" y="325"/>
+            <point key="canvasLocation" x="2755" y="296"/>
         </scene>
         <!--User Tag List View Controller-->
         <scene sceneID="aMO-KE-QOm">
@@ -1859,7 +1900,7 @@
                                                 <constraint firstItem="FtL-fj-kfh" firstAttribute="leading" secondItem="0eh-7T-o0e" secondAttribute="trailing" constant="10" id="pcM-fl-9xw"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.031372549020000001" green="0.031372549020000001" blue="0.031372549020000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="flairImageLabel" destination="cpc-ud-N4U" id="Elc-Gi-w6R"/>
                                             <outlet property="flairLabel" destination="0eh-7T-o0e" id="v7t-2R-3zb"/>
@@ -2392,6 +2433,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="J19-KJ-FdK"/>
         <segue reference="mBG-na-BgC"/>
-        <segue reference="czj-oe-qmq"/>
+        <segue reference="FgN-R2-avK"/>
     </inferredMetricsTieBreakers>
 </document>

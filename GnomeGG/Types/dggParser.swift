@@ -290,6 +290,7 @@ class DGGParser {
         case "duplicate": errorMessage = "Message Identical To Your Last Message"
         case "notfound": errorMessage = "User Not Found"
         case "needbanreason": errorMessage = "Please Provide a Ban Reason"
+        case "privmsgaccounttooyoung": errorMessage = "Your Account is not Old Enough to Send Private Messages"
         default: break
         }
         return .ChatErrorMessage(data: errorMessage)

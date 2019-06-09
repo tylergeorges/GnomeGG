@@ -35,6 +35,7 @@ class SettingsViewController: UIViewController {
     let overrustle = "https://overrustlelogs.net/"
     let github = "https://github.com/voloshink/GnomeGG"
     let dggChat = "https://www.destiny.gg/"
+    let pPolicy = "https://polecat.me/GnomeGG/privacy_policy"
     
     var heightConstraints: CGFloat?
     
@@ -58,13 +59,19 @@ class SettingsViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        scrollView.contentSize = CGSize(width: scrollView.contentSize.width, height: 900)
+        scrollView.contentSize = CGSize(width: scrollView.contentSize.width, height: 950)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         updateUI()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        if settings.syncSettings {
+            dggAPI.saveSettings()
+        }
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -168,5 +175,8 @@ class SettingsViewController: UIViewController {
     }
     @IBAction func showTime(_ sender: Any) {
         settings.showTime = showTimestamps.isOn
+    }
+    @IBAction func privacyPolicyTap(_ sender: Any) {
+        UIApplication.shared.open(URL(string: pPolicy)!)
     }
 }

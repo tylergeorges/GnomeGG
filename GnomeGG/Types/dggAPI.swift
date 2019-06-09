@@ -31,6 +31,13 @@ class DGGAPI {
     private let overrustleBaseEndpoint = "https://overrustlelogs.net/"
     private let overrustleMonthsEndpoint = "https://overrustlelogs.net/Destinygg%20chatlog/"
     private let streamStatusEndpoint = "https://www.destiny.gg/api/info/stream"
+    private let saveSettingsEndpoint = "https://www.destiny.gg/api/chat/me/settings"
+    
+    var flairListBackoff = 100
+    var emoteListBackoff = 100
+    
+    var totalEmotes: Int?
+    var totalBBDGGEmotes: Int?
     
 
     var backgroundSessionManager: SessionManager?
@@ -54,37 +61,50 @@ class DGGAPI {
             switch response.result {
             case .success(let value):
                 let json = JSON(value)
+                print("got flairs")
                 for (_, flairJson) in json {
                     self.downloadFlair(json: flairJson)
                 }
                 self.flairs.append(Flair.init(name: "polecat", label: "App Only Cute Label", color: "e463cf", hidden: false, priority: 0, image: UIImage(named: "cherry")!, height: 18, width: 18))
             case .failure(let error):
                 print(error)
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(self.flairListBackoff), execute: {
+                    self.flairListBackoff = self.flairListBackoff * 2
+                    self.getFlairList()
+                })
             }
         }
     }
     
-    func getEmoteList() {
+    func getEmoteList(completionHandler: @escaping () -> Void) {
         activeSessionManager!.request(emoteEndpoint, method: .get).validate().responseJSON { response in
             switch response.result {
             case .success(let value):
                 let json = JSON(value)
+                print("got emotes")
+                self.totalEmotes = json.arrayValue.count
                 for (_, emoteJosn) in json {
-                    self.downloadEmote(json: emoteJosn)
+                    self.downloadEmote(json: emoteJosn, completionHandler: completionHandler)
                 }
+                completionHandler()
             case .failure(let error):
                 print(error)
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(self.emoteListBackoff), execute: {
+                    self.emoteListBackoff = self.emoteListBackoff * 2
+                    self.getEmoteList(completionHandler: completionHandler)
+                })
             }
         }
     }
     
-    func getBBDGGEmoteList() {
+    func getBBDGGEmoteList(completionHandler: @escaping () -> Void) {
         activeSessionManager!.request(bbdggEmoteEndpoint, method: .get).validate().responseJSON { response in
             switch response.result {
             case .success(let value):
                 let json = JSON(value)
+                self.totalBBDGGEmotes = json.arrayValue.count
                 for (_, emoteJosn) in json {
-                    self.downloadEmote(json: emoteJosn)
+                    self.downloadEmote(json: emoteJosn, completionHandler: completionHandler)
                 }
             case .failure(let error):
                 print(error)
@@ -164,7 +184,7 @@ class DGGAPI {
         }
     }
     
-    func getUserSettings() {
+    func getUserSettings(initalSync: Bool = false) {
         let headers: HTTPHeaders = [
             "Cookie": getCookieString(),
         ]
@@ -191,8 +211,11 @@ class DGGAPI {
                 }
                 
                 print("got user settings json")
-                
-                settings.parseDGGUserSettings(json: dggSettings)
+                if dggSettings.count == 0 {
+                    settings.syncSettings = false
+                } else {
+                    settings.parseDGGUserSettings(json: dggSettings, initialSync: true)
+                }
             case .failure(let error):
                 if response.response?.statusCode == 403 {
                     print("cookie invalidated")
@@ -328,6 +351,27 @@ class DGGAPI {
         }
     }
     
+    func saveSettings() {
+        var request = URLRequest(url: URL(string: saveSettingsEndpoint)!)
+        request.httpMethod = HTTPMethod.post.rawValue
+        request.setValue("application/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
+        request.setValue(getCookieString(), forHTTPHeaderField: "Cookie")
+        guard let json = settings.getDGGSettingJSON() else {
+            return
+        }
+        
+        do {
+            request.httpBody = try JSON(json).rawData()
+        } catch let error {
+            print(error)
+            return
+        }
+        
+        backgroundSessionManager!.request(request).validate().response { response in
+            print("save " + String(response.response?.statusCode ?? 999))
+        }
+    }
+    
     func getMonthLogs(completionHandler: @escaping ([LogListing]?) -> Void) {
         getOverrustleLogs(url: overrustleMonthsEndpoint, completionHandler: completionHandler)
     }
@@ -359,7 +403,7 @@ class DGGAPI {
         }
     }
     
-    private func downloadEmote(json: JSON) {
+    private func downloadEmote(json: JSON, completionHandler: @escaping () -> Void) {
         guard let imageInfo = json["image"].array else {
             return
         }
@@ -392,6 +436,9 @@ class DGGAPI {
                     return
                 }
                 self.emotes.append(Emote.init(prefix: prefix, twitch: isTwitch, bbdgg: isBBDGG, image: image, height: height, width: width))
+                if self.emotes.count == ((self.totalEmotes ?? 0) + (self.totalBBDGGEmotes ?? 0)) {
+                    completionHandler()
+                }
             }
         }
     }

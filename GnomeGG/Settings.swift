@@ -26,7 +26,6 @@ class Settings {
         }
     }
     
-    // todo
     var syncSettings: Bool {
         didSet {
             defaults.set(syncSettings, forKey: DefaultKeys.syncSettings)
@@ -199,7 +198,7 @@ class Settings {
     // Default values
     struct DefaultSettings {
         static let notifications = false
-        static let syncSettings = true
+        static let syncSettings = false
         static let dggUsername = ""
         static let stalkHistory = [StringRecord(string: "Destiny", date: Date())]
         static let usernameHighlights = true
@@ -386,8 +385,13 @@ class Settings {
         harshIgnore = DefaultSettings.harshIgnore
     }
     
-    func parseDGGUserSettings(json: [JSON]) {
+    func parseDGGUserSettings(json: [JSON], initialSync: Bool = false) {
         dggUserSettings = json
+        
+        guard initialSync || syncSettings else {
+            return
+        }
+
         for setting in json {
             switch setting.arrayValue[0].stringValue {
             case DefaultKeys.showTime:
@@ -410,10 +414,6 @@ class Settings {
                     showWhispersInChat = bool
                 }
             case DefaultKeys.ignoredUsers: ignoredUsers = setting[1].arrayValue.map {$0.stringValue}
-            case DefaultKeys.autoCompletion:
-                if let bool = setting[1].bool {
-                    autoCompletion = bool
-                }
             case DefaultKeys.hideNSFW:
                 if let bool = setting[1].bool {
                     hideNSFW = bool
@@ -428,11 +428,11 @@ class Settings {
     }
     
     func getDGGSettingJSON() -> [JSON]? {
-        guard let json = dggUserSettings else {
+        guard var json = dggUserSettings else {
             return nil
         }
 
-        for var setting in json {
+        for (i, var setting) in json.enumerated() {
             switch setting.arrayValue[0].stringValue {
             case DefaultKeys.showTime: setting[1].bool = showTime
             case DefaultKeys.hideFlairs: setting[1].bool = hideFlairs
@@ -442,13 +442,12 @@ class Settings {
             case DefaultKeys.userTags: setting[1] = userTagsToJSON()
             case DefaultKeys.showWhispersInChat: setting[1].bool = showWhispersInChat
             case DefaultKeys.ignoredUsers: setting[1].arrayObject = ignoredUsers
-            case DefaultKeys.autoCompletion: setting[1].bool = autoCompletion
             case DefaultKeys.hideNSFW: setting[1].bool = hideNSFW
             case DefaultKeys.harshIgnore:  setting[1].bool = harshIgnore
             default: break
             }
+            json[i] = setting
         }
-        
         return json
     }
     
