@@ -24,6 +24,19 @@ DEPENDENCIES:
   - SwiftSoup
   - SwiftyJSON (~> 4.0)
 
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - DropDown
+    - MarqueeLabel
+    - MKToolTip
+    - NotificationBannerSwift
+    - NVActivityIndicatorView
+    - SnapKit
+    - Starscream
+    - SwiftSoup
+    - SwiftyJSON
+
 SPEC CHECKSUMS:
   Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
   DropDown: 0bcc278799ec11a3d34ce1aac9367fbbaf5423d9
@@ -38,4 +51,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 521708b77e3ca839e906a3911c614a300daa5a0f
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.8.1
