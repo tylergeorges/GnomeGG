@@ -14,7 +14,7 @@ class ChatTableViewCell: UITableViewCell {
     @IBOutlet weak var tagColorView: UIView!
     
     let defaultBackgroundColor = UIColor.black
-    let highlightBackgroundColor = hexColorStringToUIColor(hex: "06263e")
+    let highlightBackgroundColor = hexColorStringToUIColor(hex: "051f33")
     let broadcastBackgroundColor = hexColorStringToUIColor(hex: "151515")
     
     override func awakeFromNib() {
