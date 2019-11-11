@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0463C29F234C23100036CB71 /* UserNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0463C29E234C23100036CB71 /* UserNote.swift */; };
 		358999804AB4042B415BBFEC /* Pods_GnomeGG.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26DA3A29A62BA1F1DDFF7ED1 /* Pods_GnomeGG.framework */; };
 		8D075A4B22A60BFD0024D028 /* UserTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D075A4A22A60BFD0024D028 /* UserTag.swift */; };
 		8D075A4D22A630830024D028 /* StringSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D075A4C22A630830024D028 /* StringSettingViewController.swift */; };
@@ -51,6 +52,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0463C29E234C23100036CB71 /* UserNote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNote.swift; sourceTree = "<group>"; };
 		26DA3A29A62BA1F1DDFF7ED1 /* Pods_GnomeGG.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GnomeGG.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		699A9900724567D4AEED2D21 /* Pods-GnomeGG.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GnomeGG.release.xcconfig"; path = "Pods/Target Support Files/Pods-GnomeGG/Pods-GnomeGG.release.xcconfig"; sourceTree = "<group>"; };
 		6EFB1CC601DA4F7BFCF73444 /* Pods-GnomeGG.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GnomeGG.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GnomeGG/Pods-GnomeGG.debug.xcconfig"; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 				8DEA1A0622A0F9FA00ECB238 /* dggAPI.swift */,
 				8D7BAC5322A4670500A5E1E6 /* StringRecord.swift */,
 				8D075A4A22A60BFD0024D028 /* UserTag.swift */,
+				0463C29E234C23100036CB71 /* UserNote.swift */,
 			);
 			path = Types;
 			sourceTree = "<group>";
@@ -363,6 +366,7 @@
 				8D696E4522AB15EB000FFF63 /* MessageListViewController.swift in Sources */,
 				8D5F446322AC59ED00CB413D /* UserTagTableViewCell.swift in Sources */,
 				8D696E4F22AB6668000FFF63 /* LogListTableViewCell.swift in Sources */,
+				0463C29F234C23100036CB71 /* UserNote.swift in Sources */,
 				8D075A4D22A630830024D028 /* StringSettingViewController.swift in Sources */,
 				8DEA19ED22A0C67500ECB238 /* AppDelegate.swift in Sources */,
 				8DCB087022A78484007C37AD /* SearchListViewController.swift in Sources */,
@@ -520,12 +524,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8CM57Q439Z;
 				INFOPLIST_FILE = GnomeGG/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.polecat.GnomeGG;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -539,12 +545,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8CM57Q439Z;
 				INFOPLIST_FILE = GnomeGG/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.polecat.GnomeGG;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

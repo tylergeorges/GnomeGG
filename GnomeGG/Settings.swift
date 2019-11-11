@@ -153,6 +153,17 @@ class Settings {
             }
         }
     }
+    
+    var userNotes: [UserNote] {
+        didSet {
+            do {
+                let encodedData: Data = try NSKeyedArchiver.archivedData(withRootObject: userNotes, requiringSecureCoding: false)
+                defaults.set(encodedData, forKey: DefaultKeys.userNotes)
+            } catch let error {
+                print(error)
+            }
+        }
+    }
 
     var usernameHighlights: Bool {
         didSet {
@@ -181,6 +192,7 @@ class Settings {
         static let customHighlights = "customhighlight"
         static let ignoredUsers = "ignorenicks"
         static let userTags = "taggednicks"
+        static let userNotes = "taggednotes"
         static let harshIgnore = "ignorementions"
         static let lookupHistory = "lookupHistory"
         static let bbdggEmotes = "bbdggEmotes"
@@ -205,6 +217,7 @@ class Settings {
         static let customHighlights = [String]()
         static let ignoredUsers = [String]()
         static let userTags = [UserTag]()
+        static let userNotes = [UserNote]()
         static let harshIgnore = false
         static let lookupHistory = [StringRecord]()
         static let bbdggEmotes = true
@@ -354,6 +367,18 @@ class Settings {
             self.userTags = DefaultSettings.userTags
         }
         
+        let userNotes = defaults.data(forKey: DefaultKeys.userNotes)
+        if let data = userNotes {
+            do {
+                self.userNotes = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as! [UserNote]
+            } catch let error {
+                print(error)
+                self.userNotes = DefaultSettings.userNotes
+            }
+        } else {
+            self.userNotes = DefaultSettings.userNotes
+        }
+        
         if defaults.object(forKey: DefaultKeys.harshIgnore) != nil {
             harshIgnore = defaults.bool(forKey: DefaultKeys.harshIgnore)
         } else {
@@ -378,6 +403,7 @@ class Settings {
         customHighlights = DefaultSettings.customHighlights
         nickHighlights = DefaultSettings.nickHighlights
         userTags = DefaultSettings.userTags
+        userNotes = DefaultSettings.userNotes
         showWhispersInChat = DefaultSettings.showWhispersInChat
         ignoredUsers = DefaultSettings.ignoredUsers
         autoCompletion = DefaultSettings.autoCompletion
@@ -409,6 +435,7 @@ class Settings {
             case DefaultKeys.customHighlights: customHighlights = setting[1].arrayValue.map {$0.stringValue}
             case DefaultKeys.nickHighlights: nickHighlights = setting[1].arrayValue.map {$0.stringValue}
             case DefaultKeys.userTags: userTags = parseUserTags(blob: setting[1])
+            case DefaultKeys.userNotes: userNotes = parseUserNotes(blob: setting[1])
             case DefaultKeys.showWhispersInChat:
                 if let bool = setting[1].bool {
                     showWhispersInChat = bool
@@ -460,10 +487,33 @@ class Settings {
                 continue
             }
             
-            userTags.append(UserTag(nick: tagArr[0].stringValue, color: tagArr[1].stringValue.lowercased()))
+            guard let nick = tagArr[0].string else {
+                continue
+            }
+            
+            guard let color = tagArr[1].string else {
+                continue
+            }
+            
+            userTags.append(UserTag(nick: nick, color: color.lowercased()))
         }
         
         return userTags
+    }
+    
+    private func parseUserNotes(blob: JSON) -> [UserNote] {
+        var userNotes = [UserNote]()
+        
+        for tag in blob.arrayValue {
+            let tagArr = tag.arrayValue
+            guard tagArr.count == 2 else {
+                continue
+            }
+            
+            userNotes.append(UserNote(nick: tagArr[0].stringValue, note: tagArr[1].stringValue))
+        }
+
+        return userNotes
     }
     
     private func userTagsToJSON() -> JSON {
@@ -475,6 +525,18 @@ class Settings {
             jsonArray.append(tagArray)
         }
         
-        return JSON(arrayLiteral: jsonArray)
+        return JSON(jsonArray)
+    }
+    
+    private func userNotesToJSON() -> JSON {
+        var jsonArray = [[String]]()
+        for tag in userNotes {
+            var tagArray = [String]()
+            tagArray.append(tag.nick)
+            tagArray.append(tag.note)
+            jsonArray.append(tagArray)
+        }
+        
+        return JSON(jsonArray)
     }
 }

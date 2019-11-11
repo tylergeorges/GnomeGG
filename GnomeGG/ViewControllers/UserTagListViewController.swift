@@ -31,6 +31,7 @@ class UserTagListViewController: UIViewController, UITableViewDelegate, UITableV
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if (editingStyle == .delete) {
             settings.userTags.remove(at: indexPath.row)
+            settings.userNotes.remove(at: indexPath.row)
             tableView.reloadData()
         }
     }
@@ -69,6 +70,7 @@ class UserTagListViewController: UIViewController, UITableViewDelegate, UITableV
                     return
                 }
                 settings.userTags.append(UserTag(nick: word, color: "black"))
+                settings.userNotes.append(UserNote(nick: word, note: ""))
                 self.tableView.reloadData()
             }
             
