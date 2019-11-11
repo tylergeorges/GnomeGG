@@ -12,7 +12,6 @@ class ToolsViewController: UIViewController {
     
     @IBOutlet weak var mentionsButton: UIButton!
 
-    let twitter = "https://twitter.com/modalsevenths/"
     let twitch = "https://www.twitch.tv/destiny"
     let youtube = "https://www.youtube.com/user/Destiny"
     let reddit = "https://www.reddit.com/r/Destiny/"
@@ -34,10 +33,6 @@ class ToolsViewController: UIViewController {
         mentionsButton.isEnabled = settings.dggUsername != ""
     }
 
-    
-    @IBAction func twitterTap(_ sender: Any) {
-        UIApplication.shared.open(URL(string: twitter)!)
-    }
     
     @IBAction func twitchTap(_ sender: Any) {
         UIApplication.shared.open(URL(string: twitch)!)

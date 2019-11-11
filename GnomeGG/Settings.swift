@@ -467,6 +467,7 @@ class Settings {
             case DefaultKeys.customHighlights: setting[1].arrayObject = customHighlights
             case DefaultKeys.nickHighlights: setting[1].arrayObject = nickHighlights
             case DefaultKeys.userTags: setting[1] = userTagsToJSON()
+            case DefaultKeys.userNotes: setting[1] = userNotesToJSON()
             case DefaultKeys.showWhispersInChat: setting[1].bool = showWhispersInChat
             case DefaultKeys.ignoredUsers: setting[1].arrayObject = ignoredUsers
             case DefaultKeys.hideNSFW: setting[1].bool = hideNSFW
