@@ -79,18 +79,53 @@ class LoginViewController: UIViewController, WKNavigationDelegate {
                 }
                 
                 self.cookieLabel.text = "Getting Your Information"
-                dggAPI.getUserSettings(initalSync: true, loggedIn: { success in
-                    if (success) {
-                        if let presenter = self.presentingViewController as? SettingsViewController {
-                            presenter.updateUI()
-                            presenter.justLoggedIn = true
+                
+                if settings.syncSettings {
+                    dggAPI.getUserSettings(initalSync: true, loggedIn: { success in
+                        if (success) {
+                            if let presenter = self.presentingViewController as? SettingsViewController {
+                                presenter.updateUI()
+                                presenter.justLoggedIn = true
+                            }
+                        } else {
+                            settings.reset()
                         }
-                    } else {
-                        settings.reset()
-                    }
+                        
+                        self.dismiss(animated: true, completion: nil)
+                    })
+                } else {
+                    let alert = UIAlertController(title: "Import Your DGG Settings?", message: "This will overwrite your local settings. You will still be logged in either way.", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { _ in
+                        dggAPI.getUserSettings(initalSync: false, loggedIn: { success in
+                            if (success) {
+                                if let presenter = self.presentingViewController as? SettingsViewController {
+                                    presenter.updateUI()
+                                    presenter.justLoggedIn = true
+                                }
+                            } else {
+                                settings.reset()
+                            }
+                            
+                            self.dismiss(animated: true, completion: nil)
+                        })
+                    }))
+                    alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: {_ in
+                        dggAPI.getUserSettings(initalSync: true, loggedIn: { success in
+                            if (success) {
+                                if let presenter = self.presentingViewController as? SettingsViewController {
+                                    presenter.updateUI()
+                                    presenter.justLoggedIn = true
+                                }
+                            } else {
+                                settings.reset()
+                            }
+                            
+                            self.dismiss(animated: true, completion: nil)
+                        })
+                    }))
                     
-                    self.dismiss(animated: true, completion: nil)
-                })
+                    self.present(alert, animated: true)
+                }
             }
         } else {
             decisionHandler(.allow)
