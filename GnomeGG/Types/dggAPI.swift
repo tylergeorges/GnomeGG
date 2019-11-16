@@ -35,6 +35,7 @@ class DGGAPI {
     
     var flairListBackoff = 100
     var emoteListBackoff = 100
+    var saveBackoff = 100
     
     var totalEmotes: Int?
     var totalBBDGGEmotes: Int?
@@ -214,7 +215,7 @@ class DGGAPI {
                 if dggSettings.count == 0 {
                     settings.syncSettings = false
                 } else {
-                    settings.parseDGGUserSettings(json: dggSettings, initialSync: true)
+                    settings.parseDGGUserSettings(json: dggSettings, initialSync: initalSync)
                 }
             case .failure(let error):
                 if response.response?.statusCode == 403 {
@@ -369,6 +370,15 @@ class DGGAPI {
         
         backgroundSessionManager!.request(request).validate().response { response in
             print("save " + String(response.response?.statusCode ?? 999))
+            if response.response?.statusCode != 200 {
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(self.saveBackoff), execute: {
+                    self.saveBackoff *= 2
+                    self.saveSettings()
+                })
+            } else {
+                self.saveBackoff = 100
+            }
+            
         }
     }
     
