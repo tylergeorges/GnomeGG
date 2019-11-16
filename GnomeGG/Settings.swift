@@ -397,18 +397,18 @@ class Settings {
         dggUsername = DefaultSettings.dggUsername
         dggCookie = DefaultSettings.dggCookie
         
-        showTime = DefaultSettings.showTime
-        hideFlairs = DefaultSettings.hideFlairs
-        usernameHighlights = DefaultSettings.usernameHighlights
-        customHighlights = DefaultSettings.customHighlights
-        nickHighlights = DefaultSettings.nickHighlights
-        userTags = DefaultSettings.userTags
-        userNotes = DefaultSettings.userNotes
-        showWhispersInChat = DefaultSettings.showWhispersInChat
-        ignoredUsers = DefaultSettings.ignoredUsers
-        autoCompletion = DefaultSettings.autoCompletion
-        hideNSFW = DefaultSettings.hideNSFW
-        harshIgnore = DefaultSettings.harshIgnore
+//        showTime = DefaultSettings.showTime
+//        hideFlairs = DefaultSettings.hideFlairs
+//        usernameHighlights = DefaultSettings.usernameHighlights
+//        customHighlights = DefaultSettings.customHighlights
+//        nickHighlights = DefaultSettings.nickHighlights
+//        userTags = DefaultSettings.userTags
+//        userNotes = DefaultSettings.userNotes
+//        showWhispersInChat = DefaultSettings.showWhispersInChat
+//        ignoredUsers = DefaultSettings.ignoredUsers
+//        autoCompletion = DefaultSettings.autoCompletion
+//        hideNSFW = DefaultSettings.hideNSFW
+//        harshIgnore = DefaultSettings.harshIgnore
     }
     
     func parseDGGUserSettings(json: [JSON], initialSync: Bool = false) {

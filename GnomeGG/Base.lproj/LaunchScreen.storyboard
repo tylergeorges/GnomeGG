@@ -23,8 +23,8 @@
                                     <constraint firstAttribute="width" constant="157" id="zO3-xN-AW1"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uh oh" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wvl-6T-p15">
-                                <rect key="frame" x="184" y="354.5" width="46" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&quot;Dan can you please invest in the gnomegg app it’s so fucking bad&quot; - comebackyear" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wvl-6T-p15">
+                                <rect key="frame" x="50" y="354.5" width="314" height="61"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -33,8 +33,10 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="WBd-kd-ct5" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="KXE-qa-Iwc"/>
+                            <constraint firstItem="Wvl-6T-p15" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="50" id="UED-N1-Tfq"/>
                             <constraint firstItem="Wvl-6T-p15" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="VF4-jr-EYF"/>
                             <constraint firstItem="Wvl-6T-p15" firstAttribute="top" secondItem="WBd-kd-ct5" secondAttribute="bottom" constant="30" id="kQ6-tW-1aj"/>
+                            <constraint firstItem="Wvl-6T-p15" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-50" id="kiW-Ot-4WJ"/>
                             <constraint firstItem="WBd-kd-ct5" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="60" id="sgF-ka-hDe"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>

@@ -79,8 +79,18 @@ class LoginViewController: UIViewController, WKNavigationDelegate {
                 }
                 
                 self.cookieLabel.text = "Getting Your Information"
-                dggAPI.getUserSettings(initalSync: true)
-                self.dismiss(animated: true, completion: nil)
+                dggAPI.getUserSettings(initalSync: true, loggedIn: { success in
+                    if (success) {
+                        if let presenter = self.presentingViewController as? SettingsViewController {
+                            presenter.updateUI()
+                            presenter.justLoggedIn = true
+                        }
+                    } else {
+                        settings.reset()
+                    }
+                    
+                    self.dismiss(animated: true, completion: nil)
+                })
             }
         } else {
             decisionHandler(.allow)

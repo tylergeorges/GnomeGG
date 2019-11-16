@@ -36,6 +36,7 @@ class DGGAPI {
     var flairListBackoff = 100
     var emoteListBackoff = 100
     var saveBackoff = 100
+    var userSettingsBackoff = 100
     
     var totalEmotes: Int?
     var totalBBDGGEmotes: Int?
@@ -185,7 +186,7 @@ class DGGAPI {
         }
     }
     
-    func getUserSettings(initalSync: Bool = false) {
+    func getUserSettings(initalSync: Bool = false, loggedIn: @escaping ((Bool) -> ())) {
         let headers: HTTPHeaders = [
             "Cookie": getCookieString(),
         ]
@@ -193,7 +194,7 @@ class DGGAPI {
         activeSessionManager!.request(userInfoEndpoint, headers: headers).validate().responseJSON { response in
             switch response.result {
             case .success(let value):
-                print("got user settings")
+                self.userSettingsBackoff = 100
                 self.checkForNewCookies()
                 let json = JSON(value)
                 if let nick = json["nick"].string {
@@ -206,23 +207,28 @@ class DGGAPI {
                     print("User nick: " + username)
                     settings.dggUsername = username
                 }
-                
+
                 guard let dggSettings = json["settings"].array else {
                     return
                 }
-                
+
                 print("got user settings json")
                 if dggSettings.count == 0 {
                     settings.syncSettings = false
                 } else {
                     settings.parseDGGUserSettings(json: dggSettings, initialSync: initalSync)
                 }
+                loggedIn(true)
             case .failure(let error):
                 if response.response?.statusCode == 403 {
                     print("cookie invalidated")
-                    settings.reset()
+                    loggedIn(false)
                 } else {
                     print(error)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(self.userSettingsBackoff), execute: {
+                        self.userSettingsBackoff = self.userSettingsBackoff * 2
+                        self.getUserSettings(initalSync: initalSync, loggedIn: loggedIn)
+                    })
                 }
             }
         }

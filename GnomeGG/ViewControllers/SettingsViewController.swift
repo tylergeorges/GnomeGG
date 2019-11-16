@@ -39,6 +39,8 @@ class SettingsViewController: UIViewController {
     
     var heightConstraints: CGFloat?
     
+    var justLoggedIn = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let random = Int.random(in: 0 ..< 4)
@@ -64,7 +66,6 @@ class SettingsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         updateUI()
     }
     
@@ -72,13 +73,20 @@ class SettingsViewController: UIViewController {
         if settings.syncSettings {
             dggAPI.saveSettings()
         }
+        if justLoggedIn {
+            if let presenterTab = presentingViewController as? CustomTabBarController {
+                if let presenter = presenterTab.viewControllers?[1] as? ChatViewController {
+                    presenter.connectToWebsocket()
+                }
+            }
+        }
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
 
-    private func updateUI() {
+    func updateUI() {
         if settings.dggUsername != "" {
             loggedInAsLabel.text = "Logged in as: " + settings.dggUsername
         } else if settings.dggCookie != "" {

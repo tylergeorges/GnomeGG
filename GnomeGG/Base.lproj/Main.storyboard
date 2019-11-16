@@ -35,6 +35,11 @@
                                                 <segue destination="Dms-a9-1G2" kind="presentation" id="czj-oe-qmq"/>
                                             </connections>
                                         </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" image="refresh" id="FZZ-sk-Ikc">
+                                            <connections>
+                                                <action selector="refreshTap:" destination="9pv-A4-QxB" id="AJ6-T7-QH8"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -191,6 +196,7 @@
                         <outlet property="chatTableView" destination="ab9-aO-Jcz" id="90J-6K-G0d"/>
                         <outlet property="navigationBar" destination="3HX-gF-Ia1" id="cBd-rU-7Yn"/>
                         <outlet property="nvActivityIndicatorView" destination="dnL-hW-IbR" id="fWF-2J-7cc"/>
+                        <outlet property="refreshBarButton" destination="FZZ-sk-Ikc" id="xLK-Vd-yzW"/>
                         <outlet property="scrollDownLabel" destination="7yj-Qg-yNc" id="LhS-Ug-J5s"/>
                         <outlet property="sendButton" destination="eeM-94-9T8" id="5YQ-1K-OWp"/>
                         <outlet property="settingsButton" destination="Aze-fa-cqC" id="nua-OV-QUH"/>
@@ -2408,6 +2414,7 @@
         <image name="log" width="50" height="50"/>
         <image name="plainmail" width="50" height="50"/>
         <image name="reddit" width="240" height="240"/>
+        <image name="refresh" width="30" height="30"/>
         <image name="rustled" width="50" height="50"/>
         <image name="send" width="30" height="30"/>
         <image name="settings" width="30" height="30"/>
@@ -2419,6 +2426,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="J19-KJ-FdK"/>
         <segue reference="mBG-na-BgC"/>
-        <segue reference="FgN-R2-avK"/>
+        <segue reference="czj-oe-qmq"/>
     </inferredMetricsTieBreakers>
 </document>

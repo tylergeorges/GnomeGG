@@ -23,6 +23,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     let dggWebsocketURL = "https://www.destiny.gg/ws"
     
+    
+    @IBOutlet weak var refreshBarButton: UIBarButtonItem!
+    
     var websocketBackoff = 100
     var dontRecover = false
     var authenticatedWebsocket = false
@@ -98,7 +101,11 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
 
         print("getting user settings")
         if settings.dggCookie != "" {
-            dggAPI.getUserSettings()
+            dggAPI.getUserSettings(initalSync: false, loggedIn: { success in
+                if (!success) {
+                    self.logout()
+                }
+            })
         }
         
         print("getting history")
@@ -149,7 +156,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    private func connectToWebsocket() {
+    func connectToWebsocket() {
+        refreshBarButton.isEnabled = false
         print("connectToWebsocket()")
         var request = URLRequest(url: URL(string: dggWebsocketURL)!)
         request.timeoutInterval = 5
@@ -638,6 +646,14 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         } else {
             chatInputHeightConstraint.constant = 0
         }
+        
+        if websocket?.isConnected ?? false {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                self.refreshBarButton.isEnabled = true
+            }
+        } else {
+            refreshBarButton.isEnabled = false
+        }
     }
     
     private func generateSuggestions(text: String, firstWord: Bool = false) -> [Suggestion] {
@@ -784,6 +800,11 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         suggestionsHeightConstraints.constant = 0
         sendNewMessage()
     }
+    
+    @IBAction func refreshTap(_ sender: UIBarButtonItem) {
+        connectToWebsocket()
+    }
+    
 }
 
 enum Suggestion {
