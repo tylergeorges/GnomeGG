@@ -325,7 +325,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         switch type {
         case "MSG":
             if let message = DGGParser.parseUserMessage(message: rest) {
-//                newMessage(message: message)
+                newMessage(message: message)
             }
         case "BROADCAST":
             if let message = DGGParser.parseBroadcastMessage(message: rest) {
@@ -338,16 +338,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                 case let .Names(_, newUsers): users = newUsers
                 default: return
                 }
-                self.newMessage(message: .UserMessage(nick: "Polecat", features: ["notable"], timestamp: Date(), data: "Hello!"))
-                self.newMessage(message: .UserMessage(nick: "Chatter", features: [], timestamp: Date(), data: "Isn't it nice to chat in dgg Wowwee"))
-                self.newMessage(message: .UserMessage(nick: "Rettach", features: ["tier1"], timestamp: Date(), data: "Chatter yeah I love chatting!"))
-                self.newMessage(message: .UserMessage(nick: "Chatter", features: [""], timestamp: Date(), data: "Lets celebrate chatting with a combo!"))
-                self.newMessage(message: .UserMessage(nick: "Chatter", features: [""], timestamp: Date(), data: "Wowee"))
-                self.newMessage(message: .UserMessage(nick: "Polecat", features: [""], timestamp: Date(), data: "Wowee"))
-                self.newMessage(message: .UserMessage(nick: "Rettach", features: [""], timestamp: Date(), data: "Wowee"))
-                self.newMessage(message: .UserMessage(nick: "Polecat", features: [""], timestamp: Date(), data: "FerretLOL"))
-                self.newMessage(message: .UserMessage(nick: "Rettach", features: [""], timestamp: Date(), data: "Nooooo!"))
-                
             }
         case "MUTE":
             if let message = DGGParser.parseMuteMessage(message: rest) {
