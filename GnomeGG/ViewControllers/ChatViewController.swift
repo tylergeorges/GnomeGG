@@ -760,7 +760,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // send the message
         let messageTemplate = "MSG {\"data\":\"%@\"}"
-        websocket?.write(string: String(format: messageTemplate, trimmedMessage))
+        let escapedMessage = trimmedMessage.replacingOccurrences(of: "\"", with: "\\\"", options: .literal, range: nil)
+        websocket?.write(string: String(format: messageTemplate, escapedMessage))
     }
     
     @objc
