@@ -1,18 +1,18 @@
 PODS:
-  - Alamofire (4.8.1)
-  - DropDown (2.3.12)
-  - MarqueeLabel/Swift (3.2.0)
+  - Alamofire (5.0.4)
+  - DropDown (2.3.13)
+  - MarqueeLabel (4.0.2)
   - MKToolTip (1.0.6)
-  - NotificationBannerSwift (2.0.1):
-    - MarqueeLabel/Swift (~> 3.2.0)
-    - SnapKit (~> 4.2.0)
-  - NVActivityIndicatorView (4.6.1):
-    - NVActivityIndicatorView/Presenter (= 4.6.1)
-  - NVActivityIndicatorView/Presenter (4.6.1)
-  - SnapKit (4.2.0)
+  - NotificationBannerSwift (3.0.2):
+    - MarqueeLabel (~> 4.0.0)
+    - SnapKit (~> 5.0.0)
+  - NVActivityIndicatorView (4.8.0):
+    - NVActivityIndicatorView/Presenter (= 4.8.0)
+  - NVActivityIndicatorView/Presenter (4.8.0)
+  - SnapKit (5.0.1)
   - Starscream (3.0.6)
-  - SwiftSoup (1.7.4)
-  - SwiftyJSON (4.2.0)
+  - SwiftSoup (2.3.0)
+  - SwiftyJSON (4.3.0)
 
 DEPENDENCIES:
   - Alamofire
@@ -38,17 +38,17 @@ SPEC REPOS:
     - SwiftyJSON
 
 SPEC CHECKSUMS:
-  Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
-  DropDown: 0bcc278799ec11a3d34ce1aac9367fbbaf5423d9
-  MarqueeLabel: 440a502b91a9179bd98f9fff00ba1150650a1c0e
+  Alamofire: 0fe5fd24b4298dc377a6550da7d5f1b30e286fcb
+  DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
+  MarqueeLabel: f762aa681ae201f66c1d511858b171f75d83013a
   MKToolTip: 69509b1cada10f96bd9f4ab559a768e7c6557933
-  NotificationBannerSwift: 007774aa590cc9680647b92b2f217bef5c00c32c
-  NVActivityIndicatorView: 4ca19fccc84595a78957336a086d00a49be6ce61
-  SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
+  NotificationBannerSwift: 713e20f21b6105f4a36a00e5d9fa414a930d3d8e
+  NVActivityIndicatorView: d24b7ebcf80af5dcd994adb650e2b6c93379270f
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
-  SwiftSoup: 92f5b348c131aed8af04f4326db1579ab19fa08c
-  SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
+  SwiftSoup: d78683f7ea0ae5733225a9e1d3bee5b256449df4
+  SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
 PODFILE CHECKSUM: 521708b77e3ca839e906a3911c614a300daa5a0f
 
-COCOAPODS: 1.8.1
+COCOAPODS: 1.8.4

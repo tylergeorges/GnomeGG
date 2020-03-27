@@ -925,9 +925,9 @@ open class Element: Node {
             if let textNode = (node as? TextNode) {
                 Element.appendNormalisedText(accum, textNode)
             } else if let element = (node as? Element) {
-                if (accum.length > 0 &&
+                if !accum.isEmpty &&
                     (element.isBlock() || element._tag.getName() == "br") &&
-                    !TextNode.lastCharIsWhitespace(accum)) {
+                    !TextNode.lastCharIsWhitespace(accum) {
                     accum.append(" ")
                 }
             }
@@ -1201,7 +1201,7 @@ open class Element: Node {
 
     override func outerHtmlHead(_ accum: StringBuilder, _ depth: Int, _ out: OutputSettings)throws {
         if (out.prettyPrint() && (_tag.formatAsBlock() || (parent() != nil && parent()!.tag().formatAsBlock()) || out.outline())) {
-            if (accum.length > 0) {
+            if !accum.isEmpty {
                 indent(accum, depth, out)
             }
         }
@@ -1288,8 +1288,8 @@ open class Element: Node {
 		return super.copy(clone: clone, parent: parent)
 	}
 
-	override public var hashValue: Int {
-		return super.hashValue ^ _tag.hashValue
-	}
-
+    override public func hash(into hasher: inout Hasher) {
+        super.hash(into: &hasher)
+        hasher.combine(_tag)
+    }
 }

@@ -62,7 +62,6 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
-        print("getting private history")
         dggAPI.getUserMessages(user: DMedUser, completionHandler: { messages in
             self.nvActivityIndicatorView.stopAnimating()
             guard let messages = messages else {

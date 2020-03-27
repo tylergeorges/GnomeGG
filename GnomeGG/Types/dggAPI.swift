@@ -18,7 +18,7 @@ class DGGAPI {
     var emotes = [Emote]()
     
     private let flairEndpoint = "https://cdn.destiny.gg/4.2.0/flairs/flairs.json"
-    private let emoteEndpoint = "https://cdn.destiny.gg/4.2.0/emotes/emotes.json"
+    private let emoteEndpoint = "https://polecat.me/api/dgg_emotes"
     private let bbdggEmoteEndpoint = "https://polecat.me/api/bbdgg_emotes"
     private let historyEndpoint = "https://www.destiny.gg/api/chat/history"
     private let userInfoEndpoint = "https://www.destiny.gg/api/chat/me"
@@ -42,19 +42,13 @@ class DGGAPI {
     var totalBBDGGEmotes: Int?
     
 
-    var backgroundSessionManager: SessionManager?
-    var activeSessionManager: SessionManager?
+    var activeSessionManager: Session?
     
     init() {
-        let backgroundConfiguration = URLSessionConfiguration.background(withIdentifier: "me.polecat.app.background")
-        backgroundConfiguration.timeoutIntervalForRequest = 2
-        backgroundConfiguration.timeoutIntervalForResource = 2
-        backgroundSessionManager = Alamofire.SessionManager(configuration: backgroundConfiguration)
-        
         let activeConfiguration = URLSessionConfiguration.default
         activeConfiguration.timeoutIntervalForRequest = 1
         activeConfiguration.timeoutIntervalForResource = 1
-        activeSessionManager = Alamofire.SessionManager(configuration: activeConfiguration)
+        activeSessionManager = Session(configuration: activeConfiguration)
     }
     
     
@@ -134,13 +128,13 @@ class DGGAPI {
         let headers: HTTPHeaders = [
             "Cookie": getCookieString(),
         ]
-        backgroundSessionManager?.request(pingEndpoint, headers: headers).validate().response { response in
+        activeSessionManager?.request(pingEndpoint, headers: headers).validate().response { response in
             print("Ping " + String(response.response?.statusCode ?? 999))
         }
     }
     
     func getStreamStatus(completionHandler: @escaping  (StreamStatus?) -> Void) {
-        backgroundSessionManager!.request(streamStatusEndpoint).validate().responseJSON { response in
+        activeSessionManager!.request(streamStatusEndpoint).validate().responseJSON { response in
             switch response.result {
             case .success(let value):
                 let json = JSON(value)
@@ -239,7 +233,7 @@ class DGGAPI {
             "Cookie": getCookieString(),
         ]
         
-        backgroundSessionManager!.request(logOutEndpoint, headers: headers).validate().response { response in}
+        activeSessionManager!.request(logOutEndpoint, headers: headers).validate().response { response in}
     }
     
     func getMessages(completionHandler: @escaping  ([MessageListing]?) -> Void) {
@@ -247,7 +241,7 @@ class DGGAPI {
             "Cookie": getCookieString(),
         ]
         
-        backgroundSessionManager!.request(messagesEndpoint, method: .get, headers: headers).validate().responseJSON { response in
+        activeSessionManager!.request(messagesEndpoint, method: .get, headers: headers).validate().responseJSON { response in
             switch response.result {
             case .success(let value):
                 let json = JSON(value)
@@ -353,7 +347,7 @@ class DGGAPI {
         ]
         
         let url = String(format: messageOpenEndpoint, String(id))
-        backgroundSessionManager!.request(url, method: .post, headers: headers).validate().response { response in
+        activeSessionManager!.request(url, method: .post, headers: headers).validate().response { response in
             print("Open " + String(response.response?.statusCode ?? 999))
         }
     }
@@ -374,7 +368,7 @@ class DGGAPI {
             return
         }
         
-        backgroundSessionManager!.request(request).validate().response { response in
+        activeSessionManager!.request(request).validate().response { response in
             print("save " + String(response.response?.statusCode ?? 999))
             if response.response?.statusCode != 200 {
                 DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(self.saveBackoff), execute: {
@@ -404,8 +398,8 @@ class DGGAPI {
     
     func getUserLogs(for userURL: String, completionHandler: @escaping ([String]?) -> Void) {
         let url = overrustleBaseEndpoint + userURL.replacingOccurrences(of: " ", with: "%20") + ".txt"
-        backgroundSessionManager!.request(url).responseString { response in
-            guard let text = response.result.value else {
+        activeSessionManager!.request(url).responseString { response in
+            guard let text = response.value else {
                 completionHandler(nil)
                 return
             }
@@ -424,7 +418,7 @@ class DGGAPI {
             return
         }
         
-        guard let url = imageInfo[0]["url"].string else {
+        guard var url = imageInfo[0]["url"].string else {
             return
         }
         
@@ -438,11 +432,18 @@ class DGGAPI {
             return
         }
         
-        guard let width = imageInfo[0]["width"].int else {
+        guard var width = imageInfo[0]["width"].int else {
             return
         }
         
         let isBBDGG = json["bbdgg"].bool ?? false
+        
+        let animated = json["animated"].boolValue
+        
+        if animated {
+            url = imageInfo[0]["fallback_url"].string ?? url
+            width = imageInfo[0]["fallback_width"].int ?? width
+        }
         
         getData(from: URL(string: url)!) { data, response, error in
             guard let data = data, error == nil else { return }
@@ -519,8 +520,13 @@ class DGGAPI {
     
     private func getOverrustleLogs(url: String, completionHandler: @escaping ([LogListing]?) -> Void) {
         let escapedURL = url.replacingOccurrences(of: " ", with: "%20")
-        Alamofire.request(escapedURL).responseString { response in
-            guard let html = response.result.value else {
+        AF.request(escapedURL).responseString { response in
+            if let error = response.error {
+                print(error)
+                completionHandler(nil)
+            }
+
+            guard let html = response.value else {
                 completionHandler(nil)
                 return
             }

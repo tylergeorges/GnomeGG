@@ -47,7 +47,7 @@ class LoginViewController: UIViewController, WKNavigationDelegate {
             cookieImage.isHidden = false
             cookieLabel.isHidden = false
 
-            Alamofire.request(decidePolicyFor.request.url!, method: .get).validate().response { response in
+            AF.request(decidePolicyFor.request.url!, method: .get).validate().response { response in
                 var sessionID: String?
                 var rememberMe: String?
 
@@ -149,7 +149,7 @@ class LoginViewController: UIViewController, WKNavigationDelegate {
         }))
     
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
-            Alamofire.request(self.loginURL, method: .post, parameters: parameters).validate().response { response in
+            AF.request(self.loginURL, method: .post, parameters: parameters).validate().response { response in
                 self.loginWebview.isHidden = false
                 self.loginWebview.load(URLRequest(url: response.response!.url!))
             }

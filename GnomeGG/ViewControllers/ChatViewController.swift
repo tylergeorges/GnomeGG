@@ -120,7 +120,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                     continue
                 }
 
-//                self.newMessage(message: message)
+                self.newMessage(message: message)
             }
 
             print("got history, connect to websocket")
@@ -286,14 +286,33 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         updateUI()
         
         if settings.firstLaunch && settings.dggCookie == "" {
-            settings.firstLaunch = false
-            let preference = ToolTipPreferences()
-            preference.drawing.bubble.color = .white
-            preference.drawing.arrow.tipCornerRadius = 0
-            preference.drawing.message.color = .black
+            guard let path = Bundle.main.path(forResource: "eula", ofType: "txt") else {
+                    return
+            }
+            do {
+                let eula = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
+                let alert = UIAlertController(title: "iOS App – End User License Agreement (EULA)", message: eula, preferredStyle: .alert)
+
+                alert.addAction(UIAlertAction(title: "Accept", style: .default, handler: { action in
+                    settings.firstLaunch = false
+                    let preference = ToolTipPreferences()
+                    preference.drawing.bubble.color = .white
+                    preference.drawing.arrow.tipCornerRadius = 0
+                    preference.drawing.message.color = .black
+                    
+                    self.settingsButton.showToolTip(identifier: "identifier", title: nil, message: "Sign-in to chat!", button: nil, arrowPosition: .top, preferences: preference, delegate: nil)
+                }))
+
+                self.present(alert, animated: true)
+            } catch {
+                return
+            }
             
-            settingsButton.showToolTip(identifier: "identifier", title: nil, message: "Sign-in to chat!", button: nil, arrowPosition: .top, preferences: preference, delegate: nil)
+
+
+
         }
+        
     }
     
     func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
@@ -315,7 +334,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                 print("timed out")
             }
         }
-        print(error)
+        print(error.debugDescription)
     }
     
     func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {

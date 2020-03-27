@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0463C29F234C23100036CB71 /* UserNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0463C29E234C23100036CB71 /* UserNote.swift */; };
+		04AB2F602426D46C005906FF /* eula.txt in Resources */ = {isa = PBXBuildFile; fileRef = 04AB2F5F2426D46C005906FF /* eula.txt */; };
 		358999804AB4042B415BBFEC /* Pods_GnomeGG.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26DA3A29A62BA1F1DDFF7ED1 /* Pods_GnomeGG.framework */; };
 		8D075A4B22A60BFD0024D028 /* UserTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D075A4A22A60BFD0024D028 /* UserTag.swift */; };
 		8D075A4D22A630830024D028 /* StringSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D075A4C22A630830024D028 /* StringSettingViewController.swift */; };
@@ -53,6 +54,7 @@
 
 /* Begin PBXFileReference section */
 		0463C29E234C23100036CB71 /* UserNote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNote.swift; sourceTree = "<group>"; };
+		04AB2F5F2426D46C005906FF /* eula.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = eula.txt; sourceTree = "<group>"; };
 		26DA3A29A62BA1F1DDFF7ED1 /* Pods_GnomeGG.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GnomeGG.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		699A9900724567D4AEED2D21 /* Pods-GnomeGG.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GnomeGG.release.xcconfig"; path = "Pods/Target Support Files/Pods-GnomeGG/Pods-GnomeGG.release.xcconfig"; sourceTree = "<group>"; };
 		6EFB1CC601DA4F7BFCF73444 /* Pods-GnomeGG.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GnomeGG.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GnomeGG/Pods-GnomeGG.debug.xcconfig"; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 				8DEA19F522A0C67600ECB238 /* Assets.xcassets */,
 				8DEA19F722A0C67600ECB238 /* LaunchScreen.storyboard */,
 				8DEA19FA22A0C67600ECB238 /* Info.plist */,
+				04AB2F5F2426D46C005906FF /* eula.txt */,
 				8D7BAC5722A472E900A5E1E6 /* CustomTabBarController.swift */,
 				8D7BAC6522A4F79600A5E1E6 /* CustomNavigationViewController.swift */,
 				8D2A838322A760FD00DF96D5 /* PaddingLabel.swift */,
@@ -290,6 +293,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DEA19F922A0C67600ECB238 /* LaunchScreen.storyboard in Resources */,
+				04AB2F602426D46C005906FF /* eula.txt in Resources */,
 				8DEA19F622A0C67600ECB238 /* Assets.xcassets in Resources */,
 				8D2A838222A75C8500DF96D5 /* Roboto-Italic.ttf in Resources */,
 				8D2A838022A75C7900DF96D5 /* Roboto-Regular.ttf in Resources */,
@@ -524,7 +528,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 8CM57Q439Z;
 				INFOPLIST_FILE = GnomeGG/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -545,7 +549,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 8CM57Q439Z;
 				INFOPLIST_FILE = GnomeGG/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
