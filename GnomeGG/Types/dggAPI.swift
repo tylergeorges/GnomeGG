@@ -46,8 +46,8 @@ class DGGAPI {
     
     init() {
         let activeConfiguration = URLSessionConfiguration.default
-        activeConfiguration.timeoutIntervalForRequest = 1
-        activeConfiguration.timeoutIntervalForResource = 1
+        activeConfiguration.timeoutIntervalForRequest = 10
+        activeConfiguration.timeoutIntervalForResource = 10
         activeSessionManager = Session(configuration: activeConfiguration)
     }
     

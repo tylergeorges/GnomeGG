@@ -9,8 +9,8 @@ target 'GnomeGG' do
   inhibit_all_warnings!
   
   # Pods for GnomeGG
-  pod 'Alamofire'
-  pod 'Starscream', '~> 3.0.2'
+  pod 'Alamofire', '~> 5.0.4'
+  pod 'Starscream'
   pod 'SwiftyJSON', '~> 4.0'
   pod 'NVActivityIndicatorView'
   pod 'NotificationBannerSwift'

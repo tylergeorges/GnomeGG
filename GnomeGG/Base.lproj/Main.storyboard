@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16095" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16084.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -1363,17 +1363,8 @@
                                             <action selector="twitterButtonTap:" destination="Dms-a9-1G2" eventType="touchUpInside" id="dyd-FE-Cy3"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="igf-0o-xVN">
-                                        <rect key="frame" x="148.5" y="853" width="117" height="30"/>
-                                        <state key="normal" title="APIs - Overrustle">
-                                            <color key="titleColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="overrustleButtonTap:" destination="Dms-a9-1G2" eventType="touchUpInside" id="NOH-cc-Et9"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UBA-9D-l3O">
-                                        <rect key="frame" x="146.5" y="888" width="121" height="30"/>
+                                        <rect key="frame" x="146.5" y="853" width="121" height="30"/>
                                         <state key="normal" title="Chat - DestinyGG">
                                             <color key="titleColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
@@ -1382,7 +1373,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AHc-CF-LWg">
-                                        <rect key="frame" x="159.5" y="928" width="95" height="30"/>
+                                        <rect key="frame" x="159.5" y="893" width="95" height="30"/>
                                         <state key="normal" title="Privacy Policy">
                                             <color key="titleColor" red="0.30980392159999998" green="0.69411764710000001" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
@@ -1414,7 +1405,6 @@
                                     <constraint firstItem="r72-iH-igy" firstAttribute="centerX" secondItem="peK-dY-Sob" secondAttribute="centerX" id="O3q-20-MZq"/>
                                     <constraint firstItem="gqK-9q-0HS" firstAttribute="centerX" secondItem="peK-dY-Sob" secondAttribute="centerX" id="ObL-0z-Sek"/>
                                     <constraint firstItem="0he-Sg-pfD" firstAttribute="centerX" secondItem="peK-dY-Sob" secondAttribute="centerX" id="PSU-Bb-XzA"/>
-                                    <constraint firstItem="igf-0o-xVN" firstAttribute="top" secondItem="zYe-GV-bbf" secondAttribute="bottom" constant="5" id="Pjn-rw-VSX"/>
                                     <constraint firstItem="rxc-lI-h9q" firstAttribute="centerX" secondItem="peK-dY-Sob" secondAttribute="centerX" id="S9J-YS-ifj"/>
                                     <constraint firstItem="UBA-9D-l3O" firstAttribute="centerX" secondItem="peK-dY-Sob" secondAttribute="centerX" id="Sq4-6A-hAN"/>
                                     <constraint firstItem="e3x-kM-mE8" firstAttribute="top" secondItem="Ghg-kK-AlG" secondAttribute="bottom" constant="5" id="T2j-gp-STu"/>
@@ -1428,12 +1418,11 @@
                                     <constraint firstItem="6YL-hd-jKU" firstAttribute="top" secondItem="rAh-Mc-RJj" secondAttribute="bottom" constant="10" id="cIb-Ws-prW"/>
                                     <constraint firstItem="r0c-Hk-SzQ" firstAttribute="centerX" secondItem="peK-dY-Sob" secondAttribute="centerX" id="dCD-im-O0Z"/>
                                     <constraint firstItem="O3k-dw-8SE" firstAttribute="top" secondItem="r0c-Hk-SzQ" secondAttribute="bottom" constant="10" id="dWH-B3-2fq"/>
+                                    <constraint firstItem="UBA-9D-l3O" firstAttribute="top" secondItem="zYe-GV-bbf" secondAttribute="bottom" constant="5" id="ec1-Vc-2mZ"/>
                                     <constraint firstItem="r0c-Hk-SzQ" firstAttribute="top" secondItem="ClD-lt-cXg" secondAttribute="bottom" constant="10" id="f85-RF-Sfq"/>
                                     <constraint firstItem="MlE-xh-QLi" firstAttribute="top" secondItem="nWI-zK-O3A" secondAttribute="bottom" constant="10" id="fU6-Bx-mzF"/>
-                                    <constraint firstItem="UBA-9D-l3O" firstAttribute="top" secondItem="igf-0o-xVN" secondAttribute="bottom" constant="5" id="ibZ-fL-1F0"/>
                                     <constraint firstItem="nWI-zK-O3A" firstAttribute="centerX" secondItem="peK-dY-Sob" secondAttribute="centerX" id="j0d-Hi-tie"/>
                                     <constraint firstItem="lmT-OJ-n08" firstAttribute="centerX" secondItem="peK-dY-Sob" secondAttribute="centerX" id="jUf-jb-CN2"/>
-                                    <constraint firstItem="igf-0o-xVN" firstAttribute="centerX" secondItem="peK-dY-Sob" secondAttribute="centerX" id="jeQ-3P-PTc"/>
                                     <constraint firstItem="zYe-GV-bbf" firstAttribute="top" secondItem="qON-Nz-uFR" secondAttribute="bottom" constant="5" id="kOk-gf-X7E"/>
                                     <constraint firstItem="gqK-9q-0HS" firstAttribute="top" secondItem="rxc-lI-h9q" secondAttribute="bottom" constant="5" id="lOZ-Dh-vgf"/>
                                     <constraint firstItem="WSS-5X-T6Q" firstAttribute="top" secondItem="gqK-9q-0HS" secondAttribute="bottom" constant="5" id="mRV-ml-wdl"/>
@@ -2404,6 +2393,11 @@
             <point key="canvasLocation" x="2477" y="1114"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="J19-KJ-FdK"/>
+        <segue reference="mBG-na-BgC"/>
+        <segue reference="czj-oe-qmq"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="DMs" width="30" height="30"/>
         <image name="cookie" width="50" height="50"/>
@@ -2423,9 +2417,4 @@
         <image name="twitter" width="240" height="240"/>
         <image name="yee" width="91.5" height="67.5"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="J19-KJ-FdK"/>
-        <segue reference="mBG-na-BgC"/>
-        <segue reference="czj-oe-qmq"/>
-    </inferredMetricsTieBreakers>
 </document>

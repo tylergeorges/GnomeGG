@@ -73,24 +73,24 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
                 self.newMessage(message: .PrivateMessage(timestamp: message.timestamp, nick: message.from, data: message.message, id: -1))
             }
             
-            if let websocket = websocket {
-                websocket.onText = { (text: String) in
-                    let components = text.components(separatedBy: " ")
-                    let type = components[0]
-                    let rest = components[1...].joined(separator: " ")
-                    switch type {
-                    case "PRIVMSG":
-                        if let message = DGGParser.parsePrivateMessage(message: rest) {
-                            switch message {
-                            case .PrivateMessage: break
-                            default: return
-                            }
-                            self.newMessage(message: message)
-                        }
-                    default: break
-                    }
-                }
-            }
+//            if let websocket = websocket {
+//                websocket.onText = { (text: String) in
+//                    let components = text.components(separatedBy: " ")
+//                    let type = components[0]
+//                    let rest = components[1...].joined(separator: " ")
+//                    switch type {
+//                    case "PRIVMSG":
+//                        if let message = DGGParser.parsePrivateMessage(message: rest) {
+//                            switch message {
+//                            case .PrivateMessage: break
+//                            default: return
+//                            }
+//                            self.newMessage(message: message)
+//                        }
+//                    default: break
+//                    }
+//                }
+//            }
         })
         
         chatTableView.delegate = self
@@ -101,7 +101,7 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        websocket?.onText = nil
+//        websocket?.onText = nil
         
     }
     
@@ -348,7 +348,7 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
     private func updateUI() {
         sendButton.isHidden = false
         chatInputTextView.isHidden = false
-        sendButton.isEnabled = websocket?.isConnected ?? false
+        sendButton.isEnabled = true
         
         chatInputHeightConstraint.constant = chatInputHeight!
     }
@@ -398,7 +398,12 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
     
         // send private message
         let privateMessageTemplate = "PRIVMSG {\"nick\":\"%@\",\"data\":\"%@\"}"
-        websocket?.write(string: String(format: privateMessageTemplate, DMedUser, words.joined(separator: " ")))
+        let wsMessage = URLSessionWebSocketTask.Message.string(String(format: privateMessageTemplate, DMedUser, words.joined(separator: " ")))
+        websocket?.send(wsMessage) { error in
+            if let error = error {
+                print("WebSocket couldn’t send message because: \(error)")
+            }
+        }
         newMessage(message: .PrivateMessage(timestamp: Date(), nick: settings.dggUsername, data: words.joined(separator: " "), id: -1))
         return
     

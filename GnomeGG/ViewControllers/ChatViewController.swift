@@ -9,15 +9,16 @@
 
 
 import UIKit
-import Starscream
+import Swift
 import NVActivityIndicatorView
 import MKToolTip
 
 var users = [User]()
-var websocket: WebSocket?
+var websocket: URLSessionWebSocketTask?
 
-class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, WebSocketDelegate, UITextViewDelegate {
+class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, URLSessionDelegate {
     
+    var receiverRunning = false
     var messages = [DGGMessage]()
     var renderedMessages = [NSMutableAttributedString]()
     
@@ -33,6 +34,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     var chatInputHeight: CGFloat?
     var suggestionsHeight: CGFloat?
     
+    var killSocket = false
+    var ressetingSocket = false
     // scroll tracking
     var lastContentOffset: CGFloat = 0
     var disableAutoScrolling = false {
@@ -98,7 +101,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-
+        
         print("getting user settings")
         if settings.dggCookie != "" {
             dggAPI.getUserSettings(initalSync: false, loggedIn: { success in
@@ -114,15 +117,15 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             print("got history")
             self.nvActivityIndicatorView.stopAnimating()
             self.nvActivityIndicatorView.isHidden = true
-
+            
             for msg in oldMessages {
                 guard let message = DGGParser.parseUserMessage(message: msg.components(separatedBy: " ")[1...].joined(separator: " ")) else {
                     continue
                 }
-
+                
                 self.newMessage(message: message)
             }
-
+            
             print("got history, connect to websocket")
             self.loadingHistory = false
             self.connectToWebsocket()
@@ -141,10 +144,10 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         chatTableView.estimatedRowHeight = 200
         chatTableView.rowHeight = UITableView.automaticDimension
         updateUI()
-
-
+        
+        
         if settings.dggCookie != "" {
-            if !authenticatedWebsocket && !(websocket?.isConnected ?? true) || settings.dggCookie != (connectionCookie ?? "") {
+            if !authenticatedWebsocket && true || settings.dggCookie != (connectionCookie ?? "") {
                 if !loadingHistory {
                     print("connect2")
                     connectToWebsocket()
@@ -158,38 +161,43 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    func connectToWebsocket() {
-        refreshBarButton.isEnabled = false
-        print("connectToWebsocket()")
-        var request = URLRequest(url: URL(string: dggWebsocketURL)!)
+    func createNewSocket() {
+        var request = URLRequest(url: URL(string: "wss://www.destiny.gg/ws")!)
+        request.setValue("https://www.destiny.gg", forHTTPHeaderField: "Origin")
         request.timeoutInterval = 5
         authenticatedWebsocket = settings.dggCookie != ""
+        print("cookies found")
         if authenticatedWebsocket {
             let cookieTemplate = "sid=%@"
             request.setValue(String(format: cookieTemplate, settings.dggCookie), forHTTPHeaderField: "Cookie")
         }
         
-        if let ws = websocket {
-            if ws.isConnected {
-                print("killing existing connection")
-                self.dontRecover = true
-                ws.disconnect()
-                newMessage(message: .Disconnected(reason: "Updating Socket"))
-            }
-            
-            print("setting websocket to nill")
-            websocket = nil
+        let urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: nil)
+        let ws = urlSession.webSocketTask(with: request)
+        websocket = ws
+        dontRecover = false
+        ws.resume()
+        websocketDidConnect()
+        if !receiverRunning {
+            receiveMessage()
+            sendPing()
+            receiverRunning = true
         }
+    }
+    
+    func connectToWebsocket() {
+        print("connect to websocket")
+        refreshBarButton.isEnabled = false
         
-        print("making new websocket")
-        websocket = WebSocket(request: request)
-        if let websocket = websocket {
-            websocket.delegate = self
-            dontRecover = false
-            print("calling connect")
-//            self.newMessage(message: .Connecting)
-            websocket.connect()
+        if let ws = websocket {
+            if ws.state == .running {
+                self.dontRecover = true
+                killSocket = true
+            }
+        } else {
+            createNewSocket()
         }
+
     }
     
     private func newMessage(message: DGGMessage) {
@@ -279,20 +287,20 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     // MARK: - Websocket Delegate
-    func websocketDidConnect(socket: WebSocketClient) {
-        print("websocket is connected")
+    func websocketDidConnect() {
         websocketBackoff = 100
         connectionCookie = settings.dggCookie
         updateUI()
+        ressetingSocket = false
         
         if settings.firstLaunch && settings.dggCookie == "" {
             guard let path = Bundle.main.path(forResource: "eula", ofType: "txt") else {
-                    return
+                return
             }
             do {
                 let eula = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
                 let alert = UIAlertController(title: "iOS App – End User License Agreement (EULA)", message: eula, preferredStyle: .alert)
-
+                
                 alert.addAction(UIAlertAction(title: "Accept", style: .default, handler: { action in
                     settings.firstLaunch = false
                     let preference = ToolTipPreferences()
@@ -302,42 +310,109 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                     
                     self.settingsButton.showToolTip(identifier: "identifier", title: nil, message: "Sign-in to chat!", button: nil, arrowPosition: .top, preferences: preference, delegate: nil)
                 }))
-
+                
                 self.present(alert, animated: true)
             } catch {
                 return
             }
-            
-
-
-
+        }
+    }
+    
+    
+    
+    func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
+        print("did become invalid \(error)")
+//        websocketDidDisconnect(error: error)
+    }
+    
+    func disconnectWebsocket(error: Error?) {
+        guard !ressetingSocket else {
+            return
+        }
+        ressetingSocket = true
+        updateUI()
+        
+        if let error = error {
+            print(error)
+//            newMessage(message: .Disconnected(reason: error.localizedDescription))
+        } else {
+            newMessage(message: .Disconnected(reason: "Killing Old Connection"))
         }
         
-    }
-    
-    func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
-        updateUI()
+        guard let ws = websocket else {
+            return
+        }
+        
+        ws.cancel(with: .goingAway, reason: nil)
+        websocket = nil
+        self.killSocket = false
+        print("preparing to reset")
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(self.websocketBackoff), execute: {
-            self.newMessage(message: .UserMessage(nick: "Polecat", features: ["notable"], timestamp: Date(), data: "Hello!"))
-            guard !self.dontRecover else {
-                print("don't recover")
-                return
-            }
-
             self.websocketBackoff = self.websocketBackoff * 2
+            print("connect to websocket")
             self.connectToWebsocket()
         })
-        if let error = error as? WSError {
-            print(error)
-            newMessage(message: .Disconnected(reason: error.message))
-            if error.code == 0 {
-                print("timed out")
-            }
-        }
-        print(error.debugDescription)
     }
     
-    func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
+    func urlSession(_ session: URLSession,
+                    webSocketTask: URLSessionWebSocketTask,
+                    didOpenWithProtocol protocol: String?) {
+        print("connected")
+    }
+    
+    func receiveMessage() {
+        guard let ws = websocket else {
+            return
+        }
+
+        ws.receive { result in
+            switch result {
+            case .failure(let error):
+                print("Error in receiving message: \(error)")
+                self.receiverRunning = false
+                DispatchQueue.main.async {
+                    self.disconnectWebsocket(error: error)
+                }
+                return
+            case .success(let message):
+                switch message {
+                case .string(let text):
+                    DispatchQueue.main.async {
+                        self.websocketDidReceiveMessage(text: text)
+                    }
+                case .data: break
+                default: break
+                }
+            }
+            
+            if self.killSocket {
+                self.receiverRunning = false
+                DispatchQueue.main.async {
+                    self.disconnectWebsocket(error: nil)
+                }
+            } else {
+                self.receiveMessage()
+            }
+        }
+    }
+    
+    func sendPing() {
+        guard let ws = websocket else {
+            return
+        }
+        
+        ws.sendPing { (error) in
+            if let error = error {
+                print("Sending PING failed: \(error)")
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                self.sendPing()
+            }
+        }
+    }
+    
+    func websocketDidReceiveMessage(text: String) {
         let components = text.components(separatedBy: " ")
         let type = components[0]
         let rest = components[1...].joined(separator: " ")
@@ -413,10 +488,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         users.append(User(nick: user, features: [String]()))
     }
     
-    func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
-        print("got some data: \(data.count)")
-    }
-    
     // MARK: - Textview
     func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
         suggestionsScrollView.isHidden = true
@@ -478,7 +549,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             let label = PaddingLabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
             label.leftInset = 20
             label.rightInset = 20
-
+            
             label.center = CGPoint(x: 160, y: 285)
             label.textAlignment = .center
             
@@ -517,8 +588,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if (text == "\n") {
-//            sendButton.setImage(UIImage(named: "send"), for: .normal)
-//            textView.resignFirstResponder()
+            //            sendButton.setImage(UIImage(named: "send"), for: .normal)
+            //            textView.resignFirstResponder()
             if textView.text.count == 0 {
                 textView.resignFirstResponder()
                 sendButton.setImage(UIImage(named: "send"), for: .normal)
@@ -541,7 +612,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
     }
-
+    
     // MARK: - TableView
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let message = messages[indexPath.count]
@@ -578,7 +649,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         guard scrollView is UITableView else {
             return
         }
-
+        
         if (self.lastContentOffset > scrollView.contentOffset.y) {
             if !disableAutoScrolling {
                 disableAutoScrolling = true
@@ -661,7 +732,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     private func updateUI() {
         sendButton.isHidden = !authenticatedWebsocket
         chatInputTextView.isHidden = !authenticatedWebsocket
-        sendButton.isEnabled = websocket?.isConnected ?? false
+        
+        sendButton.isEnabled = websocket?.state == .running
         
         if authenticatedWebsocket {
             chatInputHeightConstraint.constant = chatInputHeight!
@@ -669,7 +741,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             chatInputHeightConstraint.constant = 0
         }
         
-        if websocket?.isConnected ?? false {
+        if websocket?.state == .running {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 self.refreshBarButton.isEnabled = true
             }
@@ -764,6 +836,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                 }
             }
             
+            // TODO simplify to one write call
+            print("test")
             if command == "/w" || command == "/message" || command == "/msg" {
                 if words.count < 3 {
                     return
@@ -771,16 +845,26 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                 
                 // send private message
                 let privateMessageTemplate = "PRIVMSG {\"nick\":\"%@\",\"data\":\"%@\"}"
-                websocket?.write(string: String(format: privateMessageTemplate, String(words[1]), words[2...].joined(separator: " ")))
+                let message = URLSessionWebSocketTask.Message.string(String(format: privateMessageTemplate, String(words[1]), words[2...].joined(separator: " ")))
+                websocket?.send(message) { error in
+                    if let error = error {
+                        print("WebSocket couldn’t send message because: \(error)")
+                    }
+                }
+                
                 return
             }
         }
         
-        
         // send the message
         let messageTemplate = "MSG {\"data\":\"%@\"}"
         let escapedMessage = trimmedMessage.replacingOccurrences(of: "\"", with: "\\\"", options: .literal, range: nil)
-        websocket?.write(string: String(format: messageTemplate, escapedMessage))
+        let chatMessage = URLSessionWebSocketTask.Message.string(String(format: messageTemplate, escapedMessage))
+        websocket?.send(chatMessage) { error in
+            if let error = error {
+                print("WebSocket couldn’t send message because: \(error)")
+            }
+        }
     }
     
     @objc
@@ -813,7 +897,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         })
     }
-
+    
     @IBAction func sendTap(_ sender: Any) {
         if chatInputTextView.text.count == 0 {
             chatInputTextView.resignFirstResponder()
