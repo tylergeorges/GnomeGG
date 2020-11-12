@@ -22,7 +22,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     var messages = [DGGMessage]()
     var renderedMessages = [NSMutableAttributedString]()
     
-    let dggWebsocketURL = "https://www.destiny.gg/ws"
+    let dggWebsocketURL = "wss://chat.destiny.gg/ws"
     
     
     @IBOutlet weak var refreshBarButton: UIBarButtonItem!
@@ -162,11 +162,10 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func createNewSocket() {
-        var request = URLRequest(url: URL(string: "wss://www.destiny.gg/ws")!)
+        var request = URLRequest(url: URL(string: "wss://chat.destiny.gg/ws")!)
         request.setValue("https://www.destiny.gg", forHTTPHeaderField: "Origin")
         request.timeoutInterval = 5
         authenticatedWebsocket = settings.dggCookie != ""
-        print("cookies found")
         if authenticatedWebsocket {
             let cookieTemplate = "sid=%@"
             request.setValue(String(format: cookieTemplate, settings.dggCookie), forHTTPHeaderField: "Cookie")

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Starscream
 import NVActivityIndicatorView
 
 class MessageViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate {
@@ -17,7 +16,7 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     var DMedUser: String!
     
-    let dggWebsocketURL = "https://www.destiny.gg/ws"
+    let dggWebsocketURL = "wss://chat.destiny.gg/ws"
     
     var websocketBackoff = 100
     var chatInputHeight: CGFloat?

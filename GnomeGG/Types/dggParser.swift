@@ -148,7 +148,9 @@ class DGGParser {
                     return nil
                 }
                 
-                return .Mute(nick: nick, features: features, timestamp: timestamp, target: target)
+                let duration = json["duration"].string
+                
+                return .Mute(nick: nick, features: features, timestamp: timestamp, target: target, duration: duration)
                 
             } catch {
                 print("Error parsing message")
@@ -276,9 +278,12 @@ class DGGParser {
     }
     
     static func parseChatErrorMessage(message: String) -> DGGMessage? {
-        let error = message.replacingOccurrences(of: "\"", with: "")
-        var errorMessage = error
-        switch error {
+        var errorMessage = message.replacingOccurrences(of: "\"", with: "")
+        if let jsonString = parseErrorMessageAsJSON(message: message) {
+            errorMessage = jsonString
+        }
+        
+        switch errorMessage {
         case "toomanyconnections": errorMessage = "Too Many Chat Connections"
         case "protocolerror": errorMessage = "Protocol Error"
         case "needlogin": errorMessage = "You Are Not Logged In"
@@ -294,6 +299,26 @@ class DGGParser {
         default: break
         }
         return .ChatErrorMessage(data: errorMessage)
+    }
+    
+    static func parseErrorMessageAsJSON(message: String) -> String? {
+        if let dataFromString = message.data(using: .utf8, allowLossyConversion: false) {
+            do {
+                let json = try JSON(data: dataFromString)
+                       
+                       guard let message = json["description"].string else {
+                           return nil
+                       }
+
+                       return message
+                       
+                   } catch {
+                       print("Error parsing message")
+                       return nil
+                   }
+               } else {
+                   return nil
+        }
     }
     
     static func parsePrivateMessage(message: String) -> DGGMessage? {
@@ -362,7 +387,7 @@ public enum DGGMessage {
     case Names(connectionCount: Int, users: [User])
     case Disconnected(reason: String)
     case Connecting
-    case Mute(nick: String, features: [String], timestamp: Date, target: String)
+    case Mute(nick: String, features: [String], timestamp: Date, target: String, duration: String?)
     case Ban(nick: String, features: [String], timestamp: Date, target: String)
     case Unmute(nick: String, features: [String], timestamp: Date, target: String)
     case Unban(nick: String, features: [String], timestamp: Date, target: String)
@@ -407,8 +432,8 @@ public func renderMessage(message: DGGMessage, isLog: Bool = false) -> NSMutable
         return renderDisconnect(reason: reason)
     case .Connecting:
         return renderConnecting()
-    case let .Mute(nick, _, timestamp, target):
-        return renderMute(timestamp: timestamp, banner: nick, target: target)
+    case let .Mute(nick, _, timestamp, target, duration):
+        return renderMute(timestamp: timestamp, banner: nick, target: target, duration: duration)
     case let .Ban(nick, _, timestamp, target):
         return renderBan(timestamp: timestamp, banner: nick, target: target)
     case let .Unmute(nick, _, timestamp, target):
@@ -596,14 +621,17 @@ private func renderDisconnect(reason: String) -> NSMutableAttributedString {
     return fullMessage
 }
 
-private func renderMute(timestamp: Date, banner: String, target: String) -> NSMutableAttributedString {
+private func renderMute(timestamp: Date, banner: String, target: String, duration: String?) -> NSMutableAttributedString {
     let spacer = NSAttributedString(string: " ")
     let fullMessage = NSMutableAttributedString(string: "")
     fullMessage.append(formatTimestamp(timestamp: timestamp))
     fullMessage.append(spacer)
     fullMessage.append(customFlair(image: UIImage(named: "warningbadge")!, width: 16, height: 16))
     fullMessage.append(spacer)
-    let template = "%@ muted by %@"
+    var template = "%@ muted by %@"
+    if let duration = duration {
+        template += " for " + duration + " seconds"
+    }
     let message = NSMutableAttributedString(string: String(format: template, target, banner))
     message.addAttribute(.foregroundColor, value: hexColorStringToUIColor(hex: "FFFFFFF"), range: NSRange(location: 0, length: message.length))
     fullMessage.append(message)
