@@ -52,7 +52,7 @@ class LoginViewController: UIViewController, WKNavigationDelegate {
                 var rememberMe: String?
 
                 for cookie in HTTPCookieStorage.shared.cookies! {
-                    if cookie.domain == ".www.destiny.gg"  {
+                    if cookie.domain == ".destiny.gg"  {
                         if cookie.name == "sid" {
                             sessionID = cookie.value
                         }
